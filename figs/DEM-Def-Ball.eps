@@ -1,0 +1,2875 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Creator: dvips(k) 5.96dev Copyright 2007 Radical Eye Software
+%%Title: DEM-Def-Ball.dvi
+%%CreationDate: Sun Jun 01 04:58:47 2008
+%%BoundingBox: 148 496 385 668
+%%DocumentFonts: LMMathItalic10-Regular LMRoman7-Regular
+%%+ LMMathItalic7-Regular LMRoman10-Regular LMMathSymbols10-Regular
+%%+ LMMathItalic10-Bold
+%%EndComments
+%DVIPSWebPage: (www.radicaleye.com)
+%DVIPSCommandLine: DVIPS -Ppdf -G0 -E -o DEM-Def-Ball.eps
+%+ DEM-Def-Ball.dvi
+%DVIPSParameters: dpi=8000
+%DVIPSSource:  TeX output 2008.06.01:0458
+%%BeginProcSet: tex.pro 0 0
+%!
+/TeXDict 300 dict def TeXDict begin/N{def}def/B{bind def}N/S{exch}N/X{S
+N}B/A{dup}B/TR{translate}N/isls false N/vsize 11 72 mul N/hsize 8.5 72
+mul N/landplus90{false}def/@rigin{isls{[0 landplus90{1 -1}{-1 1}ifelse 0
+0 0]concat}if 72 Resolution div 72 VResolution div neg scale isls{
+landplus90{VResolution 72 div vsize mul 0 exch}{Resolution -72 div hsize
+mul 0}ifelse TR}if Resolution VResolution vsize -72 div 1 add mul TR[
+matrix currentmatrix{A A round sub abs 0.00001 lt{round}if}forall round
+exch round exch]setmatrix}N/@landscape{/isls true N}B/@manualfeed{
+statusdict/manualfeed true put}B/@copies{/#copies X}B/FMat[1 0 0 -1 0 0]
+N/FBB[0 0 0 0]N/nn 0 N/IEn 0 N/ctr 0 N/df-tail{/nn 8 dict N nn begin
+/FontType 3 N/FontMatrix fntrx N/FontBBox FBB N string/base X array
+/BitMaps X/BuildChar{CharBuilder}N/Encoding IEn N end A{/foo setfont}2
+array copy cvx N load 0 nn put/ctr 0 N[}B/sf 0 N/df{/sf 1 N/fntrx FMat N
+df-tail}B/dfs{div/sf X/fntrx[sf 0 0 sf neg 0 0]N df-tail}B/E{pop nn A
+definefont setfont}B/Cw{Cd A length 5 sub get}B/Ch{Cd A length 4 sub get
+}B/Cx{128 Cd A length 3 sub get sub}B/Cy{Cd A length 2 sub get 127 sub}
+B/Cdx{Cd A length 1 sub get}B/Ci{Cd A type/stringtype ne{ctr get/ctr ctr
+1 add N}if}B/CharBuilder{save 3 1 roll S A/base get 2 index get S
+/BitMaps get S get/Cd X pop/ctr 0 N Cdx 0 Cx Cy Ch sub Cx Cw add Cy
+setcachedevice Cw Ch true[1 0 0 -1 -.1 Cx sub Cy .1 sub]{Ci}imagemask
+restore}B/D{/cc X A type/stringtype ne{]}if nn/base get cc ctr put nn
+/BitMaps get S ctr S sf 1 ne{A A length 1 sub A 2 index S get sf div put
+}if put/ctr ctr 1 add N}B/I{cc 1 add D}B/bop{userdict/bop-hook known{
+bop-hook}if/SI save N @rigin 0 0 moveto/V matrix currentmatrix A 1 get A
+mul exch 0 get A mul add .99 lt{/QV}{/RV}ifelse load def pop pop}N/eop{
+SI restore userdict/eop-hook known{eop-hook}if showpage}N/@start{
+userdict/start-hook known{start-hook}if pop/VResolution X/Resolution X
+1000 div/DVImag X/IEn 256 array N 2 string 0 1 255{IEn S A 360 add 36 4
+index cvrs cvn put}for pop 65781.76 div/vsize X 65781.76 div/hsize X}N
+/p{show}N/RMat[1 0 0 -1 0 0]N/BDot 260 string N/Rx 0 N/Ry 0 N/V{}B/RV/v{
+/Ry X/Rx X V}B statusdict begin/product where{pop false[(Display)(NeXT)
+(LaserWriter 16/600)]{A length product length le{A length product exch 0
+exch getinterval eq{pop true exit}if}{pop}ifelse}forall}{false}ifelse
+end{{gsave TR -.1 .1 TR 1 1 scale Rx Ry false RMat{BDot}imagemask
+grestore}}{{gsave TR -.1 .1 TR Rx Ry scale 1 1 false RMat{BDot}
+imagemask grestore}}ifelse B/QV{gsave newpath transform round exch round
+exch itransform moveto Rx 0 rlineto 0 Ry neg rlineto Rx neg 0 rlineto
+fill grestore}B/a{moveto}B/delta 0 N/tail{A/delta X 0 rmoveto}B/M{S p
+delta add tail}B/b{S p tail}B/c{-4 M}B/d{-3 M}B/e{-2 M}B/f{-1 M}B/g{0 M}
+B/h{1 M}B/i{2 M}B/j{3 M}B/k{4 M}B/w{0 rmoveto}B/l{p -4 w}B/m{p -3 w}B/n{
+p -2 w}B/o{p -1 w}B/q{p 1 w}B/r{p 2 w}B/s{p 3 w}B/t{p 4 w}B/x{0 S
+rmoveto}B/y{3 2 roll p a}B/bos{/SS save N}B/eos{SS restore}B end
+
+%%EndProcSet
+%%BeginProcSet: alt-rule.pro 0 0
+%!
+% Patch by TVZ
+% Makes dvips files draw rules with stroke rather than fill.
+% Makes narrow rules more predictable at low resolutions
+% after distilling to PDF.
+% May have unknown consequences for very thick rules.
+% Tested only with dvips 5.85(k).
+TeXDict begin
+/QV {
+  gsave newpath /ruleY X /ruleX X
+  Rx Ry gt
+  { ruleX ruleY Ry 2 div sub moveto Rx 0 rlineto Ry }
+  { ruleX Rx 2 div add ruleY moveto 0 Ry neg rlineto Rx }
+  ifelse
+  setlinewidth 0 setlinecap stroke grestore
+} bind def
+end
+
+%%EndProcSet
+%%BeginProcSet: lm-mathit.enc 0 0
+% This file belongs to the Latin Modern package. The work is released under
+% the GUST Font License. See the MANIFEST-Latin-Modern.txt and
+% README-Latin-Modern.txt files for the details. For the most recent version of
+% this license see http://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt
+% or http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt
+
+/enclmmathit[
+/Gamma
+/Delta
+/Theta
+/Lambda
+/Xi
+/Pi
+/Sigma
+/Upsilon
+/Phi
+/Psi
+/Omega
+/alpha
+/beta
+/gamma
+/delta
+/epsilon1
+/zeta
+/eta
+/theta
+/iota
+/kappa
+/lambda
+/mu
+/nu
+/xi
+/pi
+/rho
+/sigma
+/tau
+/upsilon
+/phi
+/chi
+/psi
+/omega
+/epsilon
+/theta1
+/pi1
+/rho1
+/sigma1
+/phi1
+/arrowlefttophalf
+/arrowleftbothalf
+/arrowrighttophalf
+/arrowrightbothalf
+/arrowhookleft
+/arrowhookright
+/triangleright
+/triangleleft
+/zero.taboldstyle
+/one.taboldstyle
+/two.taboldstyle
+/three.taboldstyle
+/four.taboldstyle
+/five.taboldstyle
+/six.taboldstyle
+/seven.taboldstyle
+/eight.taboldstyle
+/nine.taboldstyle
+/period
+/comma
+/less
+/slash
+/greater
+/star
+/partialdiff
+/A
+/B
+/C
+/D
+/E
+/F
+/G
+/H
+/I
+/J
+/K
+/L
+/M
+/N
+/O
+/P
+/Q
+/R
+/S
+/T
+/U
+/V
+/W
+/X
+/Y
+/Z
+/flat
+/natural
+/sharp
+/slurbelow
+/slurabove
+/lscript
+/a
+/b
+/c
+/d
+/e
+/f
+/g
+/h
+/i
+/j
+/k
+/l
+/m
+/n
+/o
+/p
+/q
+/r
+/s
+/t
+/u
+/v
+/w
+/x
+/y
+/z
+/dotlessi
+/dotlessj
+/weierstrass
+/vector
+/tie
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+] def
+
+%%EndProcSet
+%%BeginProcSet: lm-rm.enc 0 0
+% This file belongs to the Latin Modern package. The work is released
+% under the GUST Font License. See the MANIFEST-Latin-Modern.txt and
+% README-Latin-Modern.txt files for the details. For the most recent version of
+% this license see http://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt
+% or http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt
+
+/enclmrm[
+/Gamma
+/Delta
+/Theta
+/Lambda
+/Xi
+/Pi
+/Sigma
+/Upsilon
+/Phi
+/Psi
+/Omega
+/ff
+/fi
+/fl
+/ffi
+/ffl
+/dotlessi
+/dotlessj
+/grave
+/acute
+/caron
+/breve
+/macron
+/ring
+/cedilla
+/germandbls
+/ae
+/oe
+/oslash
+/AE
+/OE
+/Oslash
+/suppress
+/exclam
+/quotedblright
+/numbersign
+/dollar
+/percent
+/ampersand
+/quoteright
+/parenleft
+/parenright
+/asterisk
+/plus
+/comma
+/hyphen
+/period
+/slash
+/zero
+/one
+/two
+/three
+/four
+/five
+/six
+/seven
+/eight
+/nine
+/colon
+/semicolon
+/exclamdown
+/equal
+/questiondown
+/question
+/at
+/A
+/B
+/C
+/D
+/E
+/F
+/G
+/H
+/I
+/J
+/K
+/L
+/M
+/N
+/O
+/P
+/Q
+/R
+/S
+/T
+/U
+/V
+/W
+/X
+/Y
+/Z
+/bracketleft
+/quotedblleft
+/bracketright
+/circumflex
+/dotaccent
+/quoteleft
+/a
+/b
+/c
+/d
+/e
+/f
+/g
+/h
+/i
+/j
+/k
+/l
+/m
+/n
+/o
+/p
+/q
+/r
+/s
+/t
+/u
+/v
+/w
+/x
+/y
+/z
+/endash
+/emdash
+/hungarumlaut
+/tilde
+/dieresis
+/Abreve
+/Aogonek
+/Cacute
+/Ccaron
+/Dcaron
+/Ecaron
+/Eogonek
+/Gbreve
+/Lacute
+/Lcaron
+/Lslash
+/Nacute
+/Ncaron
+/Eng
+/Ohungarumlaut
+/Racute
+/Rcaron
+/Sacute
+/Scaron
+/Scedilla
+/Tcaron
+/Tcedilla
+/Uhungarumlaut
+/Uring
+/Ydieresis
+/Zacute
+/Zcaron
+/Zdotaccent
+/IJ
+/Idotaccent
+/dcroat
+/section
+/abreve
+/aogonek
+/cacute
+/ccaron
+/dcaron
+/ecaron
+/eogonek
+/gbreve
+/lacute
+/lcaron
+/lslash
+/nacute
+/ncaron
+/eng
+/ohungarumlaut
+/racute
+/rcaron
+/sacute
+/scaron
+/scedilla
+/tcaron
+/tcedilla
+/uhungarumlaut
+/uring
+/ydieresis
+/zacute
+/zcaron
+/zdotaccent
+/ij
+/periodcentered
+/quotedbl
+/sterling
+/Agrave
+/Aacute
+/Acircumflex
+/Atilde
+/Adieresis
+/Aring
+/guillemotleft
+/Ccedilla
+/Egrave
+/Eacute
+/Ecircumflex
+/Edieresis
+/Igrave
+/Iacute
+/Icircumflex
+/Idieresis
+/Eth
+/Ntilde
+/Ograve
+/Oacute
+/Ocircumflex
+/Otilde
+/Odieresis
+/guillemotright
+/perthousand
+/Ugrave
+/Uacute
+/Ucircumflex
+/Udieresis
+/Yacute
+/Thorn
+/Germandbls
+/agrave
+/aacute
+/acircumflex
+/atilde
+/adieresis
+/aring
+/underscore
+/ccedilla
+/egrave
+/eacute
+/ecircumflex
+/edieresis
+/igrave
+/iacute
+/icircumflex
+/idieresis
+/eth
+/ntilde
+/ograve
+/oacute
+/ocircumflex
+/otilde
+/odieresis
+/anglearc
+/diameter
+/ugrave
+/uacute
+/ucircumflex
+/udieresis
+/yacute
+/thorn
+/quotedblbase
+] def
+
+%%EndProcSet
+%%BeginProcSet: lm-mathsy.enc 0 0
+% This file belongs to the Latin Modern package. The work is released under
+% the GUST Font License. See the MANIFEST-Latin-Modern.txt and
+% README-Latin-Modern.txt files for the details. For the most recent version of
+% this license see http://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt
+% or http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt
+
+/enclmmathsy[
+/minus
+/periodcentered
+/multiply
+/asteriskmath
+/divide
+/diamondmath
+/plusminus
+/minusplus
+/circleplus
+/circleminus
+/circlemultiply
+/circledivide
+/circledot
+/circlecopyrt
+/openbullet
+/bullet
+/equivasymptotic
+/equivalence
+/reflexsubset
+/reflexsuperset
+/lessequal
+/greaterequal
+/precedesequal
+/followsequal
+/similar
+/approxequal
+/propersubset
+/propersuperset
+/lessmuch
+/greatermuch
+/precedes
+/follows
+/arrowleft
+/arrowright
+/arrowup
+/arrowdown
+/arrowboth
+/arrownortheast
+/arrowsoutheast
+/similarequal
+/arrowdblleft
+/arrowdblright
+/arrowdblup
+/arrowdbldown
+/arrowdblboth
+/arrownorthwest
+/arrowsouthwest
+/proportional
+/prime
+/infinity
+/element
+/owner
+/triangle
+/triangleinv
+/negationslash
+/mapsto
+/universal
+/existential
+/logicalnot
+/emptyset
+/Rfractur
+/Ifractur
+/latticetop
+/perpendicular
+/aleph
+/A
+/B
+/C
+/D
+/E
+/F
+/G
+/H
+/I
+/J
+/K
+/L
+/M
+/N
+/O
+/P
+/Q
+/R
+/S
+/T
+/U
+/V
+/W
+/X
+/Y
+/Z
+/union
+/intersection
+/unionmulti
+/logicaland
+/logicalor
+/turnstileleft
+/turnstileright
+/floorleft
+/floorright
+/ceilingleft
+/ceilingright
+/braceleft
+/braceright
+/angbracketleft
+/angbracketright
+/bar
+/bardbl
+/arrowbothv
+/arrowdblbothv
+/backslash
+/wreathproduct
+/radical
+/coproduct
+/nabla
+/integral
+/unionsq
+/intersectionsq
+/subsetsqequal
+/supersetsqequal
+/section
+/dagger
+/daggerdbl
+/paragraph
+/club
+/diamond
+/heart
+/spade
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/lessorequalslant
+/greaterorequalslant
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+/.notdef
+] def
+
+%%EndProcSet
+%%BeginProcSet: finclude.pro 0 0
+%!
+/fstore{dup dict exch{dup 4 2 roll put}repeat def}bind def/fshow{gsave
+72 TeXDict/Resolution get div -72 TeXDict/VResolution get div scale 1
+DVImag div dup scale get cvx exec show grestore}bind def
+
+%%EndProcSet
+%%BeginProcSet: texps.pro 0 0
+%!
+TeXDict begin/rf{findfont dup length 1 add dict begin{1 index/FID ne 2
+index/UniqueID ne and{def}{pop pop}ifelse}forall[1 index 0 6 -1 roll
+exec 0 exch 5 -1 roll VResolution Resolution div mul neg 0 0]/Metrics
+exch def dict begin Encoding{exch dup type/integertype ne{pop pop 1 sub
+dup 0 le{pop}{[}ifelse}{FontMatrix 0 get div Metrics 0 get div def}
+ifelse}forall Metrics/Metrics currentdict end def[2 index currentdict
+end definefont 3 -1 roll makefont/setfont cvx]cvx def}def/ObliqueSlant{
+dup sin S cos div neg}B/SlantFont{4 index mul add}def/ExtendFont{3 -1
+roll mul exch}def/ReEncodeFont{CharStrings rcheck{/Encoding false def
+dup[exch{dup CharStrings exch known not{pop/.notdef/Encoding true def}
+if}forall Encoding{]exch pop}{cleartomark}ifelse}if/Encoding exch def}
+def end
+
+%%EndProcSet
+%%BeginProcSet: special.pro 0 0
+%!
+TeXDict begin/SDict 200 dict N SDict begin/@SpecialDefaults{/hs 612 N
+/vs 792 N/ho 0 N/vo 0 N/hsc 1 N/vsc 1 N/ang 0 N/CLIP 0 N/rwiSeen false N
+/rhiSeen false N/letter{}N/note{}N/a4{}N/legal{}N}B/@scaleunit 100 N
+/@hscale{@scaleunit div/hsc X}B/@vscale{@scaleunit div/vsc X}B/@hsize{
+/hs X/CLIP 1 N}B/@vsize{/vs X/CLIP 1 N}B/@clip{/CLIP 2 N}B/@hoffset{/ho
+X}B/@voffset{/vo X}B/@angle{/ang X}B/@rwi{10 div/rwi X/rwiSeen true N}B
+/@rhi{10 div/rhi X/rhiSeen true N}B/@llx{/llx X}B/@lly{/lly X}B/@urx{
+/urx X}B/@ury{/ury X}B/magscale true def end/@MacSetUp{userdict/md known
+{userdict/md get type/dicttype eq{userdict begin md length 10 add md
+maxlength ge{/md md dup length 20 add dict copy def}if end md begin
+/letter{}N/note{}N/legal{}N/od{txpose 1 0 mtx defaultmatrix dtransform S
+atan/pa X newpath clippath mark{transform{itransform moveto}}{transform{
+itransform lineto}}{6 -2 roll transform 6 -2 roll transform 6 -2 roll
+transform{itransform 6 2 roll itransform 6 2 roll itransform 6 2 roll
+curveto}}{{closepath}}pathforall newpath counttomark array astore/gc xdf
+pop ct 39 0 put 10 fz 0 fs 2 F/|______Courier fnt invertflag{PaintBlack}
+if}N/txpose{pxs pys scale ppr aload pop por{noflips{pop S neg S TR pop 1
+-1 scale}if xflip yflip and{pop S neg S TR 180 rotate 1 -1 scale ppr 3
+get ppr 1 get neg sub neg ppr 2 get ppr 0 get neg sub neg TR}if xflip
+yflip not and{pop S neg S TR pop 180 rotate ppr 3 get ppr 1 get neg sub
+neg 0 TR}if yflip xflip not and{ppr 1 get neg ppr 0 get neg TR}if}{
+noflips{TR pop pop 270 rotate 1 -1 scale}if xflip yflip and{TR pop pop
+90 rotate 1 -1 scale ppr 3 get ppr 1 get neg sub neg ppr 2 get ppr 0 get
+neg sub neg TR}if xflip yflip not and{TR pop pop 90 rotate ppr 3 get ppr
+1 get neg sub neg 0 TR}if yflip xflip not and{TR pop pop 270 rotate ppr
+2 get ppr 0 get neg sub neg 0 S TR}if}ifelse scaleby96{ppr aload pop 4
+-1 roll add 2 div 3 1 roll add 2 div 2 copy TR .96 dup scale neg S neg S
+TR}if}N/cp{pop pop showpage pm restore}N end}if}if}N/normalscale{
+Resolution 72 div VResolution 72 div neg scale magscale{DVImag dup scale
+}if 0 setgray}N/psfts{S 65781.76 div N}N/startTexFig{/psf$SavedState
+save N userdict maxlength dict begin/magscale true def normalscale
+currentpoint TR/psf$ury psfts/psf$urx psfts/psf$lly psfts/psf$llx psfts
+/psf$y psfts/psf$x psfts currentpoint/psf$cy X/psf$cx X/psf$sx psf$x
+psf$urx psf$llx sub div N/psf$sy psf$y psf$ury psf$lly sub div N psf$sx
+psf$sy scale psf$cx psf$sx div psf$llx sub psf$cy psf$sy div psf$ury sub
+TR/showpage{}N/erasepage{}N/copypage{}N/p 3 def @MacSetUp}N/doclip{
+psf$llx psf$lly psf$urx psf$ury currentpoint 6 2 roll newpath 4 copy 4 2
+roll moveto 6 -1 roll S lineto S lineto S lineto closepath clip newpath
+moveto}N/endTexFig{end psf$SavedState restore}N/@beginspecial{SDict
+begin/SpecialSave save N gsave normalscale currentpoint TR
+@SpecialDefaults count/ocount X/dcount countdictstack N}N/@setspecial{
+CLIP 1 eq{newpath 0 0 moveto hs 0 rlineto 0 vs rlineto hs neg 0 rlineto
+closepath clip}if ho vo TR hsc vsc scale ang rotate rwiSeen{rwi urx llx
+sub div rhiSeen{rhi ury lly sub div}{dup}ifelse scale llx neg lly neg TR
+}{rhiSeen{rhi ury lly sub div dup scale llx neg lly neg TR}if}ifelse
+CLIP 2 eq{newpath llx lly moveto urx lly lineto urx ury lineto llx ury
+lineto closepath clip}if/showpage{}N/erasepage{}N/copypage{}N newpath}N
+/@endspecial{count ocount sub{pop}repeat countdictstack dcount sub{end}
+repeat grestore SpecialSave restore end}N/@defspecial{SDict begin}N
+/@fedspecial{end}B/li{lineto}B/rl{rlineto}B/rc{rcurveto}B/np{/SaveX
+currentpoint/SaveY X N 1 setlinecap newpath}N/st{stroke SaveX SaveY
+moveto}N/fil{fill SaveX SaveY moveto}N/ellipse{/endangle X/startangle X
+/yrad X/xrad X/savematrix matrix currentmatrix N TR xrad yrad scale 0 0
+1 startangle endangle arc savematrix setmatrix}N end
+
+%%EndProcSet
+%%BeginFont: LMMathItalic10-Bold
+%!PS-AdobeFont-1.0: LMMathItalic10-Bold 1.106
+%%CreationDate: 22nd January 2008
+%%VMusage: 1024 33574
+% Copyright 2003--2008 by B. Jackowski and J.M. Nowacki
+% (on behalf of TeX USERS GROUPS).
+% Supported by CSTUG, DANTE eV, GUST, GUTenberg, NTG, and TUG.
+% This work is released under the GUST Font License.
+% For the most recent version of this license see
+% http://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt or
+% http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt
+% This work has the LPPL maintenance status `maintained'.
+% The Current Maintainer of this work is Bogus\l{}aw Jackowski and Janusz M. Nowacki.
+% This work consists of the files listed in the MANIFEST-Latin-Modern.txt file.
+% ADL: 694 194 0
+%%EndComments
+FontDirectory/LMMathItalic10-Bold known{/LMMathItalic10-Bold findfont dup/UniqueID known{dup
+/UniqueID get 0 eq exch/FontType get 1 eq and}{pop false}ifelse
+{save true}{false}ifelse}{false}ifelse
+17 dict begin
+/FontInfo 13 dict dup begin
+/version(1.106)readonly def
+/Notice(Copyright 2003--2008 by B. Jackowski and J.M. Nowacki (on behalf of TeX USERS GROUPS).)readonly def
+/FullName(LMMathItalic10-Bold)readonly def
+/FamilyName(LMMathItalic10)readonly def
+/Weight(Bold)readonly def
+/isFixedPitch false def
+/ItalicAngle -14.0362 def
+/UnderlinePosition -146 def
+/UnderlineThickness 60 def
+end readonly def
+/FontName /LMMathItalic10-Bold def
+/Encoding 256 array
+0 1 255 {1 index exch /.notdef put} for
+dup 0 /.notdef put
+readonly def
+/PaintType 0 def
+/FontType 1 def
+/StrokeWidth 0 def
+/FontMatrix[0.001 0 0 0.001 0 0]readonly def
+%/UniqueID 0 def
+/FontBBox{-15 -250 1216 750}readonly def
+currentdict end
+currentfile eexec
+D9D66F633B846A97B686A97E45A3D0AA0525392EECAC163E584A9104D99AD0BC
+1B1844A0E222653FA481B8809B26A46F4C483A5D7E95816EA6582584156CFEDE
+B994ADCFF4645140E3617E4D7E1B0E4541CB9F562E55829B4DD880AABE2229E9
+4A9FA259A734D29BBA91BA1E2055CBEA4339BCBFF98D32CEFF11F296225CAABA
+DCA10577A5D431B714726C1278D8101ABD1BD8D0BD0174FFF9148F8C61C241D9
+2AD360A28616CB4A0670C1BF105C860DA8BD96C9AAB2A3E143877C798590865C
+06F1C260EEFF3DD54B0322715CF6543A572AE8A3696B5A4B34A1AC3E92623576
+270FE621985B3A43714134166EA527F273CC8FE41763D5A23D3200F74DBDFDA4
+30A641A1814EAB8CA557FD8EA50BB05A22716F6A5FDB3A62F2F63D3F1EFDA842
+1C7EB85328C4D4EA0D6C7BCAD74215E0831EFC11DBA8E8D44CB32AC284A92D09
+371CED84BBB3AAE9C794B2BA563925D91D11AAE54213FA5915E2681E7BA99477
+3BED75F0CF36FE16D336D45A5374B9600D7DC961F28F5A94D9431CE38E742BE3
+45C9A41FD39D44D5E032AAD540C6059515E290BC2AAEDBDC0D20DD20D97F5FD3
+05A4F2283E8D5CD577F1BBA49199D7A6C4F8AB36431B73F43C5B5B5E05DE92CC
+EAE2A10D2913773A08A4E600AECD6390F8027137D679F0723A0480B509D2C598
+2152F0E30D38E2B0F1D64EA1661D656C27C486CFB191DC0A08B43085D3003772
+8C100308BE14B7747A8C2FC1938165974C172ADA0D306BB9E9F76D27C19D65B3
+BB2B33DA3FA441A239A35712BBC2897F69823BAC1B0B67C888528EDA585C8353
+3C50F4D99B48E8F29169E04E1631C16076ACF457708C05216EB395BDC03A687E
+D357992CBFBF2CE280B7B7D4D75F85620061EB2DF447212294816736954098C4
+AA0F3D0894AC4BA9F2B4B8E959E8877C9C49A796FBBEB694E813C37540B9A2CD
+AC62DC739D72F638AC7D852B7B2250F6CFBB5669C9112FBF7351DF65980B5AA8
+FC9928E2BA5F7457691AD5BAB068DCB6A4043CA72EC2190940128A106C963948
+2E44A9718BCB87F0B73A502C34012F783BEE1DD3D04EB580E6D103A874EBBE83
+95A3F64AB35A92C36AE66F30A2BE57ED4B3C59B2A879FE85E298C8D278574953
+1EAD8BAAF47C207A5E37031A4C4A86EAAD87BFB1ED2F719ABC7902A7E8AF3DB7
+E22D4D56FFF57977D929DC9CC156D57DCA4AE57ABAD4C056E42D5B86A0F90F57
+2D455B6E890DBB1BD9B8AE10E2D6143D563819EB1ADD2258FF6660A4443CF494
+BC17A9C644FCC9C73820477B545B7EE32AFCE928FB5C86C906464C725F7EF33F
+3FAA383CDDF2C69A19ED006FB09A05CF198DF82D4F2FB255F1528EE862FF17A3
+4710083C6F7294C927613D7E88115812329ABCADAF9CEB29E09A792E33194C44
+6419783CFF9219C646A8008D65CD6998E813BAF9B3EE1B6D55333607CD127CA1
+A62547D23D19EED0D646ED7EE2609E8397C2DA3E0F382A4C8057DC8128494940
+7B572C44DC36C236272FD4CDFC8923B80543E5C6617F52F09F53B087A3E5284B
+1C41859808C27C7DF8F59CCD005B187D8321A0A21D2271C7FAD646EC17D2A254
+3790D3075902142022D6E7352BAB60CF9BDCFFA6CF32810C68ABDAE536D95D46
+BCDAAFAA5A8301F121E4E007AFC9A36515572732015C2BDBE0299E0CA3120669
+45EF87E654F8A53B3C4907DDB687A20A0BCAB47E579DA191A63FAB427A45CE4D
+B5FB80350DBBB3E6E5B0B7206EF286D4D709E40199A49F9846C53E312193183A
+92A619912D6E53B350637A1C6B75840B100D9EC939C176DF97ABD94AB45C10AF
+3F3FE34DF9CDCD29C31F9E8C66735C59EA38E3BCACCC6F85A6E452650E06FD5F
+BE49193410CDC594E321BFD2CAEC9B4DECE06DDDE418B6E3E407307088DF1BF2
+1C09F61DFE79A36235197721FC55311D39C41CA718F5FF28B9A272114F628CA1
+3DE8B7EB82B83641730867405783ACD1965B1F179889636786080986379827EE
+F74296B210AFE2BE15BA500520D97D70B8C5DF5728C67DE8D54905363910147B
+EE09F51521C8585483595FDBB0FCEE83FADF34A6E5CFAF53CAF1C31EAABE44B4
+E65AC7377DFFEF8071B9F1BE8FA48454B62A6A1F98CF4441D585520D5A83CB86
+194698E1AD5DEB2B2AED14E08CFA4C260C1EEE871B9330573074AF70AF19B447
+6FADBD1E74861FE05C1B62F93BAE306040510F8ABB6EE6B57DE7E76E571779B7
+17ECB719B375B1516C583E1A09C5C87775B5483F5376EC13D4824C0F4E948954
+A0D880036E1B2B6E2F3DBFB71C9423A2CF351CD97D9A47C75866236E15A53A14
+E568D17BDD130DB403B9B6413BA2BFB0F5738B1F5FA0175CA550E23CCCFF9C76
+37F6DAD5D120F458B67056BD647EC7D97407CD6B4A0FEBC5B72C82EBE0F9B3A7
+D558E889FAB58ACD596E4F5C5FF07A523A74332B209991F272EA1C695DD90680
+26881CFD0C4B5F90A766635E709329EC0B3244EED240B4D5DC9631E85EB9553D
+998A1BA8F7745EC81C70305C2C525D0A383C4623E361D53A26EE9388900D56F5
+C6FE21BA66691BC339303D2208CB3A472D49F33D70F5123E5BB8ACC107D81763
+59854FB027D559ED2A5FCED88CCBBC12D2C4AEC5B5317621D587AE2DCA694C18
+BEE3EC269FDD79CE76A1BA7F1F7A84E65286CE77E2E25802C9509612D41C0110
+0469E469466FD744FBC234AB2AC6CFC338EE15A5642D23B8CC60131AD2CFB324
+8EE79950E0ED4FFE99B0B51E1190D0125790DDCDC8A8E48DD96CC4B342B42B14
+0C93378D4EB5DE0A09F3AA7F2067CF0EEF0891959A2298F5A976C61C769CC232
+F5CBC197BD75218401F6CCD84F6F8C666A321E4894586B63B904D1E9C44E878C
+F5E2C2039273FF90562D85BABC51092BD9506800CE147A5AF932A6F8795FEEAF
+5A94FBD9AF0213210C54EBDA81E7D72319CCFA309D25E9F4AC68934FD116BB1C
+C0B1E4613192CB391795A0887991AC554C3A7E12C0F02603280618BCC0076DA2
+85A1AB410413B4CE6FD2E1143A49D57AF582C9A59F044B1A0972A49418597658
+2D70B842B4B8C4706566BBF044D932835620A80EF92C75918628EB7F089A4E09
+C59A808D3D024557A3658E64948C7FD2F8B3109E3BDBC7B987C9E8C794232F8F
+993E99D27B713F22244F72F125CA84CDA05EA05D3EE15A3F906281BEBA05CC7F
+A1DC8F7AE9A899E651A28CBD7C783092F9F38CB458B26970C40ECF3F043E9B64
+FECB0A03B5EC750BB15F7A73741CBABB516A238860C3734D1CD176288A7D6909
+4251D7FF8CA3426B6DE9675A71369BA793DF1F90E38D97A2F96C2293691DB53D
+8B5DF66D79BE0DA158B646526FAFDDDE5A9CED611D8657A879A5E748151FA7FC
+8EA96D97BDDC310C95F98507E9ED08C4D51947D530F3BA503B20424F2C8CB6F3
+F5DFDD6488609A53200347175148791C602D4DEDEB2B8261C975564CDAD75CEA
+C866FC5A6E2B9B88FFBE2D28A98AABEFEFAB0649C698C6FBC39C70B4F7CBD4EF
+342C7648AED778B0E8028E022C
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+cleartomark
+{restore}if
+%%EndFont 
+%%BeginFont: LMMathSymbols10-Regular
+%!PS-AdobeFont-1.0: LMMathSymbols10-Regular 1.106
+%%CreationDate: 22nd January 2008
+%%VMusage: 1024 29712
+% Copyright 2003--2008 by B. Jackowski and J.M. Nowacki
+% (on behalf of TeX USERS GROUPS).
+% Supported by CSTUG, DANTE eV, GUST, GUTenberg, NTG, and TUG.
+% This work is released under the GUST Font License.
+% For the most recent version of this license see
+% http://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt or
+% http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt
+% This work has the LPPL maintenance status `maintained'.
+% The Current Maintainer of this work is Bogus\l{}aw Jackowski and Janusz M. Nowacki.
+% This work consists of the files listed in the MANIFEST-Latin-Modern.txt file.
+% ADL: 694 194 0
+%%EndComments
+FontDirectory/LMMathSymbols10-Regular known{/LMMathSymbols10-Regular findfont dup/UniqueID known{dup
+/UniqueID get 0 eq exch/FontType get 1 eq and}{pop false}ifelse
+{save true}{false}ifelse}{false}ifelse
+17 dict begin
+/FontInfo 13 dict dup begin
+/version(1.106)readonly def
+/Notice(Copyright 2003--2008 by B. Jackowski and J.M. Nowacki (on behalf of TeX USERS GROUPS).)readonly def
+/FullName(LMMathSymbols10-Regular)readonly def
+/FamilyName(LMMathSymbols10)readonly def
+/Weight(Normal)readonly def
+/isFixedPitch false def
+/ItalicAngle -14.0362 def
+/UnderlinePosition -146 def
+/UnderlineThickness 40 def
+end readonly def
+/FontName /LMMathSymbols10-Regular def
+/Encoding 256 array
+0 1 255 {1 index exch /.notdef put} for
+dup 0 /.notdef put
+readonly def
+/PaintType 0 def
+/FontType 1 def
+/StrokeWidth 0 def
+/FontMatrix[0.001 0 0 0.001 0 0]readonly def
+%/UniqueID 0 def
+/FontBBox{-29 -960 1116 775}readonly def
+currentdict end
+currentfile eexec
+D9D66F633B846A97B686A97E45A3D0AA0525392EECAC163E584A9104D99AD0BC
+1B1844A0E222653FA481B8809B26A46F4C483A5D7E95816EA6582584156CFEDE
+B994ADCFF4645140E3617E4D7E1B0E4541CB9F562E55829B4DD880AABE2229E9
+4A9FA259A734D29BBA91BA1E2055CBEA4339BCBFF98D32CEFF11F296225CAABA
+DCA10577A5D431B714726C1278D8101ABD1BD8D0BD0174FFF9148F8C61C241D9
+2AD360A28616CB4A0670C1BF105BF4659ADEAF285B288B8C45EBB1C430ADC5E0
+55C153C58D0F07FB32132C3CEA11815265D39A20821F7A1A778738160578BCED
+399653EFF49CAC16EBD0B780A11C18E6966BE38184B550A4D69D69DB456B328E
+355FFDAA78C47EE83DAE72A4DB5A385052324763CDF9D67D462D1550C78C3AD8
+D5FF01E46EAFB7361C516DD8C71870BA0AEB8E6FEAB79E82D9CF94B9945492EC
+7526AAF2785529A98FD4A7EBB5F15BABC0619FBC49C907F07FEC8E23D3D35C71
+A304A01A695DD9119D8866D0A5DA72A216E9F80DABECA85A56CAAA79DC5E42A3
+CF4F1D171A6D50DB9BAE2F88130DF372B37A75D81089B6BEA6002C995ED468D4
+58AC20B9EEB2AAC85F82943BD9E77210E6753EA5604033D7594DD885310A706B
+320AB25C8D742C6F29953254FA16D7AA036E03BC437A89E1313D605FA67574C6
+667EB5AE7D6E8B0B5708503CD57BC0297529B394811B1078CDB36CFA518A5AFA
+99164500A4FF96495FB3049D144D1E1CA77D24264AABD4D5967C23313AD539AC
+493305C51E25A0D55EB665033E87DFAB3DCAAFFA291CFAACD7F664D76D2A07D8
+7E6D6EEEB3E0B000F04FB364F133445F9F2C04D14C4C65A43095F7F0BF8E2E57
+95683F27D1A22E042B00542ABBCC4B8AEB1D08B5EDEF0E0AE293453EB4326591
+833D16F6FDE8749184F4814350ECF6832A4659B60CE2F2BDA759AEBB19B020FF
+7BEE6BA7DEDD798652E630C7BC349B1C750B3E0DD99C7D725846606A8D52B845
+15E85BC8750AD38664565167EF6D7975C3D2EDC2E7C2F5D2C8CFC5F6FDA3736F
+04F41E9F39098B65E43FD1227A26F6FF812CE452FBD91DDDF75353BF0CB3E744
+4A286C3272C05FB96EEB6E2899D07E3F8CE1918548FE197A0F6E54EEF9B38296
+1A047119B40830A39909494E86AEE21694223DF75A5F52A799C9520C13DFDA4E
+1D95A677CAFDA9B34A91E43028BA9A4D1C6453DC9297E371A3B702F504A7F7CA
+95583A8FE6E189C6289E3D5392707641742E1B47CD48489794E223CE3A1F5A84
+930FAA87A50C937EFEE37B87EAE0447EDADEB00764A38DAB429277B7786A458A
+1ABAAA7CE8CAA45A9CF32034CD2106773B44B9C0BD21E3F9CB72B99D5B72F545
+3E5E8E61DB1897CFBB6E6E5C1EDB206222974F0D7417CDE937FC52E2D737310E
+4ECF9B9E27C2A57C1A710BF931F526E8E59B97BF9FCCC918807E23906DF1C4E3
+F14C965A03975AAFDCFEF4E7E78E1691E6A4A1BCE298778556F32B5E6D3E7E5E
+54A1DC14F6F84CC7F38BB95ACFE243C77441C083B246681C0541535A3A01045C
+294762580CF959157C8FE6C56C2062C0AAB932CABE462536722E95FE66001D01
+D1487F4031379DB5C7666F555041C9F914E59BD374804808C980CFC1AD9B5CF9
+DA1F1E6EBE9CF1DA07BCD171F0ADE61D639FA2BADE1817D8A9D9136B4CFF59AB
+8B57D38DC282399CAC967891149AC9B7AE3208441D24A3EF6497A039E2D799F3
+774225E83D3E036A9B442E938C018477D107652BD59E002C56B3DD423BEB8201
+62D471EF229009DB3D390DA87529CA619E3141C5FD94BA99DD39628557A83A95
+A50DCFFD4DCAD23FDCB28FF3B7381972A2A314542D041A7F548020D1E627861B
+5519E7CF062BEA3391C5E44BE01179F69EF1C6533E87C968669430A2DE4A125D
+6F0DF7C480796468023649E43CFE82E4F6D74AA3696DD13387024C109951391B
+49C6C4867AFCC7CF8CC9CFC4121A19F0F8BEC0B0BED28A8EFEE408340C3F9687
+5DB716190598EBED9C4910218E0E1F254137D816B21F76617F02A30387349A63
+8017555F046176A9298786AEAB1BF32AAAE0DB5B83CAAAC0C03C3F55166FC377
+E829EB5FF3C418F7D2E8FE4BC43AFC8D57D4D7F60F0329462D29BC1C6A538AB4
+8C7CF874F7614562322EDB6B87A370464E6E1A478D5C2A0D08CB39DA7D5F522A
+4ED633EF4549B7C243DC396238C498E0C3E44C0CA78E9836AEA187E0961F5A01
+32415FA386B47155F6FCC7F361E2335D8A2C7819446DA2A887BEB6ED82202459
+358CAEA686EF8CC4B6E23ED09FD0918155ABB0EEDF64BF194578912F04C1E608
+BA641A2912F09F00845C5A2B81ECB5A5A3EBD21A06CAD8D7129987F8B1A50CBB
+4D722FADC6FD33E9B0E62175EA396803396E3C3663352E4C6F640C2630D6C9BD
+B31D0FD48E142C975BED19A5E5A55134E1BB82CC947D4C7D771AB94040E21854
+CE8F1D13BD1263829461ECE74A6DCFF2D376017B53779E5D8664BA308A2922FB
+95FCF4A7E7E9B92CAA73AFA1BF8956267FCA1E270FC431C1C645688EC66F8DB8
+C85A31A69E193379D09A4E4599223970B4FECB255C0663DF4F91FEFEE57646CF
+40B396B9D9621406E1296B640E3E84C6D0EA91
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+cleartomark
+{restore}if
+%%EndFont 
+%%BeginFont: LMRoman10-Regular
+%!PS-AdobeFont-1.0: LMRoman10-Regular 1.106
+%%CreationDate: 22nd January 2008
+% Generated by MetaType1 (a MetaPost-based engine)
+% Copyright 2003--2008 by B. Jackowski and J.M. Nowacki (on behalf of TeX USERS GROUPS).
+% Supported by CSTUG, DANTE eV, GUST, GUTenberg, NTG, and TUG.
+% METATYPE1/Type 1 version by B. Jackowski & J. M. Nowacki
+% from GUST (http://www.gust.org.pl).
+% This work is released under the GUST Font License.
+% For the most recent version of this license see
+% This work has the LPPL maintenance status `maintained'.
+% The Current Maintainer of this work is Bogus\l{}aw Jackowski and Janusz M. Nowacki.
+% This work consists of the files listed in the MANIFEST-Latin-Modern.txt file.
+% ADL: 806 194 0
+%%EndComments
+FontDirectory/LMRoman10-Regular known{/LMRoman10-Regular findfont dup/UniqueID known{dup
+/UniqueID get 0 eq exch/FontType get 1 eq and}{pop false}ifelse
+{save true}{false}ifelse}{false}ifelse
+17 dict begin
+/FontInfo 9 dict dup begin
+/version(1.106)readonly def
+/Notice(Copyright 2003--2008 by B. Jackowski and J.M. Nowacki (on behalf of TeX USERS GROUPS).)readonly def
+/FullName(LMRoman10-Regular)readonly def
+/FamilyName(LMRoman10)readonly def
+/Weight(Normal)readonly def
+/isFixedPitch false def
+/ItalicAngle 0 def
+/UnderlinePosition -146 def
+/UnderlineThickness 40 def
+end readonly def
+/FontName /LMRoman10-Regular def
+/Encoding 256 array
+0 1 255 {1 index exch /.notdef put} for
+dup 0 /.notdef put
+readonly def
+/PaintType 0 def
+/FontType 1 def
+/StrokeWidth 0 def
+/FontMatrix[0.001 0 0 0.001 0 0]readonly def
+%/UniqueID 0 def
+/FontBBox{-430 -290 1417 1127}readonly def
+currentdict end
+currentfile eexec
+D9D66F633B846A97B686A97E45A3D0AA0525392EECAC163E584A9104D99AD0BC
+1B1844A0E222653FA481B8809B26A46F4C483A5D7E95816EA6582584156CFEDE
+B994ADCFF4645140E3617E4D7E1B0E4541CB9F562E55829B4DD880AABE2229E9
+4A9FA259A734D29BBA91BA1E2055CBEA4339BCBFF98D32CEFF11F296225CAABA
+DCA10577A5D431B714726C1278D8101ABD1BD8D0BD0174FFF9148F8C61C241D9
+2AD360A28616CB4A0670C1BF13E4018CA53FFC8B28E49B3AF8134528F971DEDA
+55E9075B8973BD0B1C001D7F241CAA67472027935C0A16779AC34D17950388CF
+0E0191A473BE7581A249D043279E83EA19B511D1D8FA3933F37C594054DB8297
+45ECDBC2E8976B243A996D477A529B8667BB3FB7783D0B773B952A4520909BA1
+EB4AB2FA4D38CD9B2CF575F8E0FDB2E85A6D59CB0AFEE208F8B5D960088A941E
+6E9BEBBF2E02CBA386FDEE2F4A0A453A960D80CAD0C63A3148A991FE9B4A6903
+4DB131BFF25E2912B3611701AF02C80A37D11827A73A33118688FF62A75A695A
+E09754EB4C5443BAA0129EBBA5EC0FE072F2ABC14E18AFF58DB7B4EACB03C3FB
+076B54615CC92D97A77E868BF57E643D8B4734DAFD673838B47049776F9C13E4
+C4F392EA295046A344AE7E18220279B173776FF7E54E9C099E961A91CA9E94F5
+0531B14B57208A644865C93B9D984E523E0FA7325A86AB4A42294AA525E61B06
+8E64A06ABF83901475817D7BE4C40F9246DFEE32A27A06F2D4AEC66768A7CAE6
+D5CCE47AC1F145B2C0686DE699EE103B817B207838F22DCF2EC97CEA9AC8BD1B
+02B2715ACDFD9E8BC31AD3BC90A822B813228D3ECF6E188A0CDF840FB430C2E9
+508B92D39C8E172CE1E2B1FD197028F2C94F45D60CAA0460C612EF318408BD92
+96286A02359A95FB7A83FBFB65F69E585E6BBB5F534DA81D5BED8D08BEE4C035
+5A519138A7C6F9F942A8C3A5E1C224A52FBEDC844BCBA819E13536DCC421803E
+7A662FBD28C4BF183EBD7300C2667B3161986AD87661052C625A26DD6176BD08
+0EF192AC55FF9DFF2A35F8528060B08B652D491F35E4BBEE6ED91825635B437A
+F2E00110A0BCCFD0B1540754F3107A61BDB9B91D0F3AB958E0C26BD930B32FB3
+AD80AF114D1814F3ECD532409C4FFAFB20545C3F4ECCEABA2AA2997837CBB971
+CCDAC33723F2457526A66079AA8C04CA568FE1D3007D62D99F6211915E672B42
+274A1BBE8306E1A488147963180211683AEB9791641CD5BE08DB05C6351FBF24
+D742CCF065FAE8ACDAFCE46AD74B19F94BED2A8A24A32CADD00CC414D13CF485
+B3CAE0E09BF42518EEF8168FA2286D8C7EBE5A7E629D9BEED18E2EE249A1A2D3
+B417039570A75CB813B599DE2304679D9680B7C482A7999611BB127FC8E25818
+E9867238D61D75F043F397BC6FCD6177A57C0126634E2D4274DEC453FBCA9132
+C26716B73584C049A786679CFB5B782334244B767EB7651FF0B70681E8AFCB58
+655C7CE6665D8C4432AFFCBF37F6900013D0DD0D4B5D53B2285CB5F6566613FC
+427B31144927ACE6A31B1B4757BF7017016826D699540EDCF90853ACE5012D0A
+5ED2A5165A9A2EBC4A7516246D99C18A0A61F5ADCBCC9086AB4D09E359B41CF7
+4AED5B75C01085EAAFFE70105DFA58305BFB1B83CFFC76259E25860A372978AB
+3B0BFD0E16918EC392455628EA68EA1B38C66745F773517B790FFB540FC1AB69
+BA768310F537D3CDA5FDDC4AEA160F30F006E1BB2E9F3E4AAA7AA9EC2DE96C56
+9BACF9290478CFDD203BA47E66E3B89327F60187B1C11A39A5F66D239B14CD8E
+E411C90A03FFD947FF5C6B8AB3C0920302DECDF87278C13FCFF6B29FF4C31014
+265EFD9206DDDDD45DD3F56823BF8235C5B0D4D107A3EE7F23D1E763D760B024
+1102646DE5AF0E785079080243CDBCF22284D25B669F5D791A7D8C128A0A15C6
+653CB85BF452ABBF5E8E9D8CCF2FE9AC2E3C709E9102C9FC4C68FCDF6949852B
+16E2BA5D1763B16054C2F450587BFBA838A12ABE23EAABF436D94100DE4FC086
+BB21AB7251904355FDC5A27F934C07F966B13DEC5A5D7DDB8876A06FFBBBD35F
+531B40B24E86067FE0FF1E63EE69BB13FF319B6A7B9CFDC0C8F43A31276A3946
+D95444CFF436EF0E377B78459894E483473A359ABF0C020AA89F9E74BA70701B
+18DF77399E2573FFD3CAF3BD21C445F6B6F94A5018BB4631D138B23DEC0D8052
+661C9E566BC5BBC90E3E7D05911EDEFA0040F718517EB2A1CA3AD1E0F026FC3A
+D0EBD2F1BA2D3363EDFA1FFD7BC6553AFE3E7BC6F462F4D53B694DA32E330AC8
+C76E85D58B5CD147BEF30D72F8BB006B180067B2F9E68C5528E0DD9A56E20DB6
+BA84E18505891086618044B4EE0F4C3D3AB7CC8FCE241A9B18047663F09E3088
+6042C59F9FF2662369BA38CFBD8A443277B889EF7EBCF73DC3496F6DE0DD46EC
+9FC181032081C0686DA62604444B04310B269845586E8DC4F671A68F8B02EF2E
+F44976FF68DF0865B4192933FDFF5F9C602EB47F15219CDD489083E90868A7AD
+2B6C499866AC07959B5C718947ED68381DF688012AFB72148ED6C631EA37DDF5
+77BFA71B8A651C05E44026D8276281725274B64C9FBE525B184CBFBD4A080EE8
+4F16C154B608FF630D62476E35C019B5DEAAEED4CEC2DB8F0E70853D17814C9C
+0B8D4D3415222C4D707C0A9E349EA8CA18AD26F3D7A01485B458622CDE78BA58
+5CF8613E31AF65E3DDB4AEA10E8E04BE47DCC15185DE26BA4E0A86B4545DD325
+1C43B948E32AE932B6BDE1A2038CCC141F0E9803BBF7BBDAAEF0CCC6BCF37B79
+B1F65339265C3BDC27CD99AC7D748CF14CABA5139548EA09718566B9DE86D04C
+3628DA1708204DFB53F6FC0A5BC9192DA91A270938270A0BA4B1986A53DA200F
+B56DC483BBA3EEA535009B3A8AC757A5F00279293F61AA10128510D4F691BD76
+5A303ACC61AE14AE1B2BB56479C1039DFB90FDA3924F75DCCE5A89C442E6BEFD
+ADB652CA9D7DE6CF43057494408370F613E925606711423149D9F3188D937B2D
+068FA4384294568818428B245443934A6F417E66BE037BAFBC79F33E07B315AD
+F614ACAED323DA5C5BCB1430713B988916487ACE0AAF272EAB35BE22F61F8F2D
+A6B617473941A1ED19DF2F6C55C0678822422A0F02AB660F2FCD05633F908B6D
+B3ADA384E8EF404377E4668760649B816EFE129661D5D17037A6CF7AE98CFA10
+A67EC1382813E02E7D39EBA812C50D0C5F3BA315FF9A90DEC4F7AEDF1C70BCB7
+143D09AD2EAEC58F6CA8228F29E7E73BC9CA5E20B1B2C5ACB7031F363226E214
+0737C6C1745A028752303923E6D951D409A4B18EF4517870CDDE29515039DCAC
+06E1FAE8CE9BDB5E20667B8E0811D035606F6FBB8D1E9AEBFBAE6A3B2DE83040
+B16BFFBBEB73850E2199B8D101CBE862363F66C0DDD904FAF6AB01A82A5E2309
+05B36C615989AFE8DD9E0B1844B116CE5CE8DCF4C788F036888DF214F09E29FF
+55CF49C204324D050BF5D846C7B23471E07B53966F0A5D85EC4BDAEC16B1C259
+922AD003AB2DBCD015EC7380AAEA0E342F54E13C3F488569C93D3E9A13EB8B2B
+806B9F108A18629F0D64BA709856B866F4E666EEE16F920F9687D1A48580F7F0
+B4A34B5B078DBE76729D694396683D4125C68AB8F0D88065D86C58DB747A2455
+B41E7CB3D8C64769914F763FB61AB96148B87232D14B426649F338383587CB18
+36BFF73010E7625254A0EB74F63C285E2D52D69BE0819807118332CDDC0D88E7
+CC1CA9CD67F3BF4F3FC962595A23B2F32A46B578F76FE7027B3CFB43CFEB5392
+A17CCED52E42690F9808BF40C0FF302E4E863FEF7AC4B2F384E51CA45D81C33B
+A4D13E8C03F4B6048C4AC01C12DF0BB686439960169627640B4ABA46A9CA0D37
+49DFF3D8C391A5FDDF2318F6D505E8FA521F1678786A0B6D846B9DA0C07F947D
+7524D37DC63A40061E2C920C27726380FBD329D29ADDF290883487CA3CF491BB
+9CB9682E9DDC99910D1231B049B169BA2D7635B5216B01D916D41DDB32513DC4
+ACFCEFE43D6B2893083C78A44D8F044FC9D819B684FC5C31ED493C9BC88B9AA1
+A0B9AF369144E649055A26A1870924A2A2345963CBC3906971E3B38D6F62D604
+675511A2F2EA990FF17722847C88C9C0A2FE4804ED676411B1B59380D4A16B2B
+ECF9DC186E0B3479EC564EB9E63BE5C5ED5E2D516A4350D296BC197E9B6C1B27
+06DC46F7F22E762F64A11900664ED4E6D4DAFDF0C64F9446C35A73FCCF2D33E5
+E2C360DA0D71C5E046C9A49A2FE891B43C53C762F8D785BCC025E1C5AC920040
+F5ACA6EC2E4F99C58A664D4ADEDF7B74E13E6D85E03E615A60A2A8328910D6CA
+CAEC65AFA2F6BF9C9FDEA1FAE0D25E6BEDB9DED4512B493D4CE9712BD8D0E82E
+5F05D1F96032D6E9CDDE328ECDA5EC2BE2BBF6DCCEE85F7A35F82460059FAD1D
+CE82AB4F8E7D800B6DC6690E945AE88661AEFAB55FF475692317C3E530C6D0D4
+5E4C2FDB684FC5A51999FB849DE95191E6BDA41016ECD6767F1F3004976BABD2
+15F6E002BB180E99068F4C5E280DFA90085DDE5E22F5FCE780D288565525B144
+C50E93B534704E462A4F237D4ECCF6A1D4CA22B9ABA26B04BD6B9F73EAB95C0B
+82EE4936A45983041115DB80EE611AE48CE6F5704934FFED9957104759BEA0F7
+D0201F342B0E531BF23E9A79C2C42381CBE7658AE83374D4C2D34FC7886AC750
+4F9ECF4FED0D0F1B79AA194C275E02F4F59BE1AD93667018462A54B2752F54C0
+4DBD85A788063ADCBEC519652AF9A86B46BC83E8E043427C28A2401F5ED30A4C
+2578F06DEB335D26908E23E6C11A20D3E8C9BE47403C757EDB29231290035EDF
+5DEE6F02CDD1781911E07C871BC80E65E4AE8BBA1FFC28AA0B2660C443D24320
+003930CD829CE72988534B0E643A05643E8A83038029E832F016A7FD4F3A5FA1
+F1AEE941D71BD74833CB42F7971264162BC99D87B652B00C5A00AB8705257A86
+E59953642D6C2D2707B8850B6AC8DBA8B6B0143F4C6645BCA7AAA994763A8788
+0F5892D5BFDC37A921D123FB2F06382136D3019C83BACDE19E8B67B5DC829278
+B1120A3A5D37A68E59990B4CCA1F6A10254698BE7BE357F70AA574B925801797
+7BE423340D008E73A1F49B6058DBD668C43C513C35AE84F89C6202E3372A2A58
+AAEA294648DB1347F42BAC7491DF662FC9CF4D1A5F32B6E6F0DB26D2A2BEF333
+83AEDE707C5E21AB5B3C8A312FF632A0DE2E46FD78C82B8FB3B51595B16AF9E0
+44066353662414DBD469C92C458CDCA830EB4F11749324C15349A500674AA342
+E00623EA3C6E44617C98548A8EC0CC14829F7C67999234D302F812FB1F8FE0F6
+8B5D42751BD72D5E24F5809F58BF1F5667049ECA3DAD6839B597386E852EECBE
+1E315834B8105487DABCF46FBA30A15F3334CF0FD9366B5A94E01D479862B2BF
+4F2CBD38692849D404F31FEAC213FBEA06E940C9C9A305ECC299FBD9A74AC0CD
+41EFED2D2CC5A317B02720F0E3F04B960FD7C1D9B468F076D12936EEE94F95FE
+13B2BB7E47EA7CF33DB12B22A894F8745D10026F122573FC98BE95AF020AAE36
+B57C5244013011F77097652875CBEE2A278AA17E0E79685995E2DC852C945EF4
+109D3770CFA038C3DB87BE396947FBE8692B77E9A6F17EA1089B0B55D3FE5998
+2904AE23996D19AC5A3545570FD63816923D1A9357316971D85CB36EEBD34EB3
+481FC095F7D2F96BB74F5E3F01C4FD8DDC8DEB238A2554A4EA1CA128C91C36EE
+E43CB41592BD13837B9EC9735994C874A806BE5556CA1B25F2298D1B77928B25
+65A93B27A61AE93D48189AAFAD5289F9B5E659E88FFA971BF1A838BA08667AC6
+B70F3C41E627B1DB9876EE658C50AB2E66CA5FDE664A83A2078F2618C6D2AD6B
+30AB0939180639011849943A7F116E7BC9E4FB52044CEE316E2F0AE70C95D893
+820445881B900A6A289E954BF1E40330D660ECBE1EA60064C5EF7B5FA8C516B0
+7DA395BCD78139D64A970F2D7B6D9575F45562C3A9DE6D4EBF59482D7A716C96
+DB7C4531253BFAD3180DBDF8DEA31BD5BB3282B5A8F284A6D209E48A0FB439E9
+7BB1CF55796CFFF55D08993674B932EA37986750ABB935836BF804BC54D97E22
+8A4BF537F260EB79FA98C230E7ED5D4E509039E8A40DA253651177B3D358AB12
+7B6B6C6133A18BC4FB8CF818C8320D643F1880D27C0F7D73029F171028FDDF8B
+550D0D016A0BF72B68B2C84DB4416000A82B7A78B66DD73467EB2CBA8ED26D32
+88E2F0160FAD0FE07B2188A293F257BC30D034374F207D96F86C73DA6B3B031B
+0608A63A4F773B077234ECED88FFA5ED8C04A3775C1BFC366185A4566A78564C
+9BB7F666CFAE1CFE2EBC7880134F6DDD8348897A3E628DA2067894B545F1E378
+0F5BFFE2DEBE08E2CF46FEC77739437A52505EB645502B99547E91CB89A48DF7
+4D54DDF7FBD46D78D457CD1912F93210F9830AB5A34001C878C8267C6EF1A61D
+2B91CCFF1BED30BEAFC84406CB8E601B345BF60B6462DD7913665633A36D2651
+15D81E5170AE081644B02AEE581AB984FC189B5ADCAC3C41A484CF7B7D56968E
+9DD32ADCAC98FB5260D4682183BB3238BC779091D87E5D195DBD7CFB9AD96E15
+09E10188B8C82CC9A471A5504E98DDF4DB835C0C0894D018FB12AAADEF6E32B9
+C3CF98DB65E06C257CDE0DBDAD731273DC120969CAAF54CD5F89FD89D153C58F
+0D622A44746223773C8BC72E954983FEDEBF29C468F87094AEB9D6881629DFA9
+01540377563F21C861B8A93035C5974D2881BA76C9C7F25AEBFB7CCBED053E60
+98E23F8759FFBC5758FF0C9116BB0D00B6E24214CDEBB2918B967B842F497136
+1A279F53E8F12EEF7E17116174B74696E2BCCDE19E8B67B5DC829278B1120A3A
+5D37A68E5999015BDBB970F1EA2861AE50704AD81C1F42AFA8C2997C16CDCA37
+0AE364B05486B6A1E5378A10FB3CFE695C7E7D1C73E07D5926E15A353FC4B60B
+AD1709B7EB900C02CAF3A4A85661E18ADF577A7AF35D41A333B6E59942915377
+ABE049F1F25FDED5170BF6156B7946465D1D51CC30C32FAD15FE866F5836A00A
+3BE60BE77724829205121A73F5D96EDC72B7B9B4BCC12F4209B1951AF23FF686
+FF3E816CE50B05FEC276B53FDC21DE0755EEE6F50AB917067F876C1ED130F192
+EBD571DBDEF885B59E0183831654E17DFBB364CF9CFD044214141B237DF5DF3D
+73B9A8DD9989DBCD244F0C11087A077D2103E494406B1DCAFB89D56BAB8807CE
+C8A8F7CE1AD1497CE2E1BB5DE4ED35FA3CE72DAFC207F82CCD8250F4BA04D50D
+9B6D7AB782CCCCB321E0DBB1291EABC3419C009A5A37506BC27114537ADB7CAA
+32BF9D5C2979D409E4D68BB6DFCA0135D154E31B0ED3280975DE77370B3A4C7B
+16C5FFC37C0BC53069456FD365BAE24F737E9FA5DBC1CBFBCFBB273C41C3FB29
+FE4D5CC6EE8458FEA2FE94385B2AF841D9A75C41EA0F954AD7D03474A6A82DAF
+5E1ABDF8CE3C652D2C868D2DA3A86257C5F46CA0679FA92419B17F95F1226300
+9910BF2B29C5B7222F91961463EA1E21FECFAF8AD5925A7BAE80380D6CFDBD82
+D34A78EBD78B3998FDC69EB2E55937DF0CDB33E479A0BE74BBC7DD92D941DD63
+C23F9532C303C68553C91CE83431F239BE883C519B625BDCBEAA22714CD44A04
+CE29C9B414EF463679A22F06F1E9C9B6190F3DA6ACCD6DC66492D76B2AFB5EE9
+C9F6C51C9B35B4AEB6B72F30468065D1A2ABF1AD34324CF6FC87C8265FA634F5
+42804658D30A5BDE1F29C1EF902189DF28EBE2DCF6FF7B8407FA24A82C232838
+90E01BC3B1C5825E3D9C55E3AA1661331AE72D19680C28C4450048302802E09F
+F8F579B59309F9142F9CEB88DC7864ABC28A02E5A53629ADAB0817E303557398
+7B2AE56319A0319F1253D17E3EB0A8AAF4771B1F3AC454B9EF343744EB89C6BC
+5C9FE406C4A4206DF7652D22B20BC90EFF98E725765E731255609B509406A733
+3A622251E57BAFE2D62FB0A2C11C80CF098B6FF0BDF6453D33995F4E54B91F91
+8D58ACCDA547DA19D30B5CA65024D9B041E663329D81D0EECF70D7BCE3B519FF
+A1FA6E54E2459EF6283C117AE701707CAD347208550DF890CF5924BC50D349A1
+1EDF16B92EE2BAACC2BC51A8ED14F7A1FA42886B5EB7134A65079538C1F9087E
+6FC665136B7ABFFE8DBF118278548CDFFB3D85E655DD3EBEE6EF04DEDC1E3E58
+363543D41B8DF9752463E32915296E14DF8098D83F65753317685F3E72530617
+7D891088643D903CB61F15D3F92F3153D809F9ACE1C8167BFCC77AE8415C0FE2
+858FBA0E8FCF02BB1A8598FC3ED021147E2BE3B76ED36626C93E5D99A9F4213D
+30B583E220F80BA5571A6E412839A1E6CA3AD54070C80AF82DC8CCC76C007B90
+466167D1AB773C4B261942ECB01AE636FB87444046DC3EA7786BF97AF500C8BF
+13998C676F5633D42863F0263EDD8FCDF7AD1F2AACEF23FD8FC11F483C0CDAFE
+837D984A761286C4DFEFE06CE9466B313B6255925F7C908937E3BF94DB319D20
+F20B8B48A09E2463A388E3D7498A032F336C94C5816187533F049824D9D5180E
+5434E8B574E6A7E1DD46B4C622DCC6B9CAB13BBC139E9487F338415EFA2C253E
+1B13D39385A57F9383AA235717AF84AFBF5D808D32048FC209AFE15B7C4C75C0
+C00F4549D250A8D8D0B82FBAC27A464B6C6C497F5FFF1FE0ACA49F9FF46C7B4D
+72201E1CEEBE8A4703D4D84D1B7B4499E585B500D54F9D0DBE1AA48B52B27231
+CABC6A41CF032ACEF5767F2497968DC5E75A39906AC28A3DA273EFEECF91758E
+02FE2529C072528149BCFD7E7E0A23C75927B4FAE9E687F69754A204E4B9B043
+95D5A6421A98D119D26D5F911E38E26CA3DB5D6247A5892CF4A1D997AA303861
+016F2C36103CE0C43754CA811C2667B98729EFB280A85DED082F6CB53BF14F0D
+2A2E9848262290D7F8E5AD77A3AB32CE9C783F2BCEF28087F4E387C70D495388
+068F4741728D4C9532B76209D2B777C13DEFAB9BBFFCB3FE9740C6D9FF8C860D
+89D1561CB28638D1D24AA9F358AAFF93B9564AB5F362368D0593ED7C9E2AB4B0
+184BC89A05CD2D29851F57CAAD0BAE965DAE012540D9DF5BDE9F4F5D02D46BE6
+0D1EB21251B3DB82E6E6DBAB14516A2C4CC67DEE79BD057C0719386E4581BF14
+93794B0660A2DE342E973DC45302DD3716B714C94D0F9376E878ED733E90EF3E
+E625484998172F185FC890116846F6EC00754B2523E1F4D937E4A61F56E5B463
+649E058E104A8537D3D81053D9DE8B7B5283CE013C9E099C3AD560BBC9A72A50
+B39F367B6774BA6C37D351D4A88908E1E57D683F7DF75A468CE740046243002C
+75ABD706FF6272EC8B127F512CD94B4B1A9E8C3497C382B1FBBDD8DCC67CF1CA
+BC23E8D3B4E4AB9B1C56F4D928F66027A6667ED51E045924E18F072104D8D30D
+C18FD7A0C09F19E9C0302071E598DDE8D62116F8D1C8885FA8AB4D8167C57C6E
+3EF7B7378704D1BA0B72D142F7D6039F6115845E21FB2D04A6E73B21EF680FAB
+EAAEEE0AC1EDF4DC2F53275011EE991AA96DDF4F2F64937CDE2766785B6939FB
+1FF0BB2232BA259FC908229F28F1D239185EE1A379655DC7A53D88C875A3ECED
+D8240A3EADCB9E7DAB19B7A27F2BE09900B60B0E04DA53C1D91CCDE75BDF3E9C
+274FC1F0F59D7A86D619FE049BDF2F0EBDCBC62BA0AA26111A5FACF3C6B88BCA
+1477ADEEE67EFB8C82885D9D7F74EC35DCFDB9D794CDEF1A97E5DA7550D3CE0D
+C86DA1645B9163C671A8E071FDCE11ED8D4AC55330E8A3421C1DD9ECE7B41ECC
+4C92B19630DA0E20D9DDC923F4CFF2865F95A8FC0595724B00460A29C804AA0C
+6670967F6C3C2A7310CCC64AB48219EE6184F2FCB2E5B3FEA9F83EB8265B381D
+7DBACBF1F0E639CFBCF2FACDEFFEB144E451C6F8DD0ABAB19C9AD3084BCF2D25
+5CF0B013F84FD22F9302443A93281A24F7E23914D3C293274ED2C5CAD0C162EB
+F98632D63BC149DDC8E4E3C8B5345709E0843D17D3C5727AB54DC757EB0EB886
+48B186F9D8B00FBBC7B9C635BB8D08FE653D05C060A6AD155659591F21DC0446
+A249375C2BCCE37694DF852B7E742F52F8B85D78805A95B8CB191C775A2DDEB3
+07C1DDA646CA1EEDC05579757B7F84CF308B047CD4394F9F300F3E8A3CB3498F
+B39A2DCA1EF87A1885D1F64CA0BDDF787DD65949AE1B082E3F5B20BF645BD2A7
+E6AFBFDFD3090901719F072158DF40AA7C78D128AF38AD35D3DE695DD214E31A
+3C16FCC1BAC1C70ECA10FBEBAF36BA4BEF88F1FEE5AC7014E8652E21891F7FBB
+5D720CDA6641746223773C8BC72E954983FEDEBF29C468F870973D0105D937E1
+5529BFC43EA631B1A410AEFEEB515FAF554DE885B786A3D5D0C5AC216EA68F8F
+7D3A5BD929EC7B1DA84F987724653A6EBA1F30D227A123811D47A6AC70706CF9
+A6D08728DA3D95ADF1C5C812B03E2569E0FA772A5638493156301A8EB7277801
+B6E41841E2DE908E6EB9F8CB85EB85B1FE1D7C558D596C7D0097FA31399D801C
+6CFC9D963D769A957C8A11CE2A8DC48181C93F281DC39EA5D64B5FAA44144D1A
+6F2F8BFE9A6DDE8802BE68D49566FE8DA498537127B74727FCB164F21405F98E
+37ABA562347DD12AFE72E2FA971F0B7F498FA3DA42D50084BEEB85E4A31E174D
+A9330491EE2EAD0AE6BC9EEDC8F92D7827666A8DE5559C813CD542561E3AB5F5
+AB0D1D920F208BE4A7D5D37240C8D5C3F893CE2B045FAA6C16376D4B63AA2A08
+EBB83D288B240920710C102E07B7218CFDA6DD200D31F6BA872ACBEBA94F1FE5
+920A18A63BC9D8F52122B8BBB73BDC31C477A7F1FC73B49906DDDAB223D34FA3
+304DE0E78D628646C32C1D95C0DAD9F352414AAAD46FF165FE342BBCBF05B837
+E703278B2021035D3EDCBF582182FBE2B7C87D5FF063561453FC99A92F0240B1
+D86DF4B2EC81023B5B9E354CFE201E2EF620AACF1B388C76A39DD9F14D883A4C
+A48B1597EF3E34068C1FA45A8E98921EEAFD82A9516D47CC0D6183D68AFDFDAD
+EAABB8C4E8075D423F40FDA9AF3EFBDC504BF7FB1402B15EE37DC5F4533724D7
+85C22C645809C6B3B4BEE5E23F140863D5E14C5C8B11895AC0E79C0B211C49E7
+8FF8DB7B467C0440CF4F07022E542342964D3E11D278289F2511CBD3F7BEF02A
+7AE18CE511645F9E76EFE6A335AC1BA87D1EB408C340D047061DBBDE1BF5AD5D
+038BD414CCAEF1F8A76A367BB2EA3E23ED0ECDF2560422F2EE18683FE6FEB1DB
+4D034DB5A047B8D574769188C0679A67BC0CBC2D312B443B447DF41125FA6BCC
+772A6A600B81D865B2DE12D3184BD3E1A1F94AECE2622F721CE4470B19C139B7
+DC98CCAC1F5F95B5AB4446AE0761DDA835716A7324B7C95A560BD01C155439EB
+43D1A040652B241F3148EEF22BEEE604EF958923630C1C7B9AA0F2E7EE0E9ECE
+F4E846C3B11474D80FD7EFE56186D215F35C217591837B822BC091A27912F60D
+E02E09F6EDD7742B425D059D8D3F20870038B6EA3C5E41A3E6E6EAE70E620648
+200C2A29C34AE6255BC79B73AE14B980A7C3576AF5BF936C3FAA4CB2620D7426
+002161F983AE95E542E9243482F2A80550E3A89AA8A18E4A00E72032EAF44C1C
+E735C9A03F3A4EB501F760EF762B1505102220A5E811A7002D2B533ECF1EF216
+8513008BB3CDCE8EE707017F58E64D5746D5A01E478B28EDB24633F4C244B9A7
+59775AEF94EF94D9F2096E76F1C558F40812444C6F0F4DA8E0E4542EE86C72A3
+EF8A138E760F4241574033C78F337F8C10B8FECF198AA5C28D09422292380844
+FE7D375AF0766CF9A6D08728DA3D95ADF1C5C812B03E2569E0FB2832A07A9B31
+9C38D4221576C131962BCC5728D65B84820900F41101A7F4A280ABE1C7F736EE
+916ACFE714A26619B139838D6763946166B3965C5D073D78706987CB1F75EED6
+C4EA57D0ED7352BFF98AC161CF5C41C774F2615D70DA5CBE51E28CEF57925D05
+26B51B63AC5634E23FAC712E3305DE9A02A8B5684BEF87D9D231C885FC054802
+74A9C670A2833CC6DCE45D2E4898BBD96830A1150137E9C9E5B4450986908EC3
+E769861BB34154B0E15C8D0C00F05A5726E516E2BC07882391D097750AC8A9F9
+6F1EE986BA77EC41DBACE2826B07DD73D336E5B30DA519A75C4DF64925215CC4
+DF3BC0DA1077DE75F932A39907B57548193347AB77051B3CE85340294535D4C1
+0F4752EF185C378E7C7961340E398551177A7D13B2A9214B25C95B187B187722
+18EE8244B5225E97FEA8CA8375AA4AEF8614DDA4D011E383B876F0E78623F9D6
+4467F112408527330B98BB42BAD91B4964F6832F2946B0FF1705C4655EA72DC2
+2A2A2D37579F0AF60B42320AB25C8D7742D3993EE2A25A7366BEC1FB76200D27
+2C713BA3B6130CF853CCA5959665E40FE323256A366A45877CF940CB26C2BD07
+0A91E0E3FDF6589A34F8599566F61D53D78720FF17C4718C0547FD9B19E74D0E
+18F6908E4528065F6B8AF5595248620EC344A980A8194EC8957CF8003560414B
+AA4C9145042A3AAC758995A7355F79D06964067CD2E468A0B023DEE119BF9575
+5142A91F7303A2EF448D6E2F63BF87271B5DC4615D281B73F4DA92823A4FD661
+C2C6155AB8D6C978DC702A7278890312F6E32B536B9C9870270DCD43B21860B7
+34DC01663B0D93C5C6A15E5FE48F2A9612E5908DDE75628CE253F50B77A9DAA1
+A0BFCA1C4959844CB66C168D3636E4E4CF454DC4F17115F9A235917B6DC7F6AE
+E22D1892CF2D5337581A05B27B4837469BF2B1CFD04E1F92DCBA540C6A44B302
+5DA828E62C7F295E1CF51BAD0124C1C996F03578FF6E93F270C4415813210AEC
+71AED98317186244404D4812EB1E27AFC3BEE3D06A8573ED0BBCF641FDA888EB
+1B9654C0CD0F33675587761AC21F5ED179AC834CCDCD90581DDD1537EA9F0F21
+0C11818D3575FB13A916E3197083C64A1E28D3A765BC8048C20DCB99FD2BAE68
+53877991059EA433DD3B91A97827D2AF45C8379364325DD8DC1AE11DD1E8FCE0
+78D18F336B09B980DCA7D6BDA06483F8DD04F891472CF7F1B3230E5A39C9141E
+775C84F5F08DF1178336118B5DCFCA5042672B00A179A12515F69D54DF5BF990
+721EF38563E9D926F0DA88423DC2849432C1F9581420F840D5701AECD409DBEB
+F0C9E95509BDD99A537F5C90E14146D530AB8C79E320B141657D0327D9E02ED9
+3D08494CD71E5344F2DCAE69E08F1BFE2F05C317E60CD876371246F9AEABB441
+23F0FAC85927E3BA0ED1CC6D6B33146A5DE09FA698B4855DCBF33DD70D9AAE09
+59BE049C7157A5770C07E17F21A608FB0E51CDCAF05AB723A1B3F1D4C9095D72
+88271EFE70A060DE73CBF059D2A80F15186E788F3539558236857EFCE58DA619
+324AFA8E7B041B400F60395AD659378024307FF959945AC0B31D21CBA60FA8B0
+FBCED45414AD2285ABCE7D352FBDE6EB1E0EAE253E1052ADE7F788203C7618A7
+B8D8174BD1099200E4D1F21972E5CE1A373AA27126199F3AD1DC69B5C9EB98E2
+8A19CE9CBA64FCEB47C4D9C7891741E0A123FBBF49C5E66069D56F6579693CB6
+5053BF56062972DE5B579393D1AF944DF27CFCAF8E8C104B7A3F2B185D5F5015
+E23B2802E09FF8F579B59309F9142F9CEB88DC7864AA1C71BCEF8BAAC89772FB
+FE65D33E336D9595FD349D087D1219DB87C73771A6CED0715EFF43475A0FD680
+DDA3FAE32CD43B910C9CC062DE49266623AF9AB4BB367E91BAF23603BEEAB3FE
+7CE7A9122E39AED7A194BE43CCCC53CDE80D5FF538EB10A6199B33F3C1173535
+E17C8882EFB6603DB4A5A4E1627BAA96D856F2D9710B38FE8279372F5B06D422
+15F7C2717D782B4A8F898E5CBDE7B1BF3A1F93B3630A4587FF778F661590642D
+1B53CB86D767559E1617188042156923BD16CC0CB64264C3A44FEED1465E1A46
+D72EC70202899C79E9AAE60D511A68A3F2E61644CD4C3FFCF1E23BABF322E115
+CB79657D91D6706924740A29D43472147FD04D8B9B9E40C1E604CDAAE142485D
+A66AAB8B2568DA5051F0BDA8CE6C8BDDB68BEA38A2E4BD4C2ABA9816226EB744
+128F41014C24426A003F81FA604582C530D8F47B26EA0303E6DCC989B57712EC
+B8D17AF3D0B4525D7DEEE210A4239DA49D23EC2BB5EC9BA6CEAAEACBD2D5E900
+1579738029B0E7F635C6C4907243F29B46CD6BB7BE5CB0BD793CF3B35B131707
+30E909AA6994482B242AF0DC5F16C8510E8CF5E5FAB46932F9D00D7C5500A05D
+BAA0C671065C069B7A80127C68319CC1E9C7A986CF2EEE20EE2DCF174188380E
+A574CD7A0932CA856CC9FDB88C51B009070AFAB115C5FCDD1862CC7FBEF5FAA2
+63C6B723AE4E5B34B405A0A13E318FE7E8F4B7EBD718248AA3FA53B85D3EE6DF
+698FAC50F415ECAA25F2D713FD0563BE0EB2B36DD94D1FAB63AB6E00658DFF2F
+EA91C4C9ACFA21C3CA9EB3F9CC21013C0AFE0DD28AB23412E7634D9B961E4D5E
+2928FCD08612B8EDF6AC159E9E240E0ADCD0DF9EA71FD357BA6B94419F2E7443
+A38F0A186733A8523992CBBF6DFDED8BDE4E6DD8C8FB2B291DA84FC40DFB8532
+1175A3684F32D311455817147EA832947F829801EAD65B11D30DF7380AF3BB1B
+24FC10D626A9235C76FC3010895BE4AFF551597F0B1E06254280AD8713091D65
+D3F902B4024C9F04375B9CFFBD2122AA0366719B4BA72DA32AFA04692BDF509B
+EBF8ED92DC86890FB34B80E5A62A8232106093EA39091D59EE868594FB07D42C
+6626F4AEDE9AAD2C8716CE9AB3E2321A48C983641D635534EC6A529CBF4FCB46
+D727A6616E2CA781E14282982C1AD13479B6178D281CAA541FD4A2BABD271585
+9B5C81A2C07F42C53E8733A85F5D1756B9BFFA07B9B612496DA5FEC38023C30C
+33C7B24A6AA9B46C1BB7A2FFB0FFC63B7D9F12B2F4A61E66537C09C0C4A9B1BF
+9D0592E3EDD486DB3E31405AC422487A8E9EDE3C3EF05A00A57078A6C9289FBF
+AB908E868942C11A50DCF785603AFB76B55C10426C6B620BF1890A7406C0C6E3
+F79EBA25BBCAA1C4F19C3E5DEB83811355CB98A5A068430D7FE36AA71D4111CB
+414AF4C3A1FF1DA06BDC872A5E034FEB45E9425DBEF583887879AD93C362A37F
+0B469E8D9049B9D26877A39D29FF6AACDD72D4849AB2177B1088D410AEA9CAC3
+C1C46158F508D7AB7F99ADD7722F947D5EB4DD00F5FA142DA826867DE93E13CA
+2549C69D3B60E1F257C77A72CD8C5D0C8A1AE705A62A18A58E62730D24D85181
+17AD200014839545B1078F38D72E674F5ADF3882413B67E1B8CB2DF7E7DF68B4
+1BDCE88B1C029F5D3F069B788350621242D8B1E236626AAEBB962C6545F46D43
+2299F879232E98F9FFBC326D9D0B73DD49AA218EF1FCDAE565AA6B7DFF792E33
+459D996A2874CB4323EE695D829948C67FB78437A96771CD533AFD222E607B98
+15E5C1D06AF1859F45140A382AD6E699337371F81E796C29E1E4453B45FEFF5E
+341613DF5E221698B7C7D5FC6630CBFAF0BBB88A5D0EB528D09D059CDF5830AA
+6EF8243F6CBE4C91B219D17F468A024BEC22223896CCED6B07D654AE74A7F8B1
+9F9CC9AACA37D69717CDA1019DD6AA15B6DD86726F1107016FD88A03A679E338
+056B583509C50DE3D7C77FB860704EBE8C24D1A37A59A39CE60CDF648F9677A2
+701944FEE0E51FD5BEB50156B64949D4602BB869D5A85CE51EDC81601C6FCD65
+0272B31C51D4CDC86867B0DC3013E9DEF8990E9BD56E8C4AD01BB54DFEC01D96
+FBD7D076357FD85F26EEF6C10AA9E7D1E1149715178A46263EFFFBE20CF045D1
+F128CA406101818E8D945FE492C0C783EC9AC7A95C0832ED8BBE9F538056D49C
+E921742A12D11F083A6DF8ED299BAB6ADA0E3D5878314012CAB867D7CF7091C7
+C7FE7488B912B295FA028DF04128F86348FB9A511FC9C5F2A4948ABE9EDB75D8
+87C411A4C185B878B8003E1782E9A3484F8CFBC2C54B05516837307DB8AC1C0D
+02ADAE4B0CD3C1CDE53D410E44CC26D3A3E0F450318BD182CB6F86A94271E129
+0E41FEC653F131CB4AD5EE08CA3293FA4F4C6B83BE3193E4A54487A84A1FE082
+6D7F99326A41155CFC770BB984E7C159A8AD8558F0498638015C78FFDC310044
+2A401718D13CF485B3CAE0E01B327EE29107319D27F74BEC9BDFA45070AF2310
+F00A2A464B0CB8B5EADD6295030F6F456B9753C2806CC4C2E9E615BBAD5F6818
+CE09FF00BA781E75C506DFE0FA630FE721725D8F5B0A803FEEE857887CB544E0
+1D0385CCAA4076092B169861541E77BFCC8FDA657C5FB7C1EF58B1C8DAC7BE28
+03411D665C7BA332F3AF83E8680C4298BB02E8DF6E257FC4720A3B4212626F2B
+E1339F28FEABCA020520722A4B1FDF77C8DEFB880F4DA4053549A93053833E4E
+C70B61444F8E696942FB35256D93962CEBB584381E580898746A333E0F0227EE
+D9832D3215B3B1C180712B4A6F4B7EA870590E7939858CAD24FFB5D675000565
+199BC15C451E1A15C7B65948BF6E9180221EDD0ACCA578928815D319AF763083
+6EE445B809F2ED78ADEDDAB3DA4F96E2A7FE57C6CCEF28B1A347A6DE47C5FF27
+622AD08A33AE6C255C38F39BBCC810A6E3532F63C155FB86CBF6A62EC2D4975F
+7A1E1E46873EDDD6D5EE7953B988399A6C9857B8186A11D7ADDDCC7E8ECD80C0
+62934DD81F3DA85863D9936B8320EAF34D51025EF8B6CC482ADAC3FED84C85AB
+C9D668C460E7E19AA0D75663AF5CB33D5641B1D6077818FF8EB64219F49EE8C7
+89A9BC7F63500C8A735DF316A6849202F059E24087AACE885BE6FD88F53ADA6A
+0E01056CAC7F5C25DB451DAC56B286F6007FB874686555FD056BDA38426240BB
+2AECAF921477FCD299B2E5EA7AE1997CCAE0209B5AAE73A04E1194CDEBD673BD
+2C25E9064469E3E833A8D931D72997CC2A31671D9D35080A726673FC5B22BF28
+CD05A3ED43457146FE1B25069B07EDE637DA8E9EB235C3F1A53833DEEA43BE55
+1A26129AFA9DF18BB8A73F8287DAB64850A522D33B09929C00B48C2CF4E8CA33
+C6C6E12C84989D53EB4A5AC25A0858B10DC043C8428B0C15278622DD023D8E5C
+F93DB14805DB66731CE2BBD5DCFE59CAF06FFB28C4872B301E0BA418DEB2EB29
+B220813E9A8F6B24CC94A37ED7FE37D7D03026506C2CEEE43A7FF5CDBF25F946
+C312B28A14476D4A9BDD2AC28C5DF7E319879B5DBD7FF3FD4AE9C70527A55D3A
+FBEAEE2496F8F409DFF33F62508230EAE1281A7B864214474D98BD228E073825
+D2B2D0E327CEF63C5D60D7228F185BDF4FDB94B618898A7BCE7591566B188197
+1217CBDE25CDEA39425AE8849A4C0ADB6473D0A480A00C51EDF105EE52D31BE7
+72DCF52FB024C8364F1BCF967FEE2B827F0E1BFEC6663C275934BF33671BD55C
+838F4ABD354D8937732E32BC0767B9FBDBA0DB04699C2988BDF034700D2180DB
+E5D8E384CA3C4F4E14B3C9C75D027348A06B22E949617809FB8B2F24322AB310
+F16A60F884A5889C310711E5C15ECA68CDDBDEB1E05FEC3C0AB6A729F011EE7F
+21C17A3DADA085369937EC131E405546F42C884B85027EA23E18801FACB5598E
+5318173CEDE77EEDCF52370ED1FF6E8BE11546D448B07D0D6408A3845FF656E9
+3865F405924BF40E49AE3D7453C630FC3431FA13B3349D549371706E846D02F5
+7F18066ED53549CF9E7C3EF3013CC73BCCC0F2F81D7ACBBAA1B71056D018CA5C
+DFECF4DC87DDD404831D268447DB51CDC11FBC541426DF0E710D5956B0333D16
+019A6A972910DAAFFEEFAA0C2F8BC4739C1427815484BA6E80A78B0C28C68CAE
+5A330D8870D2D00F476D6B54F2D50058F7D003FAA3C3F882090F15FE5671C1DA
+26CAC3FCFFE7C6728D9E330928C1E5FB0695FEC0044612E8EB5CA65ED931CC5E
+0FE1F28D65631AF6352CF26ED3CD24500143F538CB7376977E198F0278B5ADF0
+D9950A195F64FD3209C6D47B46B7708F855952F324F58C085F63C61AF13F6DF1
+07FAF3D331C2F868FE0E43B30E165D9572F9FCE01DB7D89D00AB1F14DCCDBF4F
+C6450EBF5E7AC5FA295BA0A76FF7FF804898146CCC010C7DD73514E1E186F08F
+7ECBEF07B3B447F7AD4135F794B55540E870497A23620FE7F21F1CA698A994B9
+011C593D734DD7CB5C9B7DBCAFD9B53928CB0BB9346BA43771DF955001433FE0
+0D93528FEC9ACD00389398C04674EDFD43571C36769B6559680F45B2F405589F
+15170D747C8B2E92C0A1800E4FEE7E5C815A19621A9BC5B78A936A5E8888BFE2
+8466DAF11DCE29A6443914C79575322C7EA5F3D1B1B84960F0FB847AB87709AA
+D4FCC3EC3A4C99A75DB103C3AE71702350D62048D1958D36E171CD7808D281F5
+762ADE506C2DA47286A8A2312B11DE4B4EBB5A7DE111B268EB02E852A17B101A
+C4D7EF91B7D15C60758887D672CBCA219D2B5841538FE1B0FE8490E261E56CCA
+80C618C1814F112E445F32C0970817BC4056B2C952A9CBAB5071834CAA36B7C0
+56F15FA37E776AEFA27C8A9F9AE8BF9E2E340162023B85CFE6D9AFB6B920F267
+98F433C7064934FB530B35AD9155EF03D074AB5353858BA1120E26A9432F7FA1
+A7A64CA98B2A9EEAB8D0D2024F325AED5CE3785DD783438D89D92DEEF30B110C
+FB8A16FA5F8498FD5AFC79B778CC40F4F63FA2845A50662FE4E636DDD749286B
+80A5C22474B49FC5C093A82590C2EEF80AF06A0B3E3A704A3B79B914B6737628
+E56F0743B113866881201429FDA949FE1F364C2F744079F642A252F8979C7A5C
+A5D52FA1B48C90F140B934EB585E3EF7E8F21AB1CB205356746638CDD9FD68E3
+08DDAD1243F917C72A4103D5F478A55576C1EEDFBFDE9B9490491BF3AF5343B6
+D1D2491E61E60409D7E5B7D4980F2C29D9A9DBAC88BF012B53F8D3262E9BA4F3
+70699C8678DF23CD0FEE7DE8CDEF76B79746DF911F556899F819A7FF492443F9
+AF30ECEF0D86125D70BCB7A92B2BE3AF10DAF08C7A80FF3B4169AFE951EE3664
+95F4E6DED831F05D4ED674E73962888F4872924DCFEF1D58B9118A1924AEBBFB
+D58FD4161F04235FEBAC54193DE67EF18181FF138B546513FC15FDF323A7899A
+1BA694A320774FC770313ABA6447F7DAF2599EF2718C3BBE737BD085229CD7C1
+9A343BFD0D14217EB9F2CB21F0FF6087C7308074735AAA3CA5165F1DFA12AE5B
+99CA89CE76DF92F2B1FCB715E20E8A7A3D4787A965192CA6DCF61AB5B28E406F
+D90EA4B2047D6A14598F301B6A7E97363ECBB7CDE475BB615FD69171BE336620
+6684D3DCBDCA5537ABC8C2B536D0275E488ECF3EF7B3069EF25ECDCE357DC6CB
+CC1EE0B82AC8AF4296A237E570D6EB12BBBAE986D79303CA403C2FC97A2A2959
+DACA9F8C687C126BBE696AA6732DBA9B9FB1E6E27D58BDBDF02AA83FC9C8C507
+6876ABF67E6B90C3934F3A844D66DFAAFF475C490B15E5CB1BD87A62C7D40395
+178C7D536243C46600B400494BF23BDBD70EAD54310EBC62B5AAE1C61E6A8BB6
+B315DE7285F1C1C3E389C558B9F2EB0504A2F8002B1B13E2A496759FF42548CB
+CE5A5D7D2174EAF37344789A441B786CFE74A43FBBC0B913741254040BC520FE
+1C36A44796BDB5DF0FF6FC5E70C5FA1D755AC45ED908F91532280A19FB385566
+4884F58E9C1E574F41ED7A5668110C3DF3982180C73692305E4B745066FC878C
+3635F884009281799053F2AE45AE7364A56FAD9DD85AE2E3CDE1A4CFFA3B0123
+98F5ADD9DB8453CCFADA24266BE73CA1B36B4B2F2784D2482EC78002828A0B8F
+207A9F33AD1BCC21592261A181A845AFA68ACF4E48AEA4E44DD23AD543711052
+3A77487E534D91FD7DFC6712CE7D2CACE19A749B192F87B72ACB8FE60091A231
+5EA8C071AB631CCD04C3EA77541646B01FCEF67760C94ACDBD349CBD18E8CEA6
+5C0A0AAD834ABFD85FD6EFDF6925E9A446043103D6CDAF4CFA20F1D650666E6B
+6DA2E75BA9995538EADAB74D3DCF35CE7CAF06D1E51854B1DF79823A500DFAC8
+646CB7E1197EE9CAA37B59F4864B176AE297116D9396DCD91341308ED6D069F0
+BD15A44362A10F1795E0780C412A606D33C0739CBCC031156E0315F306643F0B
+FF06EB0DA016066AFD326F8E627E97A5D010C7D7B9EB1919CCEFA5DCCFA45FB0
+F939B821DC625031347151BAD326585A71F1852B2C5E35AA195148EF85AE8B99
+6ED2477421F6A82CA1E71C3E83A46FD71E0A16BC974D8F0867DD9FAAD38A467B
+4BADEDCE29C128DFA89182F89B2F55B1AAAB0B14C732C937A1444AA91EBD84A3
+94F47883D04366386D92945935DD99840F4434BBE0556851FC6BE6C6B7422A8B
+1F6A109B0F4DF238FC6DEE80DF3654981CAADA75574B2BDED254B24A46A4DFAA
+157D2569CF91936714A6AEE5697501F968DF8F3A7F53DB8790493D8EC144A3C3
+B1586B501DCEF6B36E5ACD4F6DD29CFE584C5204B59BAFEC5FB40AC0BB60FA14
+2CF8E49FF59D0132EBA0E54724514A96DCF9C24A937EA2BC85BFB6A704A0C274
+D99B8FCE9BF97A65D84B1748A1B0981AFE60C32A16F01A66276ED33A96B92D39
+D0C4166E42246934DD00C08EF218B03254F3561DFEE96C841BF5243C17502D00
+617C7A434CE18673A6B9380D4D04333076CF897B31CA1F10A5D75C8B02FB4485
+9E067250CFFAD98DD1C3AB3D525F6DA70A332C616238C68C781F3770BC1D57AB
+4D4A86384F1B7D4995C7AF3DA33F0D84A41699E520700C5E54DFFC63F44C24F7
+64448B7D5B73E8F285A967624AB240C4186FB5E4720060CAF2A509FC75640666
+9E34C6A08668808E0C31A589D07598729E62F397DAEE458E60E6058ADDAA14EA
+5738881382A6F64AB60856430F4F9281E132BE2BC5BBE97643425FF814C13D06
+A414BB9D434502EFAD841F0DDAC1AB96E5F90487AF093B263945EF22E686C5BB
+B2FDFB71C20F42E7744266CE245095B21421E755BECBE942D5F370C0DC65BC03
+5327144B153EA7313133DF49A031282BFAE7664DAE04E8C4F911B346B8EC57A4
+DA26D80D31ECB292FF2B73435B0B6D8EBFB873BA8A2073CBA7DE351875F1C382
+6710F56B06632BB1E91A42862459D24BF2F6C837ECD42750F78FA3820035607B
+DBC19C7399F90508F5C9641EDC0E64FB39C512E7F85E1A4F0E8D107E4E94E723
+762C4280AD8713091D65D3F902B4024C9F04375B9CFDC2DFE20938B639750FF9
+81F5C988527B2ED63600DD884B3E1ACBE86A393BB350CADCB55BB88D44319FBA
+9043941E5FCFBBFBB71AE71A47B9E18E48F5BDA5D89F2EE75049E89B9A39149E
+124C564C5251F613393060892D54BF988C374FA53EEFAD183275E0BC3537CEB9
+19F48A5085241AC8E214D210C6F3EA58B33FD265D42EBDD432F774A0C3B3752C
+B69D37162CA32B7B98C60E9435584AB3BB91A25519FB96600D087933CCE5EBBD
+FD2E68B4ECB586063961B173049620CC6631A369797125990858F9900631F8E6
+4FC5F6ACAB079419240001579068F1BEB926B50F3964E7B15772BF5D304E3DAE
+023DAF73D816CBDA12D66171F3EB972479D537F63B50E8088F4AD38D692482CC
+04F40E52362457EA58E510BAAB41A1A7F349E2351CD52BE55B48962C844CABB7
+BED489A190D1E85398570486736CDCCBE2C4599CFE10A6A87789BA984F105C5C
+FBF6742A2D95E340A0329B0CF891D3D3DB55F64DA03BB45C10F6E3A37D5FB6DD
+000A665AEEEE4199F65D8CECAE4057A83A6CB987E1C0442D9FBB38539AE5B64C
+3EE13023468B9A943C1ADD8CF633A4DECF83D245E58F5663AAD1C6DE448491EE
+057D1A0892D6FC840E3AC7988F27C18F05F7C6D5F9A8BB59A813C66373E8E10B
+6C92AD0068EAC8F2D11C5BC1C5A5A08B942528B4FDF9E42A5F6A9E0AB2B7D777
+5E395BA4BAF7F82F0850D4EC408D5FDF4C5D4D75CCF036B34D53F81048C4B8FD
+8CB01EE268EC4D1C0FDF92E2CF8880A9D1B1448067A3F9EF95AA52D0B4ABEAAC
+B72F3FE026E0D86E3C761B8BE4A0ECF381E24361960E086BFFDB8FDE34A38455
+5ADB7C548020D1E390B4C587F4F3C33D960F6284086E71311F89F26B235E6E61
+C5A8C686F4E4A3F2972382441633AB9F4342BF12AC6118EA72F20358E40044BA
+7B82BEACCD1049EE3C42659AA62A3DE425B3402318FFF3262ECE08BBD9573C7E
+29762F8520AB299EAB77CC0EB53BDCF9FC767A18B14F2F203FEBEB709BB571CB
+D6D51C00B349268DE077F06BBCA2E88D7CB8E40CD6C4FA69CF3A22D252AEBA66
+664CD6B606F880D67F16B316CBB5CDF1977988257A0ACAED455D8331A6DD5575
+409067295FF6345939F378CA6351CB754E7CC201895FC7C2415439EA0112F180
+4CEFA658F555AD3B58BA187935BBC37DCC97D12D866DDBB2E9D27F1B4A008B3E
+D3DE2EFAD93BC4967FF861E0FFDD170D04D370F2E2D71D2B5EE0C3F03A603A16
+1713216AF97F2CF0DEA902493E1600B69EAF1217B9DF2607B039716226B6104E
+E23CDA2BA79B2A09D55626FD09C0DA1E332BECCD8AA7023C4B88777F963E8880
+5F90EF2EB65FBDD863B0B38D6ED2FDB24C6EAAE0DB49F4B1C4F1C38029CF19F8
+28420EBA065CA35AF942E6CFC2646D50949425D6578125F8CAF3D67B0C1CEE2B
+4815FADC64B543BFCC1288F6CAC0A225B27791F6AACBD6B7E01D3C30B3D66BB0
+829AD536274984B73FD1A0039F86E8489003F84951D870F7935DE246C53A274F
+9D51251AA043D7D652B330C2BD1CD06D2F587530D12214A3CA55B5C2F6657467
+5294214E171B8AF167A7725902F93ACDDBFFE2385270883DDE78A69EF3D840B6
+6E2A469C54C116DCF63631E2C3E3738FCE34026878E5B1194E012C1DAEBDBEA7
+9317E580C248AFA983416C0A07D23B82AA4EED7C1E74E5D54E5F7B9E23AEFAD8
+BBD5D9B2BF18926E27341D514047E4BE2FE6B018462BEBE17138AA07373412B4
+4023BA4E204AFDF85E5BA039D6BB9BDD1A78E47684A3C53CA307ABD4B6271E5E
+DD5DEAA97BC86C948570063933291D78AB52961A994238F3B603EA8489EF99E7
+70EED78A968F1DC38DD6E81FC2CE7BA777B592888D38EDE68FFB3EFE8380AABC
+140202A964893A4F7E03021E2F291F270C8B923DC9CD7EBE0CEEADB782FFA929
+E83E3A8E4FF1964DD14C87103EE5F52612CB8123A4FF2E590AD47310066954EF
+509A9271BE468AC0E2E6DD2FEE9F11D5912B7B2850E0CD9B8C64D91EC6D5B056
+86A26E8B9592059F76EF585E108F76C329FAE1045C5C6E47DE0F7213002E5CED
+D409F33758BF958D3986BF189636037E95FB425AAC96FCED4BA484E57D5D9564
+C9487D1B59D0CF267299E23A7AD1A54169084C46F9795641EF3F6005F3C00355
+E52AEC834AFC6EE805741910083A065233C00C079D7FF5928CF5E14CB7222099
+FD8A37EFDA8A3CCF56AD9EE9F5DC0241FF6AF65694328781509A5C4F020EF1D8
+1AA3D7E7FF52F3283FBE9FDF96A78AB04B239E4EE0BA0904B7CBB3F3F7CA41A6
+A77F829E3F6CB40BCBA184059390CF339377C34F4F141E940B83EC26AB75B092
+6FEBD8B6047621EE53CE3488CE5047476F2034FE71D1AF6ED132A2873AC8C2BA
+863C12856A1AA45C4CD84FE0E96BC0FF6BE1358CBCAA53A1067BAD45E3F4249A
+ACD8AE81CEC8190320BC2FB0D40191FF42EF52D058ECBC2D37B7A8D05B1D00B3
+18BE6FBEF11DC1F219E5F31DA8411BD601E70786FFE1CD903B31DF2790637E43
+75815EA4ABE99BE732D6518CCDE7043AFA55C6AB9E1895E036BA65DE15BF6909
+0B70D0DDC5FBCB5BDED0C269EC967551FAAC019A93A7A1617ADDCCEED22733C4
+FA131A51FD0D4D032ACCE3241BB4560F5E0F016EF52F14202317FCB0E179D525
+95CB9E89CCDCCCA2B3867C40D19C86166D33E4DF8373224268EE850664FF89DE
+58E92456274D0BA04F6696E844A143C6323E4156B71F03B1A9968E53004D5D05
+61510D62F881B4B1270D99833CA3F6F7DDAC38283E463EA9C12F90E2B91EC731
+45B05E3EFAC5D3E3EB004A689C295DB72601D43FEC2B1046999CC8065ADB2FE0
+30F6715EB6E298883510BB6E44EB0771512E7D7086371BE3A8E4186D7E96171B
+E8191311268DCD5414100311461396FA7530D5778EC9FFEA9F50CF9A75519684
+785B73039B66EA4D2CAFA0A10ED6AA571F570169FBE88604B96CB32927A36FF5
+BD0F02380C335DFCD90C3F5CC3AE9D0905CB5478EB97460B2CD1F1BBC9C69DBA
+334DC3F9D142055B258BAA0A37833322C12CC43134F7A1D7DF1830B725828976
+85656C0955F2638CD9FF5592D53F8DE3D429F5D06F3DD650A860CB15F9484577
+AC6B2EE3FF225B4531A31F0B17F6066B1D8ECEA57F81C00A394E89994A07B656
+1CA473F85A17DAE9869D0B3DFF054A423989F29A0BB22B313B730E8722A63264
+1B214258984C311625373FF73925D862525CA5E696419DD55DC8DDD09A780E32
+11EFB72BC5B2CF545D57AB4B9C44024B24723A954072436EDF60F30CD8AFF952
+E9BAC60217B60DEE7E713FDFB10EE93517665826A01E9F0C9B41C8007B72FD37
+0FCBF53C18F76B79AB072E704173D2114D6DBA6AC4B35FEAD22394C03A72D4AA
+C6C42C085ECF35AE56D3CB4062A0131EE8196600DAF4DBFEC49C4BD3916B3014
+ED96902B67BCDC6AFEA2CDA4C53332359B815E1D19DF7E2DFEDB8F10BE06FED5
+38273CD29074D82E834F5DEE5352981FD5D4C9A111AA0BAA5FEDBE64327722D8
+02D587BE6EDD46E091C95E57B5C19979E675BADC84456141CA7FACD96BDBFC37
+3E1E1F87881FD7BC3A7879CDF2BD8471A03D56FE7C722619CD8B47106750B3A0
+7635CA9B4F60CA8D75878FE4BC40C0ADCB09448C465F7D5694259ADF92A39FAA
+53198AFEDB046404E51D612EE465B76AC51841B39F02662AF720242D74012508
+F2683393C225044C34F4D728E9E82093F7F018FF48479F651F5B972FB40CAB76
+3E3ED9F6CACE78A03BA1977D30891052ECBE6B70FA5B0AAC88DC60CB7FC0A1ED
+F9BB621C0B1FFED5D35F5C191C6D34F24C427BF81067F251C4B518596D5B8707
+E4D222BF421C982054839BAD85A988D9C5F5CCDCAC58F82DA7E70AFF5B14B02B
+D371E25DE9D9D790BEBFFED7C06EA319A79F226A184606FA91B5BFFF980F9F12
+8B56E61E936592821C5A89CE997A84D9AB1B73BC0F38922990B53998F3E74925
+8E638476AC4D8D7542D49314D4894DF81A55748D87D38268B3B21DEB27306298
+F465A2FD089E67677FCE0AF5F6C19FF2D36CCCD9144060BCE7D051071718BEC7
+CA3A6F0A59
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+cleartomark
+{restore}if
+%%EndFont 
+%%BeginFont: LMMathItalic7-Regular
+%!PS-AdobeFont-1.0: LMMathItalic7-Regular 1.106
+%%CreationDate: 22nd January 2008
+%%VMusage: 1024 33180
+% Copyright 2003--2008 by B. Jackowski and J.M. Nowacki
+% (on behalf of TeX USERS GROUPS).
+% Supported by CSTUG, DANTE eV, GUST, GUTenberg, NTG, and TUG.
+% This work is released under the GUST Font License.
+% For the most recent version of this license see
+% http://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt or
+% http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt
+% This work has the LPPL maintenance status `maintained'.
+% The Current Maintainer of this work is Bogus\l{}aw Jackowski and Janusz M. Nowacki.
+% This work consists of the files listed in the MANIFEST-Latin-Modern.txt file.
+% ADL: 486 136 0
+%%EndComments
+FontDirectory/LMMathItalic7-Regular known{/LMMathItalic7-Regular findfont dup/UniqueID known{dup
+/UniqueID get 0 eq exch/FontType get 1 eq and}{pop false}ifelse
+{save true}{false}ifelse}{false}ifelse
+17 dict begin
+/FontInfo 13 dict dup begin
+/version(1.106)readonly def
+/Notice(Copyright 2003--2008 by B. Jackowski and J.M. Nowacki (on behalf of TeX USERS GROUPS).)readonly def
+/FullName(LMMathItalic7-Regular)readonly def
+/FamilyName(LMMathItalic7)readonly def
+/Weight(Normal)readonly def
+/isFixedPitch false def
+/ItalicAngle -14.0362 def
+/UnderlinePosition -102 def
+/UnderlineThickness 34 def
+end readonly def
+/FontName /LMMathItalic7-Regular def
+/Encoding 256 array
+0 1 255 {1 index exch /.notdef put} for
+dup 0 /.notdef put
+readonly def
+/PaintType 0 def
+/FontType 1 def
+/StrokeWidth 0 def
+/FontMatrix[0.001 0 0 0.001 0 0]readonly def
+%/UniqueID 0 def
+/FontBBox{-1 -250 1171 750}readonly def
+currentdict end
+currentfile eexec
+D9D66F633B846A97B686A97E45A3D0AA0525392EECAC163E584A9104D99AD0BC
+1B1844A0E222653FA481B8809B26A46F4C483A5D7E95816EA6582584156CFEDE
+B994ADCFF4645140E3617E4D7E1B0E4541CB9F562E55829B4DD880AABE2229E9
+4A9FA259A734D29BBA91BA1E2055CBEA4339BCBFF98D32CEFF11F296225CAABA
+DCA10577A5D431B714726C1278D8101ABD1BD8D0BD0174FFF9148F8C61C241D9
+2AD360A28616CB4A0670C1BF13E690709BCFECC3B5135A8CBEB94BA28A680C84
+3460F166942E28C8AB8F1060C53B5724765FE28571728FBD4816AA3B9061D818
+2C6E01AEA946C53F8D5253B037F98A39A0A54BDCEEE91A3AB6AE40600D30DCD1
+48597DDE11727CE760DC74B749BCDAC11EA913E118A6B353A7C7B5BF72A0C8E0
+A246A563BDD4F3BFCA697082A08CF326EA8912CFE36570286A6DE009100C2387
+E1D37DFA3256E714423101E3F7806025405B6EC5A45BDDAD39589C1A6BBFA393
+170E7908D55CC1B570BA2BBDCF3EECE31194BA92EB03A7A77FBD6DF87FD4718B
+1684B464F4C4FFBD4F97A1903F2B52EE686402C0E72080E2685AFD9E78BC7EED
+245B9D1F2CF292EEA22ACA0D39AE27642002187134D55E9F851AC15E345FA1EC
+CEBCCAF659F0A1D0E143F06020F0CBA556F380CF3920627CF6B95F6EF028EB4C
+4567A7BE6F097F93D5404B73183A99D3D1000341981149C965D9025A5318E3AD
+B4367445B690245E812E49CA06B0B4D968C5109FF036FA7FD0FC8962530A9837
+6BD26C39075D9EC1A987BF34C4BD614EA7496D58CE8BF62247CB10F893048F27
+81BB126FFE6BE23910E7F181D048F238829D43DD5B7AC8BECC962105575D6168
+3862D5E4C2CF8802FA0753A44EC9E581AE3691C027FB01BEDE9F7A75573080E6
+7AB9F074981BA85FE7B19453C201308F2172FC810D86604C883BCDADDB6EF524
+27E0B2AD5FF382082B46F42D4E1672B2076DD7714172F78DDC205DACF00BCE93
+0F6409136C1793AAD1ECAA2A3B2D7F6904B70062C170FAAF08633A13C303EAE1
+1BC1A54F1C48527544E28F808AAC801670C3D6BAB0DA02D56ED69EB52BC90411
+BD034E11E6B81735AB30E65CFBE0C938782A18FA9A9882C955044A55AB970C2E
+64A892A9E7801D8869EFE48A460C875076F3C37065CE978F9D0F20E64887CA43
+D33ED0DBC13A21473C63BC96001A84962A5DF94C6BD05FF3A16AEFFE33F44BDA
+EB7D26FDEC637DF2A80E2F435E9FE2D40AE7DC37454CEAD9BA3114AD95DCE180
+D0EFE12CA5C2163C53935109069BBB9FB6246A6207915876A249241C3E717DDD
+CCFD133C91C1AC68C2C1B83E2DEE7642AA85B1615F9CBA1C3C3197223C9BC61D
+76B0AAC17CCAD6353F06651B9D5B09C17883D028F2BB04A721B6B0C7DBE1AA6B
+43B597550002B2737F76EF634FA96FB94E96DC2D0E437E119950277E7F17E327
+B928E4410E361E59D541ECE44496E5D0B74A437F17BB5F05E7989CBBC604FFCA
+18F18485B0DDB4EE9BAD9DE1D97865F8C2D9B55C114BD8277BDD2E80D42C0B49
+26CCB9B73A8847B4EC479380641C1F340A1E0D52E1A8D0C140D9870C55B79971
+0662B4FE3DB3750C61CA24EFE8AF8F9056AC944D776AD1AB10289B6FB12B699A
+2FCA90DFB3DD730D96D100DC5B1BBB1504114B1E6AB325FBC179472965BB6B99
+C21D0CB69884C55AF0293FE27E698D4BFE18850717B51AAC0CB0FE158C88A253
+D74774970B11342D30A798FFA9B26CE29D4469DC7E5A9141AD2C56C395D1B154
+2BDDF61B58EF57A74EAA4CEEAEA98AF92D5E758C290A579C29BF0B67F9079A1B
+18B0768FA4C03A720CDB13A9FFE34911DF91C6F3D21FBBAAD00FDDDABFD9997F
+399B54A6A344AB66411C98531B2CCBE9FE78BC1AE4D42540243A8C82E274A0A0
+FC2BC1A334AEDA418BB909362F45F65951ACCC3EFE9914296F95C51784F74D7C
+1677C64C6C246D4A5A7C3B4CF4FCECA1FE4ACF98A0F30EF11588D1F0664C1EAC
+0EBF606B6630A8845A3ED806FFAA092CE32C60102BE0378196A107DAD0FB7702
+DD5A6B234942404C46943A761BADA6C3B4B9C8B9A0EA2DDDC2402AD389465862
+718B6186BB2CF4B290AF5A8CA494F850BD820D668E9F913F1AAF8216CBC34C75
+0E400517411ED880613336943D822F2E133A03DB0CF59BD5A8404282D7AF6827
+9457739633DB5CBBA6E4E1CE3CB99F13E8EA78DA56973F4DA6241B500D66ADB9
+36178FA377DB2DFEC1778F60167E34B64959F20B487B0C06AD32923521AF5AD8
+6AD0D4C138FAB5815D9B4F7D204B10D5A4360BCE999891361A68264E8CE1670A
+BBE0646F119772FBA679A4D4EA227B4624D6CEDCBECA38F7FA6860B7BB0D4137
+1B71223297306A38CBE9D36EB79E5D8879E768ACB7340B4A18CCCE4F57C533DC
+72215A54215364CCE05F52876D8082F55F8160BA0D32B0AD7919E39697A2F75F
+26A21153C9DA43401554B865BC003C9EE697B82E1A0131385AEEFACA4E2E6A34
+DC9ADBC856D2957386E6CD4F070ECABEF44FA9428BB0B3505E2F3B201A557793
+0B42F528B67854B4D486666116B0C4DAF66E0E2BC4A7E2E841A9BC124444
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+cleartomark
+{restore}if
+%%EndFont 
+%%BeginFont: LMRoman7-Regular
+%!PS-AdobeFont-1.0: LMRoman7-Regular 1.106
+%%CreationDate: 22nd January 2008
+% Generated by MetaType1 (a MetaPost-based engine)
+% Copyright 2003--2008 by B. Jackowski and J.M. Nowacki (on behalf of TeX USERS GROUPS).
+% Supported by CSTUG, DANTE eV, GUST, GUTenberg, NTG, and TUG.
+% METATYPE1/Type 1 version by B. Jackowski & J. M. Nowacki
+% from GUST (http://www.gust.org.pl).
+% This work is released under the GUST Font License.
+% For the most recent version of this license see
+% This work has the LPPL maintenance status `maintained'.
+% The Current Maintainer of this work is Bogus\l{}aw Jackowski and Janusz M. Nowacki.
+% This work consists of the files listed in the MANIFEST-Latin-Modern.txt file.
+% ADL: 806 194 0
+%%EndComments
+FontDirectory/LMRoman7-Regular known{/LMRoman7-Regular findfont dup/UniqueID known{dup
+/UniqueID get 0 eq exch/FontType get 1 eq and}{pop false}ifelse
+{save true}{false}ifelse}{false}ifelse
+17 dict begin
+/FontInfo 9 dict dup begin
+/version(1.106)readonly def
+/Notice(Copyright 2003--2008 by B. Jackowski and J.M. Nowacki (on behalf of TeX USERS GROUPS).)readonly def
+/FullName(LMRoman7-Regular)readonly def
+/FamilyName(LMRoman7)readonly def
+/Weight(Normal)readonly def
+/isFixedPitch false def
+/ItalicAngle 0 def
+/UnderlinePosition -102 def
+/UnderlineThickness 34 def
+end readonly def
+/FontName /LMRoman7-Regular def
+/Encoding 256 array
+0 1 255 {1 index exch /.notdef put} for
+dup 0 /.notdef put
+readonly def
+/PaintType 0 def
+/FontType 1 def
+/StrokeWidth 0 def
+/FontMatrix[0.001 0 0 0.001 0 0]readonly def
+%/UniqueID 0 def
+/FontBBox{-483 -292 1562 1124}readonly def
+currentdict end
+currentfile eexec
+D9D66F633B846A97B686A97E45A3D0AA0525392EECAC163E584A9104D99AD0BC
+1B1844A0E222653FA481B8809B26A46F4C483A5D7E95816EA6582584156CFEDE
+B994ADCFF4645140E3617E4D7E1B0E4541CB9F562E55829B4DD880AABE2229E9
+4A9FA259A734D29BBA91BA1E2055CBEA4339BCBFF98D32CEFF11F296225CAABA
+DCA10577A5D431B714726C1278D8101ABD1BD8D0BD0174FFF9148F8C61C241D9
+2AD360A28616CB4A0670C1BF13E69EBAE83EE26F7ECE50E9B8349D1A7644F2E9
+3FF9625116305D3A8AB7EFE9B6CDEC7FF1AFAC2914844571C1C3D55312245E95
+1C742DA9DFD51D0481667CE0F0BFADE80CE5955045CAB5B7317D73EAFA74E339
+ECC43C39A209A004E5BD75366B006A91D46E1E7C87E6F81FB54A33DD44AF5B3D
+F81A333C02842D9C00CD0ED5C5E87B3F9AC063B5D70917E0D90240AB4483CAAE
+03746F5AAA3B2FF10270E85CEC5F5B6C1D5C63A7A04F955B8B9A5469A7D4ECB2
+CE70C92415C5E9C3286AD7BADEA9015875E2EA6D1D27374D5E419EDF680C65B3
+CCB4A8F4994AD17FC02E04DE5E41A0FC53F31697D626241D759AE244FDF0D550
+EF823F57FC337713D3C997BA1F87C9585634D05E7BE76B703C44C74C552A8152
+73F69CC1B7EAAF7008EF10F2C186D0D5844FD43F028E604429951FF22C118EE1
+2379AFDF894A39AF6750F8EFEBE4D55FB11A0026FF248594F579A8EE8BFF8DB0
+AAD8CF76A29E7ECD9C9648C2965827342AC0E8498E9681C8EE743448644B59BA
+AA619DFDBB3E3D525C0554D7D1B616E0A61307713A3A57E1CCE1B51F0113FB59
+12453606E60FA5256BD66F84F4CAB5F9A236ED334A1A2DCF4252EFDCE5178693
+3EEB481A8038058767EE4D323D4DA0C778D19575B9E25F181DA83D11A091F12C
+7F65626F0B3FC44722AA3650EA537EF5E9EE198AC7C2351C93B8F247D4A1DC3F
+9371FFA18646DA84F251BABC39F17F1CA8E4D12B961C560A37C1A91FBAF97569
+A2B3CF1C7C445675886E64B5427DAEF3986D59FA888F9D5E7F94B7E0E359C00F
+ABDB121092F930399A1B85F9FF11088FEFEB789FD6C59E42ACFA61B56F96A9E7
+C9EAE65EEDF97FAD0CFD77AC1D56490ACDEF55DA9B515A07191E2A8CC998A1CB
+2CD25437B163956666AFE463326AA3DBCCFFB4A51838B938E70D1D2BD1A556C9
+D8450DFB9E063CD6F8C83D838CF2E7362979EA7131A527CBA34CD1A36F5C3132
+5871F88C22A0450631F38C025D1944A566320362AC797CCF8E9071B4283E6EE9
+46A6DEB4BA7A7F53AA6C53285A755B9FA0A53AFC6B2254ABFB157EFCCE77D222
+17312B0873DB3189A9A5D23D1D73D277C764E0ECD93C8DD8710ACDB378EA5A68
+290FD206A7B97E69443C9607AAA95D76089B8C6D8C31D70F2F95395CDA088302
+10DFAB5D752D318EA1482DBA100A0F5CC4BE5A1DC030F706A0892002A63AC370
+31CAEE62F37E54EB76D9D9A73EF32E96F975B5163FED61FE86A8C76B428B3217
+B1B6F2B0FAD361C495902086CA356733F00649677554F5DD0536E7C70D3AC58A
+B2DFA3EDD496C18C8974E6F15718DEA609CF8EE797BF0B781D00CDDD6F559379
+1802F2A1A4E4D5FE16E74C8D84E63DE886C1D6FFB1639CC4A9200AC342D2CD79
+E14C39DA6BE2D42186E909D678C2C287675D73154A460057914C456336CD251D
+796DC4A59A6A3159A5DBF34A90316A3FAC59C2334D17D8832E0E2EE836DB259F
+EC75B3179FBFA7AD0586D3DC4FC1E20A83DFAE731EAD0363A7BBEC37DA0ADD85
+86ED3EE39A48B2DA623D91D7F3661947A42B2A95271E384878E4B6991DB3A904
+22F7D0D4A260E13B8A758825ED631CC7897D81D8DB5E1BDC5FA5472E9953A489
+FA703B99ED3B49603BE7AA221291BB4A20B0FF6E97000B07382B048A26F9C28D
+387E31A3179214A39001FE2D8C879D563EFDAEF6192CD15484C1411E1756F77E
+37143B2E58225D84934141A0CA89692764133C9671B4329C478509F4DF6F8293
+785364A5FCA34A64AE823BA1F14749B68E2B1CF93711A7442266BAE88CFB0CAD
+53BA7F20DAE648EE34DC7CEC39CFC2C97F909B8B374E4975E93D9FD32DFA0AE8
+4699D184A15889AF55F34ED3FA8CF5756E50E59E42FFFA74525653B4A8BCF986
+79477C990194DFF8D61E8EBF0F4B49BBE35D527F40F2E194844E76B625836C94
+F281B43574BF21FD5DA3E9FC028BB07396B6A021CEA623CD94A4D2E6AA02F37B
+2F668A6D2D0CE9092BAAB0834A58B665033E87DFAB3DCAAFFA291CFAACD7F664
+D76B5ECC80405EF270A816607F248C5C1D5C56035A8FF98B08F7B77C47E941C6
+62450EDB414B01D0395B48CCC3B30162242B3EF7756A035C0529533E59108C55
+08D0E36DDB2C39A425378898A4F73255C901CDA700922C1F06187FBBA32F88BC
+B54AA8B1B656C22E2E5B63F5B7B9107833EB41C864CA53EDD6880C3D75B079C4
+49E2F7E57AEEB6AC3FCC14829F7C67999234D302FD1951A6108AC1864C968DC3
+94CA300DF3C5A3E0FF82AE65D1837F89EC20754406F916ABA03F291FFC03EE80
+F0D0869FF15ABAD0083FF4BC53CB4E6A826FAB2BDBA3DD607576110F2C8DA0F6
+D99170978A037D2CAB646FFED24808E85FAFD0E15FB5ED8EAE1CC2C70CE45625
+328B0858CCFEA9354C720F417B708625D0FEC238FD6F1A44EF78C167190F3326
+BA35B2A0F95CD03231AF1486D8B4C3EA3E0655E47BA098A227DE741A665F82DC
+E3042DC9767C407C0DB4D0FD1A4881A34FA371EB0A5BCB8A96755A83EB0F6EA0
+3C1D873F0A7ACDCEE729F35A6DC7D1869E4E04940F45D197098DBA0BDD796C8B
+7268EFE5EE6B0CC0781AED1350BEEDA281F614C48065871D95F479057A8A29DC
+524D9781A6032F09658445A73832470314C49EE7D7E13ADCF5A1BA1DCCAC6C16
+5A39EB148B25F23459D2996A7896CB27C88B98DC0DFE65FB557F3590423411FE
+93B8D5FE90D4693E64C514F2EB303D5CEE90C22A997075D4F1918F65D86C58DB
+747A2455B41E7CB3D8C64769914F7451C59C9FC0E6CEEBF7774FB05107D8EE46
+2228AA256E6737708255E193225BC60051CC6163A409D01F60F1F3D42FC229CE
+2A91FF4FE435C3E56A8EB5794984BCCF393561712972B4422D91CC4843EC97AE
+75953F7515D0E746759CD77594B3C187E1943876B8DC19F6BA0C8864D21E57F4
+53ACBE58FCF00884C57203C04912EBBF0D8A9043A119EBA11ADD7501A2AEE2F8
+5AA13CF6A99E9FFA2DB4113C12AB9C616F074276C4840EAC91F985FBDB118EEB
+9CB0BCE1DCB7A0211BAA889016BAC70A04CCB4C093854AC741B5D7BB35B6AE08
+F04CBE46363E2130C0EA0DF460C5472E7D58C187468FEE8EAFB72E249AB2DC31
+E7A965807EA75DE120EE08EC96F442BD63C7D3CF3C8395F8BA54D931B5A817AA
+7B528778D2213CA6DC3A62BE2D64A05860D0930D7A695C8EDB00FEBBFEF05180
+6B0984B004F3D2E932213DBCE58F07389718877DA7599DE0AFF6ABB520C27874
+39858CAD24FFB5D675000565199BC15C451E1A16F88311E955631DB6480CE2CC
+ADE0F132943AEE55FE3C13C77907FC344161A50B22D67F4575D447A18643910E
+CFF4E95A64E1AF8D8885891E6C7ACA5E857BBCA99A879F6DB6228C0105AE5F8C
+1D033F0ABCA75BFF03292723E9740CEBBBBE4A72103663FE29397D8AD530BC46
+38F601D167121F2EE337886D0C1D801AE1C065E7D491B5803E4E32D24FDE0B7C
+56732957AC35EB018E3BC1299256E1D1E4EDD740CB6D461FE1CCBC3194388711
+AA514EF8111BD249F14C41BBB36ABC629D04F27174A5303B534F3BBA4DD09492
+576A8AE770761760D005862F674A3E6BFE06208CBC99BA03C2C9470070EA7B61
+DABB252EF91EE58963B8AC0BDA1089AF854EF368BB22272D3602677A195ED7B7
+34278171E6EB06A3B47E119413DD9556FF4172F1B18271FC24390C1B4A49B2CC
+4717EACDF33AD11FEF95ADBBE87B213FA483DAD551D0ECDC163CEAD83A7B9017
+4157848D163380E4E2A0CEA310D96BDFD883642BDB55525350150CA9A38264B4
+EF2F0AFA75DD8A68E88EE24ED422C7CB5A5F344D5B9B46B1D5EA4CFF4F5EB02E
+01028097CCF68645A68F72285FB2A586B7F622D5A2C8DECD3C6861828F6251F2
+06B9131C951D1ED4364A9CCE58899BD42618FF76B7D7477C08779C0180E034A9
+0CBC547075C6FD56077C00902CA6AAF0C12EB5696A39729F42015EDF22C12D9B
+C0CEBF5B09B91DDA2DC1E856A8C643DA48BDD87DC466D2E8CA4596D6E4CAABF8
+432C49E7727EA3222207E864C7F39773638E3BD2FDDA12F06AE7BA643C32ED99
+84DFAF5F7E5BCDC7F2A7EC3556946719C830E0BF310C364C44C6C465F7AB7CFE
+DCEDA768A0248575B3DD0395FC346BD52490344F0E5C238068E9290CC507E56D
+F287386DB11E7D28098837404CBB25038DFECAF31DC72E407853D1AA87FB74FC
+58F8545715917C1E4350DCA843AA863071A7B86715E2BF7BADF843FFC0432D4A
+78712F4606601ACD7D328B95ABEE16B14A9A9857CA221447A44807B5D89D0FE4
+64663AF7A14D504432DACB7BB8E5682658AC6F300ABDB95B176FE854832CB179
+BE1079D76A018F871EF6F8CF3DB923D549EA4BDBA0BCC11AA4157F7CC11191D9
+DA18C621D859943D77EC83BF7E09FD39B4341967F54537ECCBC61816D57CA028
+3C38B6B9A5998D6BF35919DB26271A70FD551FDA5D6F0B5DE4570C8DB66373EC
+F7838754B1355618B8706E359616411E8B0E6A5586B6F49D5B02434555D99F2E
+2F9D0238023BDA6569691729EA004A3D96F0FBB300F4075A5469D173EA9B57AA
+2D2C0D1ED3C4C9874E7E5957E2220273481A2F4E805099DD20BD5794C717EE52
+2FA72FE63471D05FB29B08D5DE5830B2D48BF66CF1EDD53C5E25372D39EDE843
+6846C7B54BB161FCBC32DF5AEA2373295346B28B61224EBF24FF7D787580D9DF
+F8078E771FD589E18A8C0973844C950B9BDA89959372A2D1D83AD8873521ECE5
+2D9C3EA6DE3CE70352D2ABEC8E3DD4CCF22D7070096F2168B6852B84A7898720
+53E99307015838D4D9892EA84F4D412B79E8BEA7A874EB87BB445B41C1C9EA8E
+A2C6778463735B05E0FA606348288CB8E6058FBA19F39AC4A5EC21778AC2ED1F
+0B89E277F52CBF744DC6B4B991D943E58CB39C72ED57A336A8EA563D7B55A650
+EF4CC0880D07E42434B2ACCEFD44AF65D2D6786864686CB129E5CFE6B9BE5EB2
+233EBCFB29D09C214FD2D2234DAA43A8117C0B9DD6DF82B5C4C610882FCB3FB6
+783F5274C836A0A50D8BBB2E0EF842E744D6F2588DF12848D15C77ED2826617D
+5DA713BB6C808C884F0E073865F82C4C548E3C0112562503832AB107A179CB30
+F3FDE42F3316A0164552AE036D30935949DB8929F2E389124AB464C1D1A24E7B
+41EBAD57574D43E06E13690F831AC63A6B6A64F8BFE75DE0BE2B368F46AE0013
+03C0A8AC110ED8EB144329B8DAB35303C922432E92394A95196DAD427DB12628
+C0F838AD7ED830886303207DF666D3E2E36B419A9AFD645265013E717B3EA1B5
+6DCCA040C9F83A0B35CD3403049ED2D3A304BE7DF7AF66BB5807FE288AA7FB76
+64A2B8410228067D8E5DFEBAE3F022EAAB02B6FC1F5C9C8207965CF783EFCD28
+6C4A69B2D48512BA6F65CB3E2E24D61819BC85159520ADC69ACA26ED5D96E789
+7B8B4018CA0C7AF81DAF1E403F552653EC2A9E090C97F59F79532CB300479063
+EDF342183754AE0BA150334DCEF12912B16B203007F4E5A56534D8FF497D5482
+4EF51B63B16054C2F450587BFBA838A12ABE23EAABF43529E52EF03F94DC211C
+B2CB94A27524A4C2516A81623A68EDA948DA9BFA7CF6A3D8C46514C0CBCB2F5E
+A46AFBBF1F89B2350EEE78C24BE58430E839D0751AA4AB1247796B12AA1508AB
+6249D79C68EFF833707690741C8333BD3090B5E5EF775D62175B6409A678916C
+F881217B81EBCB81C8C0565CFF9B73D799201EE2DEF2F16D65647267D7CFE4D4
+1F7F57F05CEF38C4251AA826E4A1D3745922D8A766EBCF15CA68D755C30E02C0
+12629BB5113F97759D6E169FEFC0A3D8978F497B025DB4E92463291A26F26928
+357EDBB00B60E26CAD17086C48CEA3FF695D5A4BC29BA8A34F1E77B2FC8CF73D
+877D1A660D5056FFD6F6F182682DD0DCB6A0F346F5DDB0BD589A54893931D733
+19C0530A838346B7C97C616E393DAF3553A532812A94643C9D933255633A6EE9
+8B2CE3B0D8C1A90D72D46F25190417FE9CE7E69DF74BB4C645F9E7F3050BC320
+9BCEA169C15420318F852377C83331457AA47AC07B6223BED558E0301C9311BB
+CE073BADBC77B49CE7823D3D27A6B11F354B6FA642B5FDC187DA279FF7D54B40
+F95492F13101FB89443353F1F032FF5D7F7C97A02506798071F40CA0551BB232
+692DFD2E9CC177779879FD04377520EDEE351166857DE5B2B016A4B47DCA203C
+6C6EE5F255B4F7FAAA527B45679B55EF87316782B17F7642785A8FC8B174864C
+DCAAC830DD6D2B2353019C8CBCEF3798248FF1AF80CD6A74273F5204CCD208C1
+09EE75EF233DF482790C37B62D3D1BF8537CFCE40CA18283494E800D9B6E3B96
+2A0E74F946EA19C26B2B56BBAF1D727BEA6D6E30B7E0D1EC6BD197D2FBC30A1D
+6064E2957B001530E1C62A23527E08179748C47D3233B795E69BB6708FD21832
+F22FE2575EFBC3F9FB951E4C6A881D35642453CD34935C359D2571426A9D9F41
+C2C3F1C6B7F475D7C0E6DA10703A4D95D4D5188EBD111ADAF13004B95BB6A1F9
+1E05CA084A7D159BDAFA098838737BF264CC73DA9A1542F8D599254933500284
+43C6EABAF73BC1B4BA5328595B3966624F6F7CAD4242AE6C63D047AAC8EF8213
+4EC41DDE825E836B7C7D1B6B6FE2F8CE38A96655B073C606ECC398E436D6B012
+9745977065519D41FEA05DE277A2B5DFBADA175BC6EE3758754FD6C8FD401888
+9D8E86926BD337AF11509A59F3447A24656D33CC5D961E345D619DD01F9136BE
+FBB6F17E8DE96E921502FB19F0C21F0A4E70CD505D7719DA843D2BD5D5CD3A20
+D0D955F69FD83F0B161FBE56DE145488C0306C6EE589C2E71F0433B9BA96A18D
+51B6F3880C38FB2349BE51D981A08AA153E57A9B68ABE8C13BF3FEEF165DE8C3
+E9109949A8FC60CB19E04F9452682BEE7ED59D4B2F6297F15E7E6E7B9E427E04
+D2AF58F5013466FE35AA58273F81C7787B17C4355E501DA76B9E0D0920C9326B
+499854BCB7C7CBCD9F998A44E4576B43654C207F12B1FE9D0800C9DA440F8F4D
+F037C944D4B1F6F9AD92CDAEAB2DAEE928681EF627A2A87A0A2DF93966CDDB52
+6EA5A13EE3EFA361F9CAE4642C8D6AEBABB728E5EA5A88096175F2F9D4AD0E3F
+3F3A4407C62A88AFEBF38541AD1BB12E1C38C34B695E681E542D0700F696EB58
+2F5EAFD33A8B88C6D49F1AAEFA49B9B2BE34DB61A325BE0A37CEE6CC1D4C8F3B
+8D30312048BCD103AB7AF9961F0943FF5F02016DD6F0563A26851D505FED1FB1
+5E3D9E752D94747250D79F3541DFF07C19BB86B29BDA8B9B5B38E548162584D2
+EE4508EC7EFC0C167964363DAFA5ACDD46DD9F31BA6187C7631A9AE97A5B0BAD
+69160BFBDA23C2D29311C4F82514DCF27C6B9737A7DAE149F6483523881EDF02
+DAEDAE3EE9281603440889CADCB0655FAF3BBA11181556B22414DDD6C9781C1E
+511F7CF09A046115D45493F7A67587727B64D2D5641E567E9D4B958FC9C413E5
+FDF7E3F203BD2D3299DCFCF511DCEE6D998B0F691FE4DEE7BABDE53BB0D3F91F
+CD50957CA5F4BECEDB9ECDCDF94C70486498B92E1BDC94117653E4EB97B48028
+5E38C62EFEF8966F781036AE407B6AA11A3A806DAAF3E5F1EC2E2B18EB4D17A9
+EC9BC8F13C29A383EAAEA0F49A02031DCB3E29699B9028C7BBED09471EBC899C
+B3139284AACB81049396532635B98C5018A15684F9BCC79AD6DB75E94194599C
+D605D3A0B3369005E3FE2921D32022B8F961CF817A5078A751676B5DDCEEF6B6
+1E61A0008201F16EB849EBC45A95688575A4D2874AB2992B9433D88983ECFD60
+15408E16E0C392019E33F268CC072F36EF123545ABBD8962186FAABF1E259303
+1D084359B02ECE352E96EBF2B48CF2FFECC694D26D54D22CC042E184BCC24A0E
+3B670C05C8A82F2CA3502F6BD5B5E99175BBC27E41671D0FDBDB306D7C787BDF
+C298BE5464E1FDE8190F957E117310A056B151C15F895BCF076E4B6F85A94D62
+113E1BDA345FB5F045225C94BB5642ACBB24B738DEB7E75E4D35CAC050E3F02A
+9636E89EF795734A43944A7226DB1C305197AD48A99FAE28983406A9C3B59D1F
+0962ED5BEAFCFB1E1F43E822EE2721E984E4FFF861E8489070DA86A56827DD73
+92D7A101E273541B8FFD8A9F88AF45127EA4165FCE5AAED1C763C7F5CE594CD9
+3A26BD00C62AFFBA19B313A27AD6323009DC44DA90B76A05860EF092C52B1931
+7FDE765000BCE9A1A61A802EE8ECB4D53EFFC41514A006458A52B68E702ED7D3
+CFD31F6D7E24EBC67ECD5CDE798B725558C8B741341F24E8C339F174812495E1
+83960EC2B89D57EEB4E8BF20057979A98A4A171D0D19C2F050BA73D021C39EA2
+6F677C972818BF8C841F4822F1D67522E273B443AE9820ADB5303CD0D839FFD4
+F01C2D25BCA2B4E479414E699B812685A5890DC3F95CCBD24D701891DCD212C9
+FBC402B9D46B2600BDF5F6A8D2BA03548CECD9D12CA669D16A0C25A85CF598BE
+DD8449B33FFFB35AD715BB0DCDBB2D35B51730CB8CC9D76739BB31F876BEE000
+302935A55EBFE1CE914272A8F50EDC78B8619DA47DA7550ECAAA8F63C6C2A74A
+199E38AF623EEBEC6F15E7F3F48B41A3CEAF10FD7581BDDC27746D79100E7045
+B930267F0EEA9BE820E13291132AED69A0A230BC22989E29BEB0A1977AD4F72A
+7BE90332568B317C876E836A1E6009BE548E105149EB6052FA14D55E000CC01B
+4349DFC56DA3E9F10D4E690237CB8D25DA98886D5153870BDF50F61ECB986B27
+E37FD67F41027EA90843B1D78411D194A831BDA3ED9E2F2B40A297D94E7A8C12
+8A0A15C6653CB85BF452ABBF5E8E9D8CCF2FE9AA42D5736019D131ED8B94E2FC
+564DE99C447C35DFD39737309B022629167664E7533AEEF54C6A6DEC9D5D65E7
+FFB7EE0DCDFAD9087B161E74E4B1F38E4E2B8E6B7A760AE049A86DA160390743
+698C6DB495B96D2AB7F8555206210E615B56BCDDEB8E688933804EFBC6E42630
+46D4D48471D498B5988E64D3F957588B2E07F07D84F8FA63398ECB6383C6EBBF
+B2B61FE04B0B13B26BFA8A80D62894CECF47805CEF8C112326100DB20AC7484E
+4EEF337922432A48F3FE434C00771CF4751D8E85BB97A7F154AB18FB1C157CA6
+26EC056A68B66C652833CDCF08803F469DC246148C78733E56DC109D35E6B2D7
+C5684A2E05EC15AD96297DAE0F90750C0F2D3B286B540CD85D2F9ADDEED2F7F6
+618C375D1EC39D0B866481D723779B3786C8B0D04CF075F70A8BB95BF53E8BA3
+FE48CD123E24A16C81DB96A9ED85AD222A233EC61899AD22102AE68685AFCF4D
+21C73BF7B55D769E02B6E09BD7F56D0235ED4A043567DC709556101053958976
+A09D4D8F15D1416F26DD6C33F62B4E573019A93A8B1CC4F98EA50B299341BA8B
+B688D50EEA68DEAD0613A62C3000C037092ED0A93C7E3CFD6F1A44EF78C16719
+0F3326BA35B2A0F95CD03494AB37DBD29CB89F48CA3794406CB57F20E678DF66
+69F9FD904015AA56AE725E5AEE820FFAC056863E893BFE49B595B554A44A40DF
+702B457F0D95CB81DC21F59D95F9D7EA3117ADA2CF91C6557EE2ED5B4CDFAB29
+76D79CDF09458DCE016F1773387D9D4D851DA35FBF5CA18BAB2623E80BDE4513
+B4D0B4A6E2504301219B0DAD0C41854ACEC75174A96B29A309C8C682A5D13D60
+C88DAC92611CD06F7805A0CED7C26E24B09A5F46C02877AECBBC3B3DAE7BF3CF
+980657CCE5506A7AC923DC5E300B27F320688A58440D82194CDB01A2CFC41133
+C69AD75946DBFB1EA2D62DBDCA5EB57C81832D2CC5364AB5A96EFAF6461B1947
+D767D4558876E85ABB0B8396FEE0C3327CFFED7051E4A9445C27FBF7E0E27A27
+48A6B019310EFC5E3080673042FC09D14C99A69FCCAE3D3BAA6C3EFEBAACF6BB
+EB24FC837517D46350DB7BA8D2BE949439027BA84662D7508C46AFBF0AA67F5E
+D46485047C59B8A6F45B308183AA04386B24BDEF8257F92AE1869430C6DE57F0
+21824D4078EE1312FB9ABF4D5FCC4C285213F93391F24EA4A1276706EC7C748A
+40418CD85FD323D46131B9284B329B76AE8021045DC09C95C9AE4B4EF735A541
+4D985B1B07BB526053ACC5C0FF6206B2953C9350E57657B37784263C082BC703
+ED67F8956F3C757799D61A801701C3401782F8E826BC7060AFA7B325E89FBCE5
+5E6ED5D4DE3754AA5A7DBE1AAD4FCBD9DB2E1289308A60706034F58795DF30E5
+C68667C0DDA575B44F8CE8CB67BC77FF029C6E0A434525B5D3F83B68A4A45F42
+8997E2A731A4F41957F566B490133D656784318768CC9EC7C334FDFB7A222AF2
+0EC189665735038CC2A85D643E01ACF498BE91F288D238B270655735B6887D8E
+063E13C6DE822ABE5FB8F988C8AF7468EB28FD5E0CBDF9E23D1FF320EBF19979
+D5076D3C0BFC32DD3D646945B77CD65C9473CD152171B8CB64471AA584886201
+56738617681E0A664D2287F22639A888B8FC65FD9DEFC68C0C2B37B06923F120
+D4BC86D629C49699BE537834825AE7B8A44677488AADC2487EFD51D49F8FB8E6
+45FF406EF09120A0AF8AAEC5173B1EDD90B90DA35A18C332D39E16F9F5AB7D81
+B729A6C9F72A99CF91A25FF02E328BCEC164DD0E276A3EBD954FC24A42713581
+33833A505F8549AFE87D9E1FB63B8F7077B1F1589DE405A8F821C2EEA5310936
+F6232750B900ECD49FF4F461B6F6654C38E2AB2136F48FCC5A399596A72B3EA9
+8F5ADA485A644A34CD0F70B5ADA7DCC9E318A93F20707869C5FD40D940A88531
+0CD6D5CA9C351DEEEAFD729590483A1A2E56BE6DD8D4D500D11DA855BBA7D9E9
+700516FD02309FC1FFB29C800A6749417B4A4C540B63B99730488AFEE2B5F1EB
+1AE08BBAC909E4FABC0A0578301A03015901FD3A2CD7D5958BC9670F372252C4
+0FB510CBD2D376519707417A6049A4AD8CD668493D535EC6F70B3279B4A748A6
+4AC0801C8A2BFC379A48A06D65C68EEA00EDB0DAB677F5EA9680FBE092701641
+53D5F93900B6DD28F30D56D1DE308C49927AE04C0CA35BF4284A1D19B8A8F7A2
+82AD667DD1AA4D27665BF4CF6CCA760748064D77BF335721FFFB55A4D879BB5C
+BE06D5F2BCE913923E011284E8FA157E9DE83E8BAD62DB170F58111FE8E9B9CD
+C1B4F27BDAD2A04EAFC90D9DEE76C3DE6961886F19B5B15D74CB098F56CF1CB3
+41A14066077D37F06D785EFFBBFEBE58A004C72EB674E5C394D0D8DF44C17246
+D24B219615F18E949566B2BD1AE555B2184E9DD2571CA84F117D8558ACD6BA00
+98C6EBB1AD2C0CE1DAF2EECA199594CF093FB8D49DAB28DA0EDB9463FAF363A3
+30BB06435612668940B9251CAAB8CBC7DFF25896DCB006DE3E4BD74C1CA8891A
+8E08C09A601506D570AC1854042ED8855F3D5E9ACFBF5A658832D462D39FD082
+F804852B9606E8E074B6742A1847C136340CD545E53FD2466AF5A50833781539
+07622D73A70D1D819B9A15C0932A7F5A8E1ECA63FC9A5ED285837271FAF6CC61
+1DC1EB5E5F18BEEFD51455661E67BEC675BB4B5754D6ABBCF69A15AA5610C82F
+E9B6F9C2CCBC0FF2E710146CB7423BCCD4447BE0C2D6DE59B1BD629F47992475
+75487FB267EF3F6E157210A3A46A4A30114F032BA029D82078F7AADF6C172487
+8BFF7A7084B0859FD5C0D0E719A419967DAE2AEA2111F06336C394A67EB4705D
+5E99A4AF2383F8A6FA677F1EDFFB70E37A26C6C3F2E101693C94657068BBFFAA
+DEEC1277F9FBFCBF4B160F12C32FAE78D27C27F51BA75F725249C5FD6FD166C8
+35E1CE79E47B28A86D11B674E02030C1CED85BBEE7CAA241A4025CC664E75D63
+97527506CA0C9A886441FF55ECF8069E82BBC87D0DF684E0A506ABC5E8D8015D
+7B38C7F77D12BC7D6D7320C500F42B6AE9A3439F73E47924A24918A8ECE0DFF8
+D3FF489E44C5390BA39A0DE57212027023944DD1FA99079B6E71FC3C112A2667
+AB420374B85A3C89DCB80C3DD16D4C63A99114EFD23133E2FB8243221A2E8AB1
+C92B2DBB6AC3949FF9CB12318E20B680A50E700B9A05B727181E4450C0C994D2
+FA8F4EA0B31BC62675775A139B58EB67E216D0BFDFD8EFF9C41FA280CD6F62F7
+2BACCB11BA3C53C762F8D785BCC025E1C5AC920040F5ACA6EE8E251BF64F6E80
+B5B84E99152BFC817C23C624C216FC29B9A04DA6593C846B1FB75433B24AF1F6
+CE1270429A7D373CA7BF15B974CC4C85B92A5B8592BE056026C8C35B530C6C6A
+F3F1381F095C03F918532C41F7B8A1A5502066BA347C03BEF3B0585CF4539FDC
+66915E2211707220625ABF475542648A4DFB65D7AD4E0C08A5B355BFF5C3B2C0
+BFA6459AEDB6C7A96847EF66B919660191C510FD25E38E430E37B4681B2FFF55
+821DA4B42857AD100D8FF75DC022C87C80B09AA1AB8115B82581629D0C9CECF3
+4FACC8F587351A0F3247039946C764BD2088A3EF015203A4FFA1AB0196CF0B21
+F0851081A26969E75BF023150F882C720C27834570C10BF892F79B30340EAD85
+376CFEF132BC70894EDD4B14385F5BF95ECC01C22DF26B8D48A9682559E4C206
+881B58EA640A934223A46C1810E86F4E37946F0C146B9D507EE79DC7A715CF4D
+65DB27C4B6A041849901838D0A12D47F8BCF5CC5768C0AB338B0AE44F4BBB849
+BA89F2AE5877339D1F2ACE6E53FF054D6012947FD36BB2C736225102573D21FD
+0B03969BA0133DE33994CE686578051B8FA18607195141C582FE8FB2B0E55937
+DF0CDB33E479A0BE74BBC7DD92D941DD62141832DE58D373297150A1BD255427
+46ADFAE256888E74231E2D97BA8D3BAB84CF7068EB16D13BA07154D1F20CB0B4
+177CE8CECB8FEB6EC5CB1E2301B2DCC11D878E7CEA0E8E12927C72729B927028
+9731E6155BE79E19ED48D9C21B126F607D31F950B24B2C9042139D5E7DD43912
+E1C0DA907A17868AACF3229C176FC26BFBE255AD609B606764F90484747EB6E2
+36A366D8046477D04EBE56E5F6DDB1F7B334E90E1996E4C2B83A5863391C91A7
+C6BD12B24C7F82297BA7530C442B5E22F23C7CC8F7E463DE531E480FE0BB79A2
+DC3F72DCCA2A8F59A0CF417AED1DB87E85E83DF175CDB2D6A33D9F022EE8622B
+3B97C4ACE2EF18F331A58BE4704E5130FB4984C3FE2474E6CE509C5E8CE27B8C
+4B6E8B4F056867F1C0B014E2B65B5E99B807ADABCA84E043EF7C2EE7F2A4AA9E
+F432736C202F652195A2E0802FC871CA864B3ADB40C28AACA1C46C74743EB7E9
+2A2386B678179EE7279BF20CFCFC70378DB669EF3046476E8D55E54E29F36681
+AC18245D025ABEF402231450985FE13F6F382BED2C0333FCCDE9366DDBAC2C66
+1F2A720B37C4B2DCB7F7A15864E73339C9C22D94BB04C36691ED7A4752A86233
+A5FB3FF39EE53D6C1EEA1939CC314F9940AE48775B4094985B207F8A833036CE
+5499D6AC9ED69D15F816E3009C46AF7B6A2D09BBB70F597AA8413E3A653F17CE
+3D33638C065EF056061AFBCE55B788E528F0B8FD58B23F21FF9FA508C699D459
+00890C51DEC9D81F1FFDCCDD178A0CFDE0E7E46CF99B148B2E5D5C1344B963C2
+2330524564CF6C39C230A6A9FBF6E2E3C8B5345709E0843D17D3C5727AB54DC7
+57EB089AD3DAAD0AC6745916FA18BB7F7D0DCCCF62D091D525F0370D67F8BEC3
+15412BA9A18E9744CAC5F1C047BDA8013050F7DFE9C41CA2E176B812C0B6AA34
+7A4DE13D07615C2253C08645F0BE1E25404BF8131379A057266484C243FAE011
+FE8040A6C037E0080DB96070BBA2BA847577A1FD4BE5ED75D83C8174AB99A32F
+B1ADEB641E1652E288DF692066C49523AB41242F1D916ED69D1B7FB6E8C36E7E
+C9D666970F39E1F01522BF2FCB6B28C527C32DA14EEC2E1DA96256A9C8141D8B
+7C8067797C0CE920DBB29AF0DD2A35EE24A912A8D5E2DDB74CC4C42DDC9F77B5
+4F9A9C7DF8232322B09B2380C063A52D3CECC51DEFE45C62B6DCFC453DEFA99D
+F6B76D0987DC232178A078D8F27661DF6F504F14DD921D63C229C8B7CE8F110B
+C4971571AE8346399477A2BFB3D7E65C04EE0553402D15DAA2F7DE9B1068A4AC
+9924F5FB36EFEA483004AE42C09CDAF1F5BC54BCA3800F83AAEB8F3D60AE5B12
+0F1639F94F85A6D16D469A20CE3D0401A7B165F5271B585DF3C3368478CA9A03
+0ADD671B749B3E72662E3939C506EA99739D0B801D30B1357C343256FC54BFA3
+A7FD94B0B3E92318129151F4039E69F162D67BB5DB67595670D82F5FCBF73EE7
+957AA138B65BF369F7716494BF36A317DAEBDDCBF7FB5979EF5F012CAF413DAB
+CB3290E29A0CEBF1C49D12A611C2B005EA68043AB68B65853123998555096448
+25822602693C071225D0A59742608FFD38593B5EBCEF5CD9063DF88E60ECE319
+AC80193A8EDB7A580369E894B894904916531564BA32C99A9E9E4A7793BF6F2A
+AFC83F83B202EAC8DB0E948EE3979D2D9049B4A3B6FEDB297ED9CF20980B148F
+6000C565F75E3F384644DB6531F5B0D2ACEA0EB86C80F96777427823965F9090
+F8EBAF66657BAC3A58A4EEDF997EB49F8D967E148F381C96B142B58F12C792CE
+24D1E84C8CE0F5FEAEDAA325B1E162D69C399F75811DBA593EFAF5CDEA803796
+A28C535ABB9A806FB807693E837663D92A3DF30AF50B62E4E1C5F42738CA09B6
+28CC646123FC9C2BB8B9149CBADE7A7B29050258CB8B3F35F8ECC07BBB7E68F4
+BCB0B429D1000A5D14BAA0FCD33A038BDF794449F8035E51371E4CAE8B6717B2
+2B54C2F289AAC0EEA7F800BC86CA8D7263158488C7F45F09194096200A65571E
+7C455D56202343346FA991BED6CD2F0AEBB87F65D5E67BA200E39A0DCF5BC262
+3DB3DC17E5BA3907257B07761EDD4E519CC81503A24D91B8C0B4B022FA0CD8B0
+AD48BF97B97292A18126594243F63B1C1767A866F1F9B4B27B64CB3D4410817F
+787D039985F2625EA0B5B6DB576B177A69483B2177969C189F1ECB563D490908
+1BBEA2BE164FD761EE98BF5B13E05A4AF2145FA0FC5673FBD1F0E09303F8F6B6
+6133C455B8679004B35D754A18A615A3D23ACD78645D88447B7F8B9FCCCCDB9F
+327097EFE73DBA9E508070C5EDEEAA2779ADE503EFBE1DA2772892E691EE8576
+E76EFE90BA530F1F6510D8F19ACD02E04943BA7EC7F18E90B0C715B603E4DB82
+C3F537C0AFAEF1C3C82B483BAC09D7138F98A433D6F3C4B442E014E3E5A5E82E
+52DB5332A89897874A165F2B6E7741D38093834D9D811F3A0088BDE8A3FF86D1
+A71187A40F5776AF971B1A2B727DBD281D50B437A5987C43E34B7A21AA7D151A
+5AE07F30210236297A35C7823CAC45513B2A9911B39603B415168A1FFE7F8FA8
+9C6DE90D57997B9538796607766AD28F7DC3CBA80B470A7BF6EB039F4D5DC1D8
+477988E9866A5B274B43BDC92DD26021738105BCED3E94CECEB2E6E552D1F63E
+B4031EF5BA8990633918F5A211CC9414A94BE79E294517D420CDFB43CD103ED7
+A1B9C2E885C88F882E29F26CF01771072FF46EC2F7A7F271B49E919F88E75810
+632817B4CA9A60E233CBD4306186957AD9A2ED31221E10EDD484A21AD62D6867
+CE44C3ABA2D259E27A0625D1B09D3D5BEE543B7320DE2F49D840FC89CB8AA5D5
+C034627C1F18E5AF418B6ADD311C9EE0B282AAD6EBA79E856AC2ABE5F1A7A225
+BF26E2AEA0F352B9C950B47ADF650BF5322BE25A0D74993713AB2FFA10EDEF12
+7303002CF4BC83F94CE7152535E781B50D4E0AD7377674DBCD9FAA2939ADAC08
+0E47FBD491626CA771E2B69CE5CAABAAD3A777041F750B32E2AEDA32E97CB5A3
+F56B9C5CA6F07886E2733B4D4C76A47A1335CA1AD3C2B451361DC744F3DEF304
+37BB056519FF432CEA503118F0A2F57D33E989C6F4996C3B6EBA31DD3D93D530
+92B551E8B90414D8083DF432103480163422D6F9CCA70EAEC1D37A6200BB1793
+25C4F11DD771EFB1ED519E2252A8110547FD7753567EDC18F124929CAAF97010
+57B34D94BB8BC0A27D0FD32689BAE1665CE873BCFE5D090A8984E98030FE6B21
+D7FAD7CFB4919689DC056AF826360AECF7C4B350822CAC8D25F5EB442BF47047
+FF186B26AE1DCC2AA5081B9159603D179BA7B402E60BEA64C8DFF7212D71A06B
+D709168751D0278D6F09B8DF311CD16B40EB4BE72BA1E3134CD66F673538755F
+135C333B87D339E8C580C44EC9A7A6A7DB0BF7B5FB00F28D7848438AF0651F9C
+36506CDE2150500E0ABD18DA8559D7632BD41D1B82A28B48E370656D73C5C6E2
+C88FA9336082C86E84310DF2E15C2A8EF4209ECDBE4141F92DB575C1BB3E34E3
+C41615A138B1F738C8EEFCB46E6DD65747A981438EAD81C85FA3CF7A551A37F1
+F2C83C47168665599D948896FB43C31F7032018FEC373D5F1AD84FC79DE23E2B
+A52D8EE1B1D3F8031EB159D5A3A254B508C25C05E1E64067D6A39719AB32B50D
+D7177C020699005F6C0D10D78585740BB798449CF11ED7604CB862B72FFA7E7B
+566BCAAAED470B4E2C6097F8756B8652D02E450911B9742ACBF7875898BC2950
+BDE9E5B1C1AEF9D75056B84005CD292DE5F77ABE35B2D54BD6D8F56E7F4C814D
+F759C9620BB20BE364F998698F5C1407F27FB4A6CB0413BF89C195570CB758BA
+E3A344BB2B381A51DD43C6B44363FDCF69CD663592BF1214E5EF0EF9CB853EDF
+0D22CDBB0F12E75F746021779CA0703C77C8D6CB46D3A904810C8A2370F4DB0B
+95DE9F7CC2B34C95E69A4F2312EC701C2A55C23A71E12403A443514E8D6380F5
+E9943682A51642BA27C943B460063E42F52D9DC7ACBCF38CC4A173A9AD53A10D
+1FE691EEBC3E6CDEFF96832AF6AC529FB8BA5F68FED42DD602A9644C84C128C1
+4C541A79AB344653C18DDDF57E5E5435E5A6F738882A925B3BA29EF6811BA54D
+BC158618BF04C375EA3B8C5BF484B007BCCE2E6076B397B9E5254B8BF11D2F0D
+F98956141D992A1D8ED0E05E44679E53922FE1A5F80E093A50BDC21289D69641
+BC6665B1CC471F42C581C4EF2F981F32A792C92DA4B6CC045AE4D579C1DAE377
+4FD8A2434BFD4A446E6160C6DDB7A2E9B0D805BED490DA53961BE188F91DD184
+92D29041C2BC839326ABDD27E1D980CDE2DD207D66CBAC1267E68C3C1121ABB2
+5FFE58A8704E7FF2C8DEA00C3F3C4F84D56F656A0CBA7D5AFCC8ADB52032F133
+622C3F0AB877917BE95E7325AB6492F91DCCF8733B653614F47028CD9A1A562F
+1481E59D5885BD6420F6F968B2F6AE2133A32FD0C3EBBC3CE12FDD1DAF3A6D22
+EBE767BCD2293371F4079DF50A479925BA2FFF275D1F3607DD9ED193ADF2C24B
+A54688894C87BDCC892B3D97CCC415E7627F582F66801966E9C1CAE0543AFB8D
+80C54177E7D853363B246759EC16209E803169BA98CF908FCD532F97CED47ED2
+F24D460DB6E43FDE75B786AA6415ECAAE9802FA36E4096D06B36932CDA23F82E
+8BD8E2B0B0F2D0749B78802208CD8C7973617F0B65EEDA77819CC32E81AE692C
+5AE0C53DB380ABB864DC4F2C284EC40EC00C947C89359505A0025D7C70D0C404
+8BADB0F8AE1F2AF3BC364351E1FDB12AB959E9C9421845224799C0B710586D3E
+3DDF28A5864D566F5C5323FFDEE12B7A80FEE1AF3DC958B687F6541DA16CD631
+6DF7EB29D97E62720614F7C2864E75927DE4EF96AEFE845F19489A37A541ECFF
+C41F3DD3FD2EBD84B672F4AA16496BE647DC066E3BCDEFE3928BAA8452E64FE2
+DAD4DC0EBDAC9272B3DEACA29ADB69140C90980A2147208D9F8B3EAE820590CF
+22DA6BD5621A494EA63AB3321C9FE29C4FCC210D691424814F2BCF083E8B6195
+8CCD83AB5FF2A430FA33337C16A37361F00E1EB575934956599588EB3926293F
+B4160D85DC426AD339044AE1591C864EC33137105FBB87BE71708A23EA4C19F2
+AC30C4DCEAA520840AB71AE53B55007475659481239DDBF7D3A935AF10570A26
+4C404F551224AA3867D9AFCE340250A949F5CCD52DD3E30B7C248ECE78A971F4
+AC9D4D65BD6147146667E32C964A18B5E01E5BF051784EBF3ABD3C2D6F5E4A4B
+898478E82A3DD10055B80BAD84AE5AA8F58665A2B2A2399C57BE1BA0D45CDD15
+1E01EA0CCF535DB414D597D45C6E71A3C0EE7BA99B94B170F45F9D06234492D7
+F4DBE3C41DB9F9DC99116C1224EE53A751C347E09641C53A94C45174899AB3A9
+D824CE570B061EFD4FDF4C1C0D8AB9DB1C4EDF7F1982539FBBD85CE4F6014EAE
+895535B776F6A58C2D632060FEF80336C9842A5BFAF929178B7AACAE1D371228
+606B58787EBCCA97845420D709C036188AF869E8D791FE3DCFC3E1A07E4DE5A7
+75131735F93F0895E0072591A530393E0EF9FDE4AE1D226D4929EE7C9DC63EA8
+F9780763E889B13FB2B8CBE9D604C6018E7285C9712F76BFD82B5151EABE7354
+9297C0A58BB2B0827DBB3DD736D1B2CDCF61FFF6C6FF97735925DCD2B64E2346
+3A33831D22663C2EFE1FE92AB368803074D86EFA1D7CCD206638F69FFC139BB7
+2D645DDABC521F183EB59FD003AE5E0B175EA87DD3836D14BCD40F4BACFE7CDA
+4FFE64DCF7591F16BFC51EA0DB9FB55A564057CC2A94AE03DAB88E2AA787BB7D
+77A882814F2A8215A1226689CCD5B3D7B0AE6C673245C688EFD092F69F7F41F5
+815F3A3191BCE2422D7A2ED72A737592731838BEE3601773287512DFA96E2CE6
+100C36281295A672A03FA57080AE5C40688DCAF754A276F0A1DE4CA4CEF56C9D
+322010950F09F9A3F4535F3093FBD68E47B7D6F99653E80422F5B5B56F6D2EDD
+C1A7C76EF77C6E70C9D8ECD341D45C249533277FD8F9B93A877CF541BCB18075
+812EFB9F870174F4D1BFD11019237C11E486C3C3B999AEAD7C66B79FBB4CC0DD
+F0250B220AAAD7E22765DBC49DE648DB1736797BDF15C2A600ED17943DD010B7
+15CF653245AA60D404B3187D0FEB65CF565A912A654924F6AE7F706A40F0BCD6
+C3905D07EEFCACD74368BDAD8EFE7C7667A58DE4AB7B8519C0DF7B5A381FF8E1
+C1643E8E4723504C746D801C6BE04CDE0D28488DEAC627319184414C6E4127AB
+9A549A1C2676121FFE37C74CE40DB42C80A9DE69E7B499C26BAEF2BAA95ED2BB
+8944461227163CAF36832BB25487385CE06EEC0A53E66A78511EA8780359A8B6
+BF01600E4A11FDBAA2689E99E8FA8D8093A5E132AEE5BDF71E90DA34D547ACCA
+61BE6D41EC31DF6950E92E971F6A42046019E11D040BB87BBB7ECA6FD37A2C38
+BACBC1CBB32F277C3765B969071CF2D0CAB8F6AAC70B239D36D31E5808B877D0
+69EDB2E2ADF1F8CB92079F2291FAA610FE8C4CCD57A7A8C9F5071193E20AF871
+9CE18EB82274BCFE2E9DAD577B66232B3192CFE4C3AC8CC3ECC63492962B685F
+789DE4E796D1EE2F23B0641A0FA9A1CB391D0DB8F09F9FEED88A340C8365AF49
+403BF4F2C664871EB1A07B3A6946D45571FC760DFF68FE835C05D05159B171C9
+034EDBD0E861C5A26F2DD383F1FDA0D5387124656831862FF01CCB867F027E95
+F0C04DD045C6C9B90489846E96852878792D64A7BEA283E19EFDA19F77E45AB5
+0CDF50B9F75F0A6338BA2148B76EA5C4D249B9AEAA95107DE25BC5A014E43E10
+7F0611BCAC6ECC9C001359DF6DF52D943BC285B007D1135D873607FCE9BBE4AC
+0AD95EBAE53E28EDB2678C3E34B413BCAB74A2BA08E242A05D015A9A32809DD5
+1DF932DDED7DBE66EBA8FE17289B0B15C33CAB44E9461FB09B9B2CA9F4A5A624
+056475519E20504721F673673592085CC2AF9DC49865F8697ADC8391728B5D0D
+AEC2FFBDF432F8A4F17FF8BB006B180067B2F9E68C5528E0DD9A56E20DB08D85
+319A73F84CE822BB61C6C628BD648CCDA44DB6098E3CE2976CA3496814414270
+F4A67574C6667EB5AE792DEEF845F1C42E9EAC8E5E51949710ED727C5D7E7F34
+998EDBAA07A27A116C80E837DC740E86068952F0A57A529957994F61B3289BC2
+69D6321696B1D9C4208BDE997AA2EAD9838923342D8B23AE0864DE92FC7EA1F4
+5B80AC3FFD9C3107DA232FE1FB923D3ABE78293BF063FBE7981EE8AE3D8D0A62
+6E6E61840B747F691339D47F85219F3F70F9A37D5032501CA2C904FD0300ECCA
+D06E7BDB628B024449D162DDB5D13A00C702E7F8EE4224A614CB202287C33D00
+2B9869CBC177BD7D99E0ABA1EBF44D7D7B771D68CD9170013E67ABCF1213750F
+1805F36844DC653455DDC3CBDA4D42D0F58C1CC3D5C64D1C30B410000A4946BA
+02EFE26B967C16CC36DC88D33F56B50160CDEEB097832A05A92D139A80ECA6D6
+1BE7D20CA221758B22D7EFEECCD0A65DBB37026729AEB90253B022FE6E2B74ED
+910F8DF392FB73AC3324F36921AAB291F94D0DF777811C8AF6D1E19F8548D3FF
+177F057C58A40714D716240CDDC872F75A1B652F87AF1E35CE918A420AB29715
+F14F62D4FB5DBC1103123F6B206E78E597B6C42ED149B0944098C4AA0F3D0894
+AC4BA9F2B4B8E959E8877C931940B2767533FF7F98ED693455F82F098F49FF48
+762810DE84C1C89C0B70F7654DB9EDF8305228BA8CC82090D5CDCD673EB39D7B
+945857632E23B012393144D56BE52CDA236D480D9250A1EEDEC54A0D75E0C853
+808E0E4626E19C66F955940D517A38DF6F58F26AB3AE4A670E4EBF02B5114C5E
+507E856A931CCB05A58C30CF4B9105E1823C0976A5B2CAC668D4D0759AC9F822
+77403C5DCEFB7A787D039985F2625EA0B5B6DB576B177A69483B21753451087E
+DD0AA168B00F3C11CE94B07C82E1DE1E43A4ADB70A001E4C647E2F6ED22B5745
+CDBF73203755E93036CD299613813684DC597FE51BE13F6E5753A079544B69BF
+125505ACFA3D838E3DCA6843B76B9B3F7CC59BB4DDCA5692DB1534BB3387633A
+09B4EFC4B59C3BBD51160D9FA7DDD0BA909EC99E655A0385F2CBDEE99868A3CC
+1C8889883F4B3AA0690A4194719604D655F83392CE834ED0C15185DE26BA4E0A
+86B4545DD3251C43B948E3293888FC436E46428080D75CDA6BE00EF406B9A1B8
+4FDACDAC60251EEBE74E7A1D47BA78CAC708C675AA7545CFA63BCD7AA88C4440
+621D15736E9DFA4315D50D8B9310C2347A1EB528E721A82CDB96CF2BD7E0ECB5
+DB7221ED4F284A1F51C1ECC09DBDF48B857AB913AB9CE36C5BD37D9D65BA4C88
+C8934ABD872C9099AB98A49922824A41B15AD80FE8A7B6C80DFEDBA2A03212B6
+88B37BAF7CAA5192F4CD414A1CDCF5A561849F70A58E960EA1DF8E3C99E0CB77
+5C28FB9954A10BB686B545D7B4F07F6986CD213CF311372C1C5E79F8BAE03FFF
+06A1499A5C7EDC95A1A316A001EF34B710BB4B0E89898939E1925A0D5E882C7E
+A72AA2C2EA54482A16933EA760142ABF564B9458706F2BFE4CEB6EC3DC2047E8
+3B6CEB8E578476FA6CE3C237554B32EE765DE31852D993977573366A871434B8
+DBA134748872439673064D4FD1BA5C41A32A2CD4E5698E3187169DC6ECDB5EB8
+35DF7B000BBAB0B84DC687B246D5765620314119629F3C11947884D1E3DD1A89
+7246399892942E5C788F6BE145D99F42153A89FBB6EE8FC172289065C1D0E266
+3FA57A88150633F3F937E960680CD2C0C8BB0B9B743486E0A343D68682DDD7E1
+0A9FB6DB68A991BED6CD2F0AEBB87F65D5E67BA200E39A0DCDE791975E55E8D6
+43E8CE7C64CECA3ED61B87EECFBD158D2B401E63603E1FB4CEE4EB507E880883
+67C85F813900AA6C774D7FFBB977A8CDB82BDDAED09691A6FCD3FEA3841EC6A4
+FDB5449510E47938AFF9491A9FC027B2BE320C1725B1560B30D6CB37427427EF
+4079D701BBBF33F59B05232486F108053A082AF365FDE86FA40B544AB1EF6277
+C6AC750D662C968935C1ECB100DADDAC7F92230E7E8452CD70A67A06DC1EB3F2
+B3C58FBD1B8C370984E6395449510B39F1E3A64CC6AA92CECF2BE970E6C4D8F1
+A8C3B473C5EF5EA99AA922FAA53D9D03C54706B5E9C0166AA65EE3A1298A8BB5
+A1E6ED5C525EAA1D903FB6269848E34D0C2E929AEF3C8034A681E5C185DB2E60
+9713790BD1BC3F4E65A4FE2BC28F1495C6BE640BAFFAC3A7025AFB3DBCAB07A8
+F9A07FB3455B1CE6936AF27B389A9B59B71D9E8E5DB24A70752D839DD4A4F6A6
+1B0719C9FC07658436359C2461BEA57F9CC512BDC51EF254914D5C967629EDDF
+D33475FBC1BDC734342EDA77140BD9CD25AB8ACC2E93B1551E750DB24390D7F0
+804F28A5DA3ED8D6B9816143E0AB78003E0E23FA2C709320CFA25FADE92A3DF4
+4A0E9804EFA2830C2B630734F59939234DA5F50E34AF76A51E49D3987DE5A6D9
+8BACA13BCDBD12ADF488655D2AD8A06DCF95A040605BC8FCD3E696539B9F2995
+6ABD52B5595B333A06C8EC4A42C6CD98A11CF0FBA2F221993D48754421E6444B
+A95515862E744155CBDCBD0B908C01494A6E3DBD2F5E24463742B088247AA53D
+72DA3E5CF4279DE37F1A0A5A6FDFD913164AD228F1ED122A11C8B2EBFFAADD0C
+11B0065E2ABCF51132F38CE37EA5B8821C138163957573B49DD5B4BD182D3535
+C73030AB52C48F00B5929F23F5AB024FA740C5E867BF2A0A9CC882B95552C521
+5183E5FB51605BAA7948D6E5152A577169E7DC255D9507A6BD73C40A0386907A
+14A801FC7B9A7C8CB34B040C29B9DF8963000217458FABB58788833DD2D59238
+A6ABB6DB6354661340033C94E7B935F1E5C51093DB28F7C996D5A69FE651AB06
+37C908BFBBF0D8CB20AE4159CCFE773D9A5EF6627DBC1F119BA6B04FB5A93D8E
+FEA9A41172D1D82E14B0037ADC38D7A959B755387DBF7F59869CC9A2D5E69982
+0F4CF92C09C7BFDE11B9BDC69BF798F350598765BFBD34976FF8B59353443ECE
+22E33B44B8155EC868D4F208148F477747952CC594230B9C7606CB953B09ACE6
+5910521533282982BBFDF75548CFE3266DB0E088F48DBD44C379EFCF03E92B56
+3FFE263FDD04A29FDD1974485126E0DC86B790B238848F6EB5766A44A7EAE4D5
+967EC3646F547C1BB5DC51ABB37CBCD7D4B885AB7F5DD10679FCA5F7EFF91D63
+A860F45671C1DA26CAC3FCFFE7C6728D9E330928C1E5F8F3DD0A6CB9C78D821B
+3F22045E7CDE9AB12D3014B697A4736827503C93150922D97E5DA774EBD00697
+8CBDE8BEE2191290BA5F59BE94B118F6FC73B6C0B279D8189186586C0736E62C
+D1CEB660425F040200EDAE2413F871019814A910801C278365895F0BE4511A6A
+0DB25F6E9A1E13F745F2E3EE3C0F379E76451D99AA82119E8EEFA25E09AD6ED1
+D2D72D9F57A11CDC27CCFF840792065DE8BDFA8EDB02B3CDA24BE5B94F4D4C0F
+AB79CD0D3E7F8D4DF9DF894496F2166F30D5D82D5D017B3EC5E6ACB227D6B1DD
+F2DC4B8D59F781ED48E700F5B35BA0CEC0EE55DB123741A724CEEF08DD9F520F
+03E5F54901E7D1914D4E3EF5D7E61A400BDCD15EADBEDE3875523CDFFF0F3B2F
+C9CFEC4B8A06F4C66667E569110DD83F4AABFBA3428EB22460250F2E2080660A
+26B4A346117DE5CEE30B361E61C80B22E64B31388226B5C052471F24909E5601
+B29799EDA33E19A4A7E61F818AAF7966EC96004C09C4DDCD34EBE3AEF4F851D5
+C428C762599A0067E435D943360A8D5452FCE11000D9D00C7B33AAC360A11E9F
+5F226F3666FEBE25392DD3720C587796C7932CD4D6AC1263C528AE43C0DB4273
+AC81C68EBC2B8D9E9906F4B5E57FE112695F69FA82D22266532F87CC8DBEF7EE
+BD525766E32F916E426A0AB8B3F2D148CEE3190E80C659E171B0BAAC6F228B01
+5394192D922641ADD2DD996ACDBCFE641C38B72DF13F05BB29F31C48BCC19621
+FBEC43DD890126BB7736ED9BFE1D68B60507BA89DDC92EF943CA6276E343BCB1
+22789FF2128B1962E3CB2E695B39EC43D8C65EED158FBE584F5F7ABE1BD6452A
+F615AEC77279DF21BAF2F34DB6C4C7D7E9A30DD6FB2FCBD1FACC5ECF3CF5066E
+5C0AC48120DF66DFB2200FC47DF438E916C440EE636FE8C60D5AFCADCCEB2B8A
+20A13A5448C2F55FD19749C71AEC06E9A4CDD8CBBC243E9F29EA24B9DDF47B88
+A0725F5C6CC3C48AC747DF63BA558CA8847EADD0FB67EBF3D11C92AC409C350F
+202F73DCB4029507893FFE18CF2724EEF8C992AB13A540691C9ECF3BDD343665
+5812E9BC6F56C374A8A01691DFB35D2C9893BA9F113B62A4A4793222ACE53DF1
+2C79778EAE284DE80AE6400740B4BFC99C
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+cleartomark
+{restore}if
+%%EndFont 
+%%BeginFont: LMMathItalic10-Regular
+%!PS-AdobeFont-1.0: LMMathItalic10-Regular 1.106
+%%CreationDate: 22nd January 2008
+%%VMusage: 1024 32833
+% Copyright 2003--2008 by B. Jackowski and J.M. Nowacki
+% (on behalf of TeX USERS GROUPS).
+% Supported by CSTUG, DANTE eV, GUST, GUTenberg, NTG, and TUG.
+% This work is released under the GUST Font License.
+% For the most recent version of this license see
+% http://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt or
+% http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt
+% This work has the LPPL maintenance status `maintained'.
+% The Current Maintainer of this work is Bogus\l{}aw Jackowski and Janusz M. Nowacki.
+% This work consists of the files listed in the MANIFEST-Latin-Modern.txt file.
+% ADL: 694 194 0
+%%EndComments
+FontDirectory/LMMathItalic10-Regular known{/LMMathItalic10-Regular findfont dup/UniqueID known{dup
+/UniqueID get 0 eq exch/FontType get 1 eq and}{pop false}ifelse
+{save true}{false}ifelse}{false}ifelse
+17 dict begin
+/FontInfo 13 dict dup begin
+/version(1.106)readonly def
+/Notice(Copyright 2003--2008 by B. Jackowski and J.M. Nowacki (on behalf of TeX USERS GROUPS).)readonly def
+/FullName(LMMathItalic10-Regular)readonly def
+/FamilyName(LMMathItalic10)readonly def
+/Weight(Normal)readonly def
+/isFixedPitch false def
+/ItalicAngle -14.0362 def
+/UnderlinePosition -146 def
+/UnderlineThickness 40 def
+end readonly def
+/FontName /LMMathItalic10-Regular def
+/Encoding 256 array
+0 1 255 {1 index exch /.notdef put} for
+dup 0 /.notdef put
+readonly def
+/PaintType 0 def
+/FontType 1 def
+/StrokeWidth 0 def
+/FontMatrix[0.001 0 0 0.001 0 0]readonly def
+%/UniqueID 0 def
+/FontBBox{-32 -250 1048 750}readonly def
+currentdict end
+currentfile eexec
+D9D66F633B846A97B686A97E45A3D0AA0525392EECAC163E584A9104D99AD0BC
+1B1844A0E222653FA481B8809B26A46F4C483A5D7E95816EA6582584156CFEDE
+B994ADCFF4645140E3617E4D7E1B0E4541CB9F562E55829B4DD880AABE2229E9
+4A9FA259A734D29BBA91BA1E2055CBEA4339BCBFF98D32CEFF11F296225CAABA
+DCA10577A5D431B714726C1278D8101ABD1BD8D0BD0174FFF9148F8C61C241D9
+2AD360A28616CB4A0670C1BF13E40F36AEF0A4DD20E57977ACD8549245C478D3
+847EB8AADFB62CB46756D0E9C08DA00B7832128F421D3754E3B6A7D3CAEE493B
+CB4F0F8B277CC700028FB9B689C7C175090713583BD22AD445898AE250F18451
+D4A4EB41BE0EC189AA18A7925D5076EE41F93834A44E8C71294EDE23F1B2CB10
+AA4955B3F124A7FCEC67BCBA1D20B5C48C67C16B3BEAAB2CEC0DBBE9BDCEB0DD
+7828FA5F364344F5812AF689AED51E6361964FC81602F18E14FA43606A8C9717
+6D061B8DE7AE358E36B83FA84AD2C687FE892E6853D6791D20FCF0FC96BDFF33
+318A6160F190B4EC787F67EE62BE2C3BEFF11BAEB636F668CE7E5946B1B560BE
+E46A33E3079AC2E1553681CF461FBBD9768A038A733ED6FD82FB5CC44184E183
+3BDC0CF3D97EC8E6DF2561B49331578ECF6BF0E8003939628B934C1CEA33D161
+1D05E59ED9BE05071BE95A8E1A84BA0C4B54ECD961F0EEB3548BC968950BF5E8
+4160FBC4C2709D6B1A9863A27EF5934C5CA2043B9B0E5081E58CE7F78DDB9409
+17756A2D719AE12C53BB38A15021AF9FB97DE82874FE58772E82FEE206948CA2
+8F5870230E9DA69ABC80788F2F72CEE5F5594B2AD33DA5F0E0E54A39325730A4
+38A6EBB464931916CCE9A37170F0C02A9C7143D722CFC08677622DA09CBFCFB4
+CF3D13A7D2321812C81B5AB9FFB7279EC7FEEE5B8D8919E0D1E69B1FE209C5F7
+4C4588B11876C1DB3A6B32B70C9CC4B27DA28E97CCA8A8808C26AFF768679756
+9D918E108BA06F43D33DB3BE958098AEC41E84B1C1EFA0C90B254C1F2903E365
+FB8120D2C09D9BB3D1C77BF9ECE6A91142D95593EF9FD51E984BA42B38BBE71D
+4A8624F7E5A2AC0BA9E61AEB6C09615FF8C055DF28F5447BA7DBA7F38EDDEDE2
+9FAAF15434C9A1809435FEF402FE317FAB705146DA13AADA0A3C6CF4B205301F
+E5A2F54624315981DB9E59213A178C10EE7CCCF06B3FE91D12AE88814DDFAA35
+03BFA13C86B385E83D2CF5B41E84F1514B546A80E30930719D5D11C946E664C4
+522382FE008AE464B98325F1EAD9CB432F0FCDD1926DDEC0DB09C7EDDF7F8BD2
+108FC735D63764FA6F3432C25ED0CE204476994BE2ACC7B6E8B260A180B32ABE
+87991F755B2DBA4BD765F7A4F966BDDBC0507E540D103B7F02C07B858697BB50
+311E352962F28E11E8AE9629B0275AF422EB5476C2F259E6E8AFC57CDE1F1032
+2D5EE7142C7158B0D0736C2AC98575E4DD43002BDDE741CAD677367993F1B4E7
+756DBC96D8A861F7D9FCD676BB03B407AAF88101D7E9CC89CBAD30CEDF75D887
+C411A4C185B878B8003E1782E9A3484F8A1891CBD3C0F554AA2B59F454E3D427
+962D346C24B101960055A88EB090534CD23A881E6D86F82C0A23BE3F8ECE1B73
+816C9D25F988B92D481B1C25028BF070E6695289CD0485DAF77C911C0813BCE8
+806E91E02B48FCA590227BA5871E2DD21751BA6AB0884C5D19951983720A71FA
+FBE2C80951B24AAACDF129B2BB843A32A84B2BB7F38FA45B8809B42D17EE0410
+2304F2F598F6A708FA4B252278EF66FD1C374BC3CE94A6AC6C9C9EF1302B7C09
+2B45D93302653E494399FBB1E33ECDC9A78A54FC3BDCAA25C8EE45324505E545
+884E85E992155C18438B5ADD8931D5F9AE0D448ECACC2FEE04A350718B7C2A2C
+0B9BB8973BFBDDFB74A18450E17D08C708D13559F506ECB281432C904833AA8B
+328CF15E5DC2EE5CD4FC85CEC5A85A6059067CD3DC9178E1FB3675A47B77D953
+29CC6AF6809F9529595ADE3F498CA25084B8F3F8F2614882C88512C172900727
+BE9A04F9815DB6DB1EB3472A1CFA532E87B80603A326019EAF34A2B13634F55E
+964F8B7C21D9373100AA92AF673E323BE5D63D0929903FB45F56B11CC71998CE
+9C3F929B0536AE7B9E288A7EB26E63EA1E98F39D78B7A7808A55CB323A05ECB3
+A4DD40E0A0A26F97294C6B2558C0BA02DE051B617F9A19D5DAECF77E244078F1
+9A26D9BEC6A777904EDD6949D621BE879C3D3CCE2C4D9BCC3027FB5FDF901190
+949B4B6A3297C98E192C61FB6FE9ED851FBC9345658458527CE011A5519DD19E
+7EA0456A868021120C70F5C07A8F7F502C1509DA702CFD57C6F9760A27B09B21
+B014602D45B9DD07A3E0D8E354195A2563759DFE0183C8D67B449516EA630234
+C4EC88C5DB5628F41DCB5AE8826E6C7F3FA7AC7A9996AF4B0A1E4A219C2559BD
+AF6F4C56D862C4CF6DB5842407EEF346C76EDB1A1853D0195D5E74D8C676863E
+513A5503A807A7B080E348426805353EB1B9518605960ED34E950BEE93FCFFCD
+A7DC7C5761C888C4661DE8979672FA7FC96AC8E2461B01BA8671BB7AC358BA5B
+97ECCF01AF04D55946B20A28FB47181F574184656D3ECACBB7E5701BB1EA4029
+C7C87BD07ABE2187FBE2AABD9272349E4C037061F44EFD734AE71DA849E99BE9
+7280ED370D6909828DE61CA45D557A180CAE1D738C9D02AA08ABFA2B99CD1878
+EA08C7BCF99F7C891290A2643009F7C21A10C45E2BD3C3439802B5431392AE90
+68155217146338DE3D4C65A183147F4A0CACC2D10D2691E186A948FF3FF121F7
+B9E396A1F4AEFC1710119FDDB6C7090B222E1D97053BBA69F5842EB460F40021
+14488702E8127B374C619A7EAF760C21CE28305AFEF6EB07A36633F61F048FA1
+C2DD8CAB39F185DF65E58DF6EBB836F585A6DB3C74270B27731219C9249E4DF2
+1EC9A56A99F30654FABDD2FC7EE297B1D74798FF0F3074A82D8B94450A56D51B
+30C98585B4EE364E448863ECD5026A1AC6BC570D14D99FA4989E3BFD0D5F6328
+2B7A091EE08DF570EC2BB871191AB85554DAB2FD7433F9BED16EC410C2C2933A
+001D17509D8C015EC58E6517C3A11F61E5AADBEFFE9872141EDCC0D19A8C8F16
+866C06919EAF59731CB90ED8D7B018E92B8FB7ECD405EE1E78347538AFCE1E8B
+680E52FA6A5DA5E097D5C292B474E25FD8288D0E1EF4874C849B7B5F469F262B
+D0138DE2F114554ACD8D6B280A07F8DBB035A77EC4EA8EC9A81C5463CCCC0AB2
+15C6177D2D2910DF8CBCCBBDB1159C50709C64D0A8AF50617AC1DA9EDB3A2ED5
+954FC734BE5FFF1C6920CDB34A3F15C594320EB92932498D0726CB47FCC7236E
+19EB12203DFBDAEEEB9C39F4107E187E79CDBF8E830E5FEA28559A01A0059F2A
+0A6AC5AB056FEB01D2930F6EFED5A976F583054E2D94178189DD3917F7FACCBA
+FBC1DD643C863EF7446AC63546CA972C53D0F276693CFED291FC1AEEBE7A8D02
+366568A9B1D618805D2E9A871DFA70B56225C25779666042727742D52AC34858
+EA1B3C0F9FEF645BBACF9E6F6C4F6E56EDDC405A2E75A970A5F616C855A5F8D3
+8059B62A0C661BD523454499B79EC7087108C71AE19F9BFE60D5B0BA1FB6EFC8
+1E3D960EFFC37854728FA3F0EB4183421C6F885981E0CB66832EA25D89299D12
+FA8E6460B92DB5D2E39C3A3166DE34FC7E79B7E0FF85B0A1D59ADE7B9D28BC99
+067B283FD834522D6D3A381B13ADE0692AF65553C28AF8E033D00F16DCDF1A49
+D79730A4B57581485CF1EB73CC8405B0CABFF62402A8CF6A9BBD2F10A087A1E4
+BF69953960787D89D80669DA11F81BF39B2FAAD172984AFB1E9627C096765CEA
+69A4A0BABB9BB891532AE72BB89B4827E9808AE64F5A6539C73D88A178E9874B
+6845C95F26DE882A97B590DE3B6DF1173DA4EFE367BAA071DCAE17A0A2E579A8
+2B3C658C03469F39690739D92B6C301EC7781E6EE12B1C4E124CB00582815DCA
+28ED84EF767C25638EA0F98CD00D7DF81574472A0AA90F4C48E42D807B2098F2
+971FD929CBB4099880B966DC3C992F610EB5F94AD66F66BD38D831D7E298B61E
+3C693023BB548A5C78C9C86B30A261A2C1244D526B6049BC3E3EC6C144CDD6E7
+C96AB48C6646A9F4BB0EB35D2B7C9D175E5AB2003D92D61D6634DB324FE8F990
+D2E3273340D9F745
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000
+cleartomark
+{restore}if
+%%EndFont 
+TeXDict begin 40258437 52099154 1000 8000 8000 (DEM-Def-Ball.dvi)
+@start /Fa 135[730 1[627 3[585 80[795 33[{ enclmmathit ReEncodeFont }4
+1106.96 /LMMathItalic10-Bold rf /Fb 222[1107 32[861{
+ enclmmathsy ReEncodeFont }2 1106.96 /LMMathSymbols10-Regular
+rf /Fc 155[615 100[{ enclmrm ReEncodeFont }1 1106.96
+/LMRoman10-Regular rf /Fd 150[313 105[{ enclmmathit ReEncodeFont }1
+774.872 /LMMathItalic7-Regular rf /Fe 204[441 441 441
+49[{ enclmrm ReEncodeFont }3 774.872 /LMRoman7-Regular
+rf /Ff 140[519 5[972 22[646 3[841 82[{ enclmmathit ReEncodeFont }4
+1106.96 /LMMathItalic10-Regular rf(lmmi10)cvn 9.96265
+/Ff 1 fstore(rm-lmr7)cvn 6.97385 /Fe 1 fstore(lmmi7)cvn
+6.97385 /Fd 1 fstore(rm-lmr10)cvn 9.96265 /Fc 1 fstore(lmsy10)cvn
+9.96265 /Fb 1 fstore(lmmib10)cvn 9.96265 /Fa 1 fstore
+end
+%%EndProlog
+%%BeginSetup
+%%Feature: *Resolution 8000dpi
+TeXDict begin
+ end
+%%EndSetup
+TeXDict begin 1 0 bop 8524 24756 a @beginspecial -85
+@llx -40 @lly 150 @urx 130 @ury 2350 @rwi @setspecial
+%%BeginDocument: _@temp.1
+%!PS
+%%BoundingBox: -85 -40 150 130 
+%%HiResBoundingBox: -84.49147 -39.57498 149.042 129.257 
+%%Creator: MetaPost 1.005
+%%CreationDate: 2008.06.01:0458
+%%Pages: 1
+%*Font: lmmi10 9.96265 9.96265 52:880000104
+%*Font: rm-lmr7 6.97385 6.97385 31:e
+%*Font: lmmi7 6.97385 6.97385 69:8
+%*Font: rm-lmr10 9.96265 9.96265 64:8
+%*Font: lmsy10 9.96265 9.96265 00:800000004
+%*Font: lmmib10 9.96265 9.96265 21:8000000000000000000045
+%%BeginProlog
+%%EndProlog
+%%Page: 1 1
+ 0 0 0 setrgbcolor 0 0.5 dtransform truncate idtransform setlinewidth pop
+ [] 0 setdash 1 setlinecap 1 setlinejoin 10 setmiterlimit
+newpath 0 0 moveto
+136.9028 -36.68303 lineto stroke
+139.9028 -38.08058 moveto
+(s) lmmi10 9.96265 fshow
+144.5728 -39.57498 moveto
+(1) rm-lmr7 6.97385 fshow
+ 0.5 0 dtransform exch truncate exch idtransform pop setlinewidth
+newpath 0 0 moveto
+0 120.47308 lineto stroke
+-4.56961 124.9675 moveto
+(s) lmmi10 9.96265 fshow
+0.10039 123.4731 moveto
+(2) rm-lmr7 6.97385 fshow
+ 0 0.5 dtransform truncate idtransform setlinewidth pop
+newpath 0 0 moveto
+-73.25227 -26.66196 lineto stroke
+-84.49147 -23.06757 moveto
+(s) lmmi10 9.96265 fshow
+-79.82147 -24.56197 moveto
+(3) rm-lmr7 6.97385 fshow
+ 0.8 0.8 0.8 setrgbcolor
+newpath 120.47308 70.86601 moveto
+120.47308 84.02321 115.24564 96.63995 105.9428 105.9428 curveto
+96.63995 115.24564 84.02321 120.47308 70.86601 120.47308 curveto
+57.70882 120.47308 45.09207 115.24564 35.78923 105.9428 curveto
+26.48639 96.63995 21.25894 84.02321 21.25894 70.86601 curveto
+21.25894 57.70882 26.48639 45.09207 35.78923 35.78923 curveto
+45.09207 26.48639 57.70882 21.25894 70.86601 21.25894 curveto
+84.02321 21.25894 96.63995 26.48639 105.9428 35.78923 curveto
+115.24564 45.09207 120.47308 57.70882 120.47308 70.86601 curveto closepath fill
+ 0 0 0 setrgbcolor
+newpath 120.47308 70.86601 moveto
+120.47308 84.02321 115.24564 96.63995 105.9428 105.9428 curveto
+96.63995 115.24564 84.02321 120.47308 70.86601 120.47308 curveto
+57.70882 120.47308 45.09207 115.24564 35.78923 105.9428 curveto
+26.48639 96.63995 21.25894 84.02321 21.25894 70.86601 curveto
+21.25894 57.70882 26.48639 45.09207 35.78923 35.78923 curveto
+45.09207 26.48639 57.70882 21.25894 70.86601 21.25894 curveto
+84.02321 21.25894 96.63995 26.48639 105.9428 35.78923 curveto
+115.24564 45.09207 120.47308 57.70882 120.47308 70.86601 curveto closepath
+ stroke
+ 0.5 0 dtransform exch truncate exch idtransform pop setlinewidth
+ [8 3 3 3 ] 0 setdash
+newpath 70.86601 46.06247 moveto
+70.86601 95.66956 lineto stroke
+ 0 0.5 dtransform truncate idtransform setlinewidth pop
+newpath 46.06247 70.86601 moveto
+95.66956 70.86601 lineto stroke
+81.58002 123.31355 moveto
+(m) lmmi10 9.96265 fshow
+90.32732 121.81915 moveto
+(i) lmmi7 6.97385 fshow
+ 0 3 dtransform truncate idtransform setlinewidth pop [] 0 setdash
+newpath 70.86601 70.86601 moveto 0 0 rlineto stroke
+ 0.5 0.5 0.5 setrgbcolor
+newpath 30.68283 73.78322 moveto
+37.76944 73.78322 lineto
+37.76944 80.86983 lineto
+30.68283 80.86983 lineto
+ closepath fill
+ 0 0 0 setrgbcolor 0 0.5 dtransform truncate idtransform setlinewidth pop
+newpath 30.68283 73.78322 moveto
+37.76944 73.78322 lineto
+37.76944 80.86983 lineto
+30.68283 80.86983 lineto
+ closepath stroke
+27.44603 83.16116 moveto
+(d) rm-lmr10 9.96265 fshow
+32.98073 83.16116 moveto
+(V) lmmi10 9.96265 fshow
+newpath 70.86601 70.86601 moveto
+62.45259 118.58162 lineto stroke
+newpath 63.90863 115.71974 moveto
+62.252 119.71916 lineto
+62.06314 115.39433 lineto
+ closepath fill
+ 0.8 0.8 0.8 setrgbcolor
+newpath 57.39552 98.91197 moveto
+72.27692 98.91197 lineto
+72.27692 111.21417 lineto
+57.39552 111.21417 lineto
+ closepath fill
+ 0 0 0 setrgbcolor
+59.39552 102.40637 moveto
+(R) lmmi10 9.96265 fshow
+66.96002 100.91197 moveto
+(i) lmmi7 6.97385 fshow
+ 0 1 dtransform truncate idtransform setlinewidth pop
+newpath 0 0 moveto
+69.23212 69.23212 lineto stroke
+newpath 67.73714 65.9546 moveto
+70.86601 70.86601 lineto
+65.9546 67.73714 lineto
+ closepath fill
+14.66489 37.46696 moveto
+(\000) lmsy10 9.96265 fshow
+14.66508 37.46696 moveto
+(!) lmsy10 9.96265 fshow
+16.36348 33.03917 moveto
+(x) lmmib10 9.96265 fshow
+22.92918 30.44597 moveto
+(i) lmmi7 6.97385 fshow
+newpath 70.86601 70.86601 moveto
+36.50104 76.92538 lineto stroke
+newpath 40.04416 77.58057 moveto
+34.22614 77.32652 lineto
+39.60638 75.0979 lineto
+ closepath fill
+53.41753 76.45018 moveto
+(r) lmmib10 9.96265 fshow
+51.22882 80.87798 moveto
+(\000) lmsy10 9.96265 fshow
+51.22902 80.87798 moveto
+(!) lmsy10 9.96265 fshow
+newpath 73.93385 72.63724 moveto
+122.5671 100.71559 lineto stroke
+newpath 120.27357 97.9359 moveto
+124.56738 101.87044 lineto
+119.01305 100.11922 lineto
+ closepath fill
+126.66737 110.99142 moveto
+(\000) lmsy10 9.96265 fshow
+126.66757 110.99142 moveto
+(!) lmsy10 9.96265 fshow
+128.64157 106.56363 moveto
+(v) lmmib10 9.96265 fshow
+134.28708 103.97043 moveto
+(i) lmmi7 6.97385 fshow
+newpath 72.63724 67.79817 moveto
+106.91643 8.42468 lineto stroke
+newpath 104.13649 10.71846 moveto
+108.07132 6.42435 lineto
+106.31996 11.97908 lineto
+ closepath fill
+newpath 105.24997 16.44673 moveto
+106.58263 17.47421 107.69443 18.62352 108.45958 19.78241 curveto
+109.60574 21.51831 109.88031 23.13368 109.22246 24.27312 curveto
+109.22246 24.27312 lineto
+108.5646 25.41255 107.02838 25.98245 104.95195 25.85782 curveto
+102.87555 25.73318 100.42891 24.92424 98.15005 23.60854 curveto
+95.8712 22.29283 93.9473 20.57846 92.80116 18.84256 curveto
+91.655 17.10666 91.38043 15.49129 92.03828 14.35185 curveto
+92.69614 13.21242 94.23236 12.64252 96.30879 12.76715 curveto
+97.03864 12.81096 97.81422 12.93932 98.6122 13.1445 curveto stroke
+newpath 95.4571 11.56688 moveto
+95.83817 11.61728 96.23885 11.7018 96.65591 11.82089 curveto
+97.99127 12.20215 99.42172 12.9169 100.80237 13.87892 curveto
+99.1445 13.59055 97.54602 13.5473 96.17465 13.76611 curveto
+95.74632 13.83446 95.34747 13.92719 94.98082 14.04256 curveto
+ closepath fill
+110.17131 0.66925 moveto
+(\000) lmsy10 9.96265 fshow
+110.17151 0.66925 moveto
+(!) lmsy10 9.96265 fshow
+111.39261 -3.75854 moveto
+(!) lmmib10 9.96265 fshow
+118.54391 -6.35175 moveto
+(i) lmmi7 6.97385 fshow
+showpage
+%%EOF
+
+%%EndDocument
+ @endspecial eop end
+%%Trailer
+
+userdict /end-hook known{end-hook}if
+%%EOF

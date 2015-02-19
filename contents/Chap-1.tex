@@ -1,0 +1,26 @@
+\chapter{Discrete Element Method}
+\label{chp:DEM}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+In granular or particle flow simulations with Discrete Element Method (DEM),
+the mechanical behavior of a system of particles are simulated. The basic
+building blocks of DEM are finite sized particles and walls. It is generally
+classified into two basically different approaches.
+
+The first is the ``hard sphere'', event-driven method
+\citep[e.g.][]{Luding-1994, Luding-2004}, where particles are assumed to be
+perfectly rigid and they follow an undisturbed motion until a collision
+occurs. Due to the rigidity of the interaction, the collisions occur
+instantaneously with accompanying momentum transfer. It is mainly used for
+collisional, dissipative granular gases.
+
+The second is the so-called ``soft particle'' molecular dynamics pioneered by
+\citet{Cundall-1979}, where the particles are allowed to overlap or penetrate
+each other. Constrains on the physical space that a particle can occupy at a
+specific time is included with contact or penalty forces related to the
+amount of overlap and contact velocity between particles or between particles
+and walls. The motion of the system is modelled by the integration of
+Newton-Euler equations for motion of every individual particle.
