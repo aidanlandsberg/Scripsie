@@ -59,32 +59,20 @@ P_{NN} =
 \\Before continuing, it is important to consider and understand the notation used in the sections that follow. Two separate coordinate systems are to be considered, namely the \textit{fixed} inertial reference fame system $W$ and the cameras free coordinate frame system, more commonly referred to as the body frame $C$. System variables defined within either of the aforementioned coordinate systems, are from here on in, to be designated a superscript to establish in which coordinate system it may be relevant (e.g. $x^{W}$). Derivatives of parameters are denoted through a prime symbol, second derivates are denoted through a double dot symbol and so forth; for instance the derivative of position $x$ will be denoted as $\dot{x}$ and its second derivative denoted as $\ddot{x}$. Vectors will be printed in bold and non-italics to better distinguish them from scalers. An example can be shown regarding the variable x: $\textbf{x}$ denotes a vector while its scalar counterpart would be represented as \textit{x}. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Camera Position State Representation}
-The following concept describes a suitable method to represent all relevant information regarding the cameras position and orientation in a 3D space. According to most implementations of robot localisation, there exists no concern to contrast between the concepts of a camera state $\textbf{\^{x}}_v$ and a camera position state $\textbf{x}_p$: it is therefore important to note that a position state - containing the required information regarding a robots position - is merely an element of the camera state vector. The state camera vector - comprising of 10 individual states - is mathematically described as follows:
+The following concept describes a suitable method to represent all relevant information regarding the cameras position and orientation in a 3D space. According to most implementations of robot localisation, there exists no concern to contrast between the concepts of a camera state $\textbf{\^{x}}_v$ and a camera position state $\textbf{x}_p$: it is therefore important to note that a position state - containing the required information regarding a robots position - is merely an element of the camera state vector. The state camera vector - comprising of 13 individual states - is mathematically described as follows:
 \begin{equation}
 \textbf{\^{x}}_v=  
  \begin{pmatrix}
   \textbf{{r}}^W\\
   \textbf{{q}}^{WC} \\ 
   \textbf{{V}}^W\\
+  \mathbf{\omega}^C
  \end{pmatrix} .
 \end{equation}
-where $\textbf{r}^W =$ (\textit{x} \textit{y} \textit{z}$)^T$ indicates the 3D cartesian position of the camera, $\textbf{{q}}^{WC}$ the unit orientation \textit{quarternion} - to be mathematically defined and described in the appendix - indicating the camera orientation (represented in the body frame) \textit{relative to the inertial reference frame} $W$ and $\textbf{{V}}^W$ indicating the linear velocities of the camera relative to the inertial reference frame $W$.     
-Often, the modelling of dynamic systems require that additional parameters - separate to those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in the description above, with the position state vector $\textbf{{x}}_p$ comprising of the 3D position vector, $\textbf{{r}}^W$ and the unit orientation \textit{quarternion}, $\textbf{{q}}^{WC}$. The linear velocity $\textbf{V}^W$, is the additional information required for system modelling. 
+where $\textbf{r}^W =$ (\textit{x} \textit{y} \textit{z}$)^T$ indicates the 3D cartesian position of the camera, $\textbf{{q}}^{WC}$ the unit orientation \textit{quarternion} - to be mathematically defined and described in the appendix - indicating the camera orientation (represented in the body frame) \textit{relative to the inertial reference frame} $W$, $\textbf{{V}}^W$ indicating the {linear} velocities of the camera relative to the inertial reference frame $W$ and $\mathbf{\omega}^C$ indicating the {angular} velocities of the camera relative to its own body frame $C$.     
+Often, the modelling of dynamic systems require that additional parameters - separate to those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in the description above, with the position state vector $\textbf{{x}}_p$ comprising of the 3D position vector, $\textbf{{r}}^W$ and the unit orientation \textit{quarternion}, $\textbf{{q}}^{WC}$. The linear and angular velocities, $\textbf{V}^W$ and $\mathbf{\omega}^C$, form the additional information required for system modelling. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%The position state $\textbf{{x}}_p$ can furthermore be fully represented as follows:
-%\begin{equation}
-%\textbf{{x}}_p=  
-% \begin{pmatrix}
-% x\\
-% y\\ 
-% z\\
-% q_0\\
-% q_1\\
-% q_2\\
-% q_3\\
-% \end{pmatrix} .
-%\end{equation}  
-%Various alternative implementations exist to represent a robots pose in a 3D space, each presenting their own unique advantages (and disadvantages) with respect to the others. A representation of an arbitrary 3D position and orientation, requires at least, three parameters describing the cartesian position as well as an additional three describing the orientation. This specific implementation, utilises the \textbf{quarternion} representation to portray the orientation information and thus requires an additional parameter to aid its description. 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 \subsubsection{Cartesian Feature Representation}
 As previously discussed, the aim is to describe a set of high-quality, well defined landmarks within the map. The map itself is to contain a 3D position of \textit{each} observed landmark  as well as a combined uncertainty. The feature estimates $\textbf{\^{y}}$ - comprising of $N$ landmarks - is mathematically described through three individual cartesian coordinates - $x$, $y$ and $z$ respectively:
@@ -115,7 +103,7 @@ where the state matrix $\textbf{A}$, describes the manner in which state evolves
 Considering that the Kalman Filter is a recursive, numerical evaluation, it is necessary to convert the previously defined continuous model into its discrete counterpart. Various methods of discretisation exist, though this specific implementation makes use of the forward difference/Euler’s method.\\ This method  \textit{approximates} the derivative for a state for a sampling period $\Delta T$ as follows:  
 \begin{equation}
 \begin{split}
-\textbf{\.{x}}[k] &= \lim_{\Delta T\to 0}{\frac{\textbf{x}[k+1]-\textbf{x}[k]}{\Delta T}} 	 \\										\Delta T\textbf{\.{x}}[k] &\approx \textbf{x}[k+1]-\textbf{x}[k] \\
+\textbf{\.{x}}[k] &= \lim_{\Delta T\to 0}{\frac{\textbf{x}[k+1]-\textbf{x}[k]}{\Delta T}} 		 \\										\Delta T\textbf{\.{x}}[k] &\approx \textbf{x}[k+1]-\textbf{x}[k] \\
 \end{split}
 \end{equation}     
 The state estimate of the discrete counterpart at the following sampling instance, namely $k + 1$, is then presented as follows (given a small enough sampling instance $\Delta T$):
@@ -131,16 +119,27 @@ Ultimately, the form of the final difference equation describing the system at e
 \end{equation} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{State Transition}
-In order to derive the motion model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached Inertial Measurement Unit (IMU) package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors.\\\\
+In order to derive the motion model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached Inertial Measurement Unit (IMU) package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\\\
+We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors. It is assumed in this instance, that at each time-step, an unknown angular acceleration $\mathbf{\Omega}^R$ acts upon the system. This input is modelled as a zero-mean Gaussian process that causes an impulse of angular velocity:
+\begin{equation}
+\textbf{w}_d[k]  = \textbf{w}[k] \Delta T =     
+ \begin{bmatrix}
+ \mathbf{\alpha}^R
+ \end{bmatrix} = 
+  \begin{bmatrix}
+ \mathbf{\omega}^R \Delta T
+ \end{bmatrix} .
+\end{equation}  
+with a covariance matrix $\textbf{R}_w$ that is assumed as a diagonal initially, to represent uncorrelated noise in all of the rotational components.\\
 %With reference to the previously defined state motion model in (1.8)
 It must also be stressed that initially, a stochastic, linear discrete-time model is adopted to approximate the motion model. Using the kinematic equations of linear and angular motion, it is aimed to ultimately and complete the previously defined state space model. We begin by describing all relevant states and inputs:
 \begin{equation}
 \begin{split}
-\textbf{x}[k] &= \big[\textit{x}_{k}\hspace{0.25cm}\textit{y}_{k}\hspace{0.25cm}\textit{z}_{k}\hspace{0.25cm}\textit{q}_{0,k}\hspace{0.25cm}\textit{q}_{1,k}\hspace{0.25cm}\textit{q}_{2,k}\hspace{0.25cm}\textit{q}_{3,k}\hspace{0.25cm}\textit{\.{x}}_{k}\hspace{0.25cm}\textit{\.{y}}_{k}\hspace{0.25cm}\textit{\.{z}}_{k}\hspace{0.05cm}\big]^T \\
+\textbf{x}[k] &= \big[\textit{x}_{k}\hspace{0.25cm}\textit{y}_{k}\hspace{0.25cm}\textit{z}_{k}\hspace{0.25cm}\textit{q}_{0,k}\hspace{0.25cm}\textit{q}_{1,k}\hspace{0.25cm}\textit{q}_{2,k}\hspace{0.25cm}\textit{q}_{3,k}\hspace{0.25cm}\textit{\.{x}}_{k}\hspace{0.25cm}\textit{\.{y}}_{k}\hspace{0.25cm}\textit{\.{z}}_{k}\hspace{0.05cm}\hspace{0.25cm}{\alpha}_{x,k}\hspace{0.25cm}{\alpha}_{y,k}\hspace{0.25cm}{\alpha}_{z,k}\hspace{0.1cm}\big]^T \\
 \textbf{u}[k] &= \big[\hspace{0.1cm}\ddot{x}_{k}\hspace{0.25cm}\ddot{y}_{k}\hspace{0.25cm}\ddot{z}_{k}\hspace{0.25cm}\textit{\.{q}}_{0,k}\hspace{0.25cm}\textit{\.{q}}_{1,k}\hspace{0.25cm}\textit{\.{q}}_{2,k}\hspace{0.25cm}\textit{\.{q}}_{3,k}\hspace{0.1cm}\big]^T\\
 \end{split}
 \end{equation}
-and extend the discrete-time difference equation describing the system to incorporate the motion model, 
+and extend the discrete-time difference equation describing the system to incorporate the motion model,  
 \begin{equation}
 \begin{split}
 \textbf{x}[k+1] &= \textbf{A}_d\textbf{x}[k] + \textbf{B}_d\textbf{u}[k]+\textbf{w}_d[k] \\
@@ -156,7 +155,7 @@ and extend the discrete-time difference equation describing the system to incorp
   0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
   0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
   0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
- \end{bmatrix} = (\textbf{I}+\textbf{A}\Delta T\big)  \\\\
+ \end{bmatrix} = (\textbf{I}+\textbf{A}\Delta T\big)  \\
  \textbf{B}_d&=
 \begin{bmatrix}
   \Delta T & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -166,15 +165,19 @@ and extend the discrete-time difference equation describing the system to incorp
   0 & 0 & 0 & 0 & \Delta T & 0 & 0 \\
   0 & 0 & 0 & 0 & 0 & \Delta T & 0 \\
   0 & 0 & 0 & 0 & 0 & 0 & \Delta T \\
-\end{bmatrix} \\\\
- \textbf{w}_d[k] &=\mathcal{N}(0,  \textbf{R}_w) -\textcolor{red}{\hspace{0.1cm}to\hspace{0.1cm}be\hspace{0.1cm}defined}
-\end{split}
+\end{bmatrix} = \textbf{B}\Delta T \\\\
+ \textbf{w}_d[k] &=\mathcal{N}(0,  \textbf{R}_w) =  
+  \begin{bmatrix}
+ \mathbf{\omega}^R \Delta T
+ \end{bmatrix} = \textbf{w}[k] \Delta T .
+ \end{split}
 \end{equation}
+it can be observed from the model above that the motion model adheres to the forward method of discretisation derived in (2.8). The motion model also adheres to the Markov process assumption, in that it can be completely described through only its transition from the previous state as well as the control inputs.    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Correction Step}
 With reference again to the probabilistic form of the solution to the SLAM problem, the measurement step too, requires a description in terms of a probability distribution. The observation model however, models the uncertainty regarding a measurement taken at an instance $\textbf{\^{z}}_k$ given that the locations of both the robot as well as the landmarks are known. This uncertainty can be described in the following form:  
 \begin{equation}
-P(\textbf{\^{z}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{\^{x}}_{k}, \textbf{\^{y}}_k)
+P(\textbf{\^{z}}_k\hspace{0.1cm}|\hspace{0.15cm}\textbf{\^{x}}_{k}, \textbf{\^{y}}_k)
 \end{equation} 
 It can be (reasonably) assumed that the uncertainty regarding the measurements are conditionally independent given the uncertainty regarding the robot and landmark locations if indeed they are completely defined.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -208,7 +211,7 @@ It can be (reasonably) assumed that the uncertainty regarding the measurements a
 
 
 
-\end{document}  
+\end{document}   
 
   %\begin{bmatrix}
   %x_k\\
@@ -222,3 +225,17 @@ It can be (reasonably) assumed that the uncertainty regarding the measurements a
   %\dot{y}_k\\
   %\dot{z}_k\\
   %\end{bmatrix}  
+  %The position state $\textbf{{x}}_p$ can furthermore be fully represented as follows:
+%\begin{equation}
+%\textbf{{x}}_p=  
+% \begin{pmatrix}
+% x\\
+% y\\ 
+% z\\
+% q_0\\
+% q_1\\
+% q_2\\
+% q_3\\
+% \end{pmatrix} .
+%\end{equation}  
+%Various alternative implementations exist to represent a robots pose in a 3D space, each presenting their own unique advantages (and disadvantages) with respect to the others. A representation of an arbitrary 3D position and orientation, requires at least, three parameters describing the cartesian position as well as an additional three describing the orientation. This specific implementation, utilises the \textbf{quarternion} representation to portray the orientation information and thus requires an additional parameter to aid its description. 
