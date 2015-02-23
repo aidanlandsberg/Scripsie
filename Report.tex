@@ -32,7 +32,7 @@ The Kalman filter is a popular, well studied technique for filtering and predict
 \newpage   
 The solution to this specific implementation of the Simultaneous Localisation and Mapping (SLAM) problem, takes the following probabilistic form:
 \begin{equation}
-P\big(\textbf{\^{x}}_k,\textbf{\^{y}}\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{0:k},\textbf{u}_{0:k},\textbf{x}_0\big)
+P\big(\textbf{\^{x}}_k,\textbf{\^{y}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{0:k},\textbf{u}_{0:k},\textbf{x}_0\big)
 \end{equation}
  with the aforementioned distribution described at every time instance $k$. A brief description would yield that the distribution above, describes a joint density - at given time instance $k$ - of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations and control inputs. It is assumed that a measurement function $h$ is used to obtain the measurements $\textbf{z}_{k}$ - these measurements also incorporate an uncertainty. Using the Kalman filter, each time-step $k$ can be operated into two (sequential) steps: the \textit{prediction step} and the \textit{update step}. Each of the aforementioned steps are discussed in more detail later in this section, but the general idea is that the Kalman filter firstly estimates the new state of the system according to the previous state as well as the control inputs, after which a measurement is predicted if indeed the system were to find itself within the estimated state. An actual measurement is then obtained to determine the actual state of the system and ultimately, the actual state of the system is then compared to the predicted state. It is important tot note that both prediction and measurement influence the state of the system.\\\\
 The general implementation above, is only valid when considering linear systems. Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form is of little essence. Instead, linearisation can be used in order to accommodate non-linear behaviour. The linearisation process can briefly be described by using first order Taylor expansion to create a linear approximation of a non-linear function. The Taylor expansion creates an approximation that is linear and dependent the properties of the functions derivative yielded form a single point (generally a point of most likelihood). It is therefore common to use the \textit{Jacobian} to linearise a non-linear function. It is therefore important - in order to successfully implement a Kalman filter on a non-linear system - to linearise both the state transition model as well as the measurement model in order to realise the EKF implementation. Once achieved, the EKF; that behaves otherwise identically in terms of operation to the general Kalman filter, can be implemented upon no-linear systems.      
@@ -95,12 +95,16 @@ With reference to the theory on image processing, it can be discussed that the d
 \subsection{Prediction Step}
 With reference to the probabilistic form of the solution to the SLAM problem, the prediction step requires a description in terms of a probability distribution. The description of the aforementioned motion model can then, in terms of the probability distribution on the state transitions, take the following form:
 \begin{equation}
-P(\textbf{\^{x}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{\^{x}}_{k-1}, \textbf{{u}}_k)
+\begin{split}
+P(&\textbf{\^{x}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{\^{x}}_{k-1}, \textbf{{u}}_k) \\
+&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}exp\hspace{0.1cm}\Big(\frac{1}{2}(\textbf{\^{x}}_k-\textbf{\^{x}}_{k\to k+1})^T\textbf{R}^{-1}_w(\textbf{\^{x}}_k-\textbf{\^{x}}_{k\to k+1})\Big)
+\end{split}
 \end{equation} 
+where $\textbf{\.{x}}_{k\to k+1}$ represents the motion model. \\\\
 The motion model is assumed to take the form of a Markov process, yielding that the next state $\textbf{\^{x}}_k$ is only dependent upon the state immediately preceding it - $\textbf{\^{x}}_{k-1}$ - as well as the input control $\textbf{{u}}_k$. Additionally, it is important to note that the uncertainty regarding the motion model is independent of the uncertainty regarding both the observation model as well as that of the probabilistic map itself.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{State Space Model} 
-As previously discussed, the Kalman Filter requires a state transition (motion) model in order to estimate the current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robots kinematic motion as well as the control inputs. The motion model in this particular instance can be described through a differential equation of the following form:
+As previously discussed, the Kalman Filter requires a state transition (motion) model in order to estimate the current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robots kinematic motion as well as the control inputs. The motion model in this particular instance can be described through a \textbf{linear} differential equation of the following form:
 \begin{equation}
 \textbf{\.{x}}(t) = \textbf{A}\textbf{x}(t) + \textbf{B}\textbf{u}(t)+\textbf{w}(t)
 \end{equation} 
@@ -182,8 +186,12 @@ it can be observed from the model above that the motion model adheres to the for
 \subsection{Correction Step}
 With reference again to the probabilistic form of the solution to the SLAM problem, the measurement step too, requires a description in terms of a probability distribution. The observation model however, models the uncertainty regarding a measurement taken at an instance $\textbf{\^{z}}_k$ given that the locations of both the robot as well as the landmarks are known. This uncertainty can be described in the following form:  
 \begin{equation}
-P(\textbf{\^{z}}_k\hspace{0.1cm}|\hspace{0.15cm}\textbf{\^{x}}_{k}, \textbf{\^{y}}_k)
+\begin{split}
+P(&\textbf{\^{z}}_k\hspace{0.1cm}|\hspace{0.15cm}\textbf{\^{x}}_{k}, \textbf{\^{y}}_k) \\
+&=\cfrac{1}{\sqrt{|2\pi\textbf{Q}_v|}}\hspace{0.1cm}exp\hspace{0.1cm}\Big(\frac{1}{2}(\textbf{\^{z}}_k-\textbf{\^{z}}_{k\to k+1})^T\textbf{Q}^{-1}_v(\textbf{\^{z}}_k-\textbf{\^{z}}_{k\to k+1})\Big)
+\end{split}
 \end{equation} 
+where $\textbf{\^{z}}_{k\to k+1}$ represents the measurement model. \\\\
 It can be (reasonably) assumed that the uncertainty regarding the measurements are conditionally independent given the uncertainty regarding the robot and landmark locations if indeed they are completely defined.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Observation Model}
