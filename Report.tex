@@ -32,7 +32,7 @@ The Kalman filter is a popular, well studied technique for filtering and predict
 \newpage   
 The solution to this specific implementation of the Simultaneous Localisation and Mapping (SLAM) problem, takes the following probabilistic form:
 \begin{equation}
-P\big(\textbf{\^{x}}_k,\textbf{\^{y}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{0:k},\textbf{u}_{0:k},\textbf{x}_0\big)
+P\big(\textbf{\^{x}}_k,\textbf{\^{y}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{0:k},\textbf{u}_{0:k},\textbf{x}_0\big).
 \end{equation}
  with the aforementioned distribution described at every time instance $k$. A brief description would yield that the distribution above, describes a joint density - at given time instance $k$ - of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations and control inputs. It is assumed that a measurement function $h$ is used to obtain the measurements $\textbf{z}_{k}$ - these measurements also incorporate an uncertainty. Using the Kalman filter, each time-step $k$ can be operated into two (sequential) steps: the \textit{prediction step} and the \textit{update step}. Each of the aforementioned steps are discussed in more detail later in this section, but the general idea is that the Kalman filter firstly estimates the new state of the system according to the previous state as well as the control inputs, after which a measurement is predicted if indeed the system were to find itself within the estimated state. An actual measurement is then obtained to determine the actual state of the system and ultimately, the actual state of the system is then compared to the predicted state. It is important tot note that both prediction and measurement influence the state of the system.\\\\
 The general implementation above, is only valid when considering linear systems. Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form is of little essence. Instead, linearisation can be used in order to accommodate non-linear behaviour. The linearisation process can briefly be described by using first order Taylor expansion to create a linear approximation of a non-linear function. The Taylor expansion creates an approximation that is linear and dependent the properties of the functions derivative yielded form a single point (generally a point of most likelihood). It is therefore common to use the \textit{Jacobian} to linearise a non-linear function. It is therefore important - in order to successfully implement a Kalman filter on a non-linear system - to linearise both the state transition model as well as the measurement model in order to realise the EKF implementation. Once achieved, the EKF; that behaves otherwise identically in terms of operation to the general Kalman filter, can be implemented upon no-linear systems.      
@@ -97,7 +97,7 @@ With reference to the probabilistic form of the solution to the SLAM problem, th
 \begin{equation}
 \begin{split}
 P(&\textbf{\^{x}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{\^{x}}_{k-1}, \textbf{{u}}_k) \\
-&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}exp\hspace{0.1cm}\Big(\frac{1}{2}(\textbf{\^{x}}_k-\textbf{\^{x}}_{k\to k+1})^T\textbf{R}^{-1}_w(\textbf{\^{x}}_k-\textbf{\^{x}}_{k\to k+1})\Big)
+&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}exp\hspace{0.1cm}\Big(\frac{1}{2}(\textbf{\^{x}}_k-\textbf{\^{x}}_{k\to k+1})^T\textbf{R}^{-1}_w(\textbf{\^{x}}_k-\textbf{\^{x}}_{k\to k+1})\Big).
 \end{split}
 \end{equation} 
 where $\textbf{\.{x}}_{k\to k+1}$ represents the motion model. \\\\
@@ -106,38 +106,40 @@ The motion model is assumed to take the form of a Markov process, yielding that 
 \subsubsection{State Space Model} 
 As previously discussed, the Kalman Filter requires a state transition (motion) model in order to estimate the current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robots kinematic motion as well as the control inputs. The motion model in this particular instance can be described through a \textbf{linear} differential equation of the following form:
 \begin{equation}
-\textbf{\.{x}}(t) = \textbf{A}\textbf{x}(t) + \textbf{B}\textbf{u}(t)+\textbf{w}(t)
+\textbf{\.{x}}(t) = \textbf{A}\textbf{x}(t) + \textbf{B}\textbf{u}(t)+\textbf{w}(t).
 \end{equation} 
 where the state matrix $\textbf{A}$, describes the manner in which state evolves from time $t-1$ to $t$ without the influence of noise and controls, the input matrix $\textbf{B}$, describes how the control vector $\textbf{u}(t)$ evolves from time step $t-1$ to $t$ and $\textbf{w}(t)$ is a \textbf{zero-mean} Gaussian random variable representing the process noise with a covariance matrix $\textbf{R}_w$.\\\\
-Considering that the Kalman Filter is a recursive, numerical evaluation, it is necessary to convert the previously defined continuous model into its discrete counterpart. Various methods of discretisation exist, though this specific implementation makes use of the forward difference/Euler’s method.\\ This method  \textit{approximates} the derivative for a state for a sampling period $\Delta T$ as follows:  
+Considering that the Kalman Filter is a recursive, numerical evaluation, it is necessary to convert the previously defined continuous model into its discrete counterpart. Various methods of discretisation exist, though this specific implementation makes use of the forward difference/Euler’s method. This method  \textit{approximates} the derivative for a state for a sampling period $\Delta T$ as follows:  
 \begin{equation}
 \begin{split}
-\textbf{\.{x}}[k] &= \lim_{\Delta T\to 0}{\frac{\textbf{x}[k+1]-\textbf{x}[k]}{\Delta T}} 		 \\										\Delta T\textbf{\.{x}}[k] &\approx \textbf{x}[k+1]-\textbf{x}[k] \\
+\textbf{\.{x}}[k] &= \lim_{\Delta T\to 0}{\frac{\textbf{x}[k+1]-\textbf{x}[k]}{\Delta T}} 		 \\										\Delta T\textbf{\.{x}}[k] &\approx \textbf{x}[k+1]-\textbf{x}[k]. \\
 \end{split}
 \end{equation}     
 The state estimate of the discrete counterpart at the following sampling instance, namely $k + 1$, is then presented as follows (given a small enough sampling instance $\Delta T$):
 \begin{equation}
 \begin{split}
-\textbf{x}[k+1] &= \big(\textbf{I}+\textbf{A}\Delta T\big)\textbf{x}[k] + \textbf{B}\textbf{u}[k]\Delta T + \textbf{w}[k]\Delta T
+\textbf{x}[k+1] &= \big(\textbf{I}+\textbf{A}\Delta T\big)\textbf{x}[k] + \textbf{B}\textbf{u}[k]\Delta T + \textbf{w}[k]\Delta T.
 \end{split}
 \end{equation}
 where $\big(\textbf{I}+\textbf{A}\Delta T\big) = \textbf{A}_d$ is the discrete state matrix, $ \textbf{B}\Delta T = \textbf{B}_d$ is the discrete input matrix and $\textbf{w}[k]\Delta T=\textbf{w}_d[k]$ is the discrete input process noise. \\\\
 Ultimately, the form of the final difference equation describing the system at each individual sampling instance is given as follows:
 \begin{equation}
-\textbf{x}[k+1]= \textbf{A}_d\textbf{x}[k] + \textbf{B}_d\textbf{u}[k]+\textbf{w}_d[k]
+\textbf{x}[k+1]= \textbf{A}_d\textbf{x}[k] + \textbf{B}_d\textbf{u}[k]+\textbf{w}_d[k].
 \end{equation} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{State Transition}
-In order to derive the motion model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached Inertial Measurement Unit (IMU) package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\\\
+In order to derive the motion model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached Inertial Measurement Unit (IMU) package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\
 We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors. It is assumed in this instance, that at each time-step, an unknown angular acceleration $\mathbf{\Omega}^R$ acts upon the system. This input is modelled as a zero-mean Gaussian process that causes an impulse of angular velocity:
 \begin{equation}
 \textbf{w}_d[k]  = \textbf{w}[k] \Delta T =     
  \begin{bmatrix}
- \mathbf{\alpha}^R
+ \mathbf{\Omega}^R
  \end{bmatrix} = 
-  \begin{bmatrix}
- \mathbf{\omega}^R \Delta T
- \end{bmatrix} .
+  \begin{pmatrix}
+  	\alpha_x \Delta T \\
+ 	\alpha_y \Delta T \\
+	\alpha_z \Delta T \\
+ \end{pmatrix} .
 \end{equation}  
 with a covariance matrix $\textbf{R}_w$ that is assumed as a diagonal initially, to represent uncorrelated noise in all of the rotational components.\\
 %With reference to the previously defined state motion model in (1.8)
@@ -176,9 +178,9 @@ and extend the discrete-time difference equation describing the system to incorp
   0 & 0 & 0 & 0 & 0 & 0 & \Delta T \\
 \end{bmatrix} = \textbf{B}\Delta T \\\\
  \textbf{w}_d[k] &=\mathcal{N}(0,  \textbf{R}_w) =  
-  \begin{bmatrix}
- \mathbf{\omega}^R \Delta T
- \end{bmatrix} = \textbf{w}[k] \Delta T .
+ \begin{bmatrix}
+ \mathbf{\Omega}^R
+ \end{bmatrix} = \textbf{w}[k] \Delta T 
  \end{split}
 \end{equation}
 it can be observed from the model above that the motion model adheres to the forward method of discretisation derived in (2.8). The motion model also adheres to the Markov process assumption, in that it can be completely described through only its transition from the previous state as well as the control inputs.    
@@ -188,11 +190,11 @@ With reference again to the probabilistic form of the solution to the SLAM probl
 \begin{equation}
 \begin{split}
 P(&\textbf{\^{z}}_k\hspace{0.1cm}|\hspace{0.15cm}\textbf{\^{x}}_{k}, \textbf{\^{y}}_k) \\
-&=\cfrac{1}{\sqrt{|2\pi\textbf{Q}_v|}}\hspace{0.1cm}exp\hspace{0.1cm}\Big(\frac{1}{2}(\textbf{\^{z}}_k-\textbf{\^{z}}_{k\to k+1})^T\textbf{Q}^{-1}_v(\textbf{\^{z}}_k-\textbf{\^{z}}_{k\to k+1})\Big)
+&=\cfrac{1}{\sqrt{|2\pi\textbf{Q}_v|}}\hspace{0.1cm}exp\hspace{0.1cm}\Big(\frac{1}{2}(\textbf{\^{z}}_k-\textbf{\^{z}}_{k\to k+1})^T\textbf{Q}^{-1}_v(\textbf{\^{z}}_k-\textbf{\^{z}}_{k\to k+1})\Big).
 \end{split}
 \end{equation} 
 where $\textbf{\^{z}}_{k\to k+1}$ represents the measurement model. \\\\
-It can be (reasonably) assumed that the uncertainty regarding the measurements are conditionally independent given the uncertainty regarding the robot and landmark locations if indeed they are completely defined.
+It can be (reasonably) assumed that the uncertainty regarding the measurements are conditionally independent given the uncertainty regarding the robot and landmark locations if indeed they are completely defined. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Observation Model}
 
