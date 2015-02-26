@@ -34,7 +34,7 @@ The solution to this specific implementation of the Simultaneous Localisation an
 \begin{equation}
 P\big(\textbf{\^{x}}_k,\textbf{\^{y}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{0:k},\textbf{u}_{0:k},\textbf{x}_0\big).
 \end{equation}
- with the aforementioned distribution described at every time instance $k$. A brief description would yield that the distribution above, describes a joint density - at given time instance $k$ - of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations and control inputs. It is assumed that a measurement function $h$ is used to obtain the measurements $\textbf{z}_{k}$ - these measurements also incorporate an uncertainty. Using the Kalman filter, each time-step $k$ can be operated into two (sequential) steps: the \textit{prediction step} and the \textit{update step}. Each of the aforementioned steps are discussed in more detail later in this section, but the general idea is that the Kalman filter firstly estimates the new state of the system according to the previous state as well as the control inputs, after which a measurement is predicted if indeed the system were to find itself within the estimated state. An actual measurement is then obtained to determine the actual state of the system and ultimately, the actual state of the system is then compared to the predicted state. It is important tot note that both prediction and measurement influence the state of the system.\\\\
+ with the aforementioned distribution described at every time instance $k$. A brief description would yield that the distribution above, describes a joint density - at given time instance $k$ - of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations and control inputs. It is assumed that a measurement function $h$ is used to obtain the measurements $\textbf{z}_{k}$ - these measurements also incorporate an uncertainty. Using the Kalman filter, each time-step $k$ can be operated into two (sequential) steps: the \textit{prediction step} and the \textit{update step}. Each of the aforementioned steps are discussed in more detail later in this section, but the general idea is that the Kalman filter firstly estimates the new state of the system according to the previous state as well as the control inputs, after which a measurement is predicted if indeed the system were to find itself within the estimated state. An actual measurement is then obtained through the system sensors to determine the actual state of the system and ultimately, the actual state of the system is then compared to the predicted state. It is important to note that both prediction and measurement influence the state of the system.\\\\
 The general implementation above, is only valid when considering linear systems. Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form is of little essence. Instead, linearisation can be used in order to accommodate non-linear behaviour. The linearisation process (to be explained later in this section) can briefly be described by using first order Taylor expansion to create a linear approximation of a non-linear function. The Taylor expansion creates an approximation that is linear and dependent on the properties of the functions derivative yielded from a single - generally that of the most likelihood - point (mean). \textit{Jacobians} are commonly used to linearise non-linear functions. It is therefore important - in order to successfully implement a Kalman filter on a non-linear system - to linearise both the state transition model as well as the measurement model; both of which are generally non-linear functions. Once achieved, the EKF; which behaves otherwise identically in terms of operation to the general Kalman filter, can be implemented upon non-linear systems.      
 %This description then allows for the implementation of a recursive algorithm, namely, a discrete Kalman filter. In order for a Kalman filter to be successfully implemented, a \textbf{state transition (motion) model} as well as an \textbf{observation model} is required to individually describe the effects of the control input as well as the observations respectively.\\
 %It is important to note that the Kalman filter estimates the state of a continuous- or discrete-time process that is described by a set of differential (continuous) or difference (discrete) equations. The Kalman filter then continuously updates the state estimates according to the measurements it obtains. This procedure, takes the form of a two-step recursive process: an a priori prediction (time-update) and an observation based correction (measurement-update). 
@@ -101,7 +101,7 @@ P(&\textbf{\^{x}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{\^{x}}_{k-1}, \textbf{
 &=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}exp\hspace{0.1cm}\Big(\frac{1}{2}(\textbf{\^{x}}_k-\textbf{\^{x}}_{k\to k+1})^T\textbf{R}^{-1}_w(\textbf{\^{x}}_k-\textbf{\^{x}}_{k\to k+1})\Big).
 \end{split}
 \end{equation} 
-where $\textbf{\.{x}}_{k\to k+1}$ represents the motion model. \\\\
+where $\textbf{\^{x}}_{k\to k+1}$ represents the motion model. \\\\
 The motion model is assumed to take the form of a Markov process, yielding that the next state $\textbf{\^{x}}_k$ is only dependent upon the state immediately preceding it - $\textbf{\^{x}}_{k-1}$ - as well as the input control $\textbf{{u}}_k$. Additionally, it is important to note that the uncertainty regarding the motion model is independent of the uncertainty regarding both the observation model as well as that of the probabilistic map itself.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{State Space Model} 
@@ -196,10 +196,37 @@ P(&\textbf{\^{z}}_k\hspace{0.1cm}|\hspace{0.15cm}\textbf{\^{x}}_{k}, \textbf{\^{
 \end{split}
 \end{equation} 
 where $\textbf{\^{z}}_{k\to k+1}$ represents the measurement model. \\\\
-It can be (reasonably) assumed that the uncertainty regarding the measurements are conditionally independent given the uncertainty regarding the robot and landmark locations if indeed they are completely defined. 
+It can be (reasonably) assumed that the uncertainty regarding the measurements are conditionally independent given the uncertainty regarding the robot and landmark locations if indeed they are completely defined. Also, the correction step seeks to obtain the difference between the actual measurements $\textbf{\^{z}}_k$ and the predicted measurements. These predicted measurements are to be obtained through an observation model that we from hereon in refer to as the measurement function, denoted as $\textbf{h}_i$.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Observation Model}
-\textbf{To be completed in the weeks that follow}
+\subsubsection{Measurement Function}
+The correction step of the Kalman filter aims to ultimately correct the previously estimated robot pose and landmark position through exterior sensor measurements. The measurement process generally involves a measurement estimate that incorporates an uncertainty. With regard to the implantation proposed in this paper, landmarks are required to be observed and measured through the use of a camera. To mathematically describe this process, the previously mentioned measurement function is used to effectively model the measurement estimation. It is essential that the measurement function, like the motion model, be \textbf{linear} in nature and additionally, the measurement function {must} describe the position of a \textbf{point} feature with regard to the previously estimated states - namely the robot pose and the landmark positions. \\\\   
+Considering that the camera observations are obtained with regard to its own reference frame $C$, the definition of the measurement function is adapted in order to be described with regard to the inertial reference frame. The measurement function $\textbf{h}^W_i$ that describes a directional vector in relation to the cameras body frame is thus mathematically defined as follows: 
+\begin{equation}
+\textbf{h}^W_i = \textbf{R}^{CW}\big(\textbf{y}^W_i-\textbf{r}^W\big) = 
+  \begin{pmatrix}
+  \begin{pmatrix}
+  x_i\\
+  y_i \\ 
+  z_i \\
+  \end{pmatrix} - \textbf{r}^{W} 
+  \end{pmatrix}  
+\end{equation}
+where the subscript $i$ corresponds a directional vector $\textbf{h}^C$ to its cartesian point $\textbf{y}^W$, $\textbf{r}^W$ describes the cartesian position of the camera, $\textbf{y}^W$ describes the cartesian position of a given landmark and $\textbf{R}^{CW}$ represents the rotational matrix that is required to transform the aforementioned positional vectors from the inertial reference frame into the cameras body frame coordinate system.\\\\
+With reference to Chapter 2 regarding perspective cameras, it can be recalled that a given features position is described by a 2-dimensional position of the image frame of the camera. Recalling, the standard pinhole camera model defines this position mathematically as follows:
+ \begin{equation}
+\textbf{h}_i = 
+  \begin{pmatrix}
+  u_i\\
+  v_i \\ 
+  \end{pmatrix} =
+    \begin{pmatrix}
+  u_0 - fk_u\frac{h^R_{i,x}}{h^R_{i,z}}\\
+  v_0 - fk_v\frac{h^R_{i,y}}{h^R_{i,z}} \\ 
+  \end{pmatrix} 
+\end{equation}
+where $fk_u$, $fk_v$, $u_0$ and $v_0$ are the previously described camera calibration parameters.\\
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Feature Tracking}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
