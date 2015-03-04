@@ -1,0 +1,32 @@
+\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+
+\title{\Large{Week 2: Camera Theory \& Kalman Filter Theory}}
+\author{Aidan Landsberg}
+\date{\today}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\newpage
+\section{Introduction}In MonoSLAM, the primary sensor information is gathered from a \textbf{single} standard low-cost USB digital camera. The following section will first present an ideal camera in terms of a mathematical model and show how this ideal model can be modified with a distortion model to better fit the imperfections presented by real camera lenses. Also, this section will explain the manner in which 3-dimensional positions can be estimated from the relevant 2-dimensional data in subsequent camera images.
+
+\subsection{The Pinhole Camera Model}
+This classical model provides a reasonable approximation of a three-dimensional point in world and approximates this positional according to a 2-dimensional plane. This plane is referred to as the \textit{pinhole plane} and consists of an infinitesimal hole - the pinhole. The pinhole corresponds to the origin $O$ of the camera's own 3-dimensional coordinate system and is also known as the optical centre of the camera. 
+\begin{figure}[htbp]
+\begin{center}
+\
+\caption{default}
+\label{default}
+\end{center}
+\end{figure}
+
+
+
+
+\end{document}  
