@@ -4,29 +4,28 @@
 %\geometry{landscape}                		% Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
-								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{natbib}								% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{amssymb}
 
-\title{\Large{Week 2: Camera Theory \& Kalman Filter Theory}}
+\title{\Large{Week 2: Camera Theory}}
 \author{Aidan Landsberg}
 \date{\today}							% Activate to display a given date or no date
 
 \begin{document}
 \maketitle
 %\newpage
-\section{Introduction}In MonoSLAM, the primary sensor information is gathered from a \textbf{single} standard low-cost USB digital camera. The following section will first present an ideal camera in terms of a mathematical model and show how this ideal model can be modified with a distortion model to better fit the imperfections presented by real camera lenses. Also, this section will explain the manner in which 3-dimensional positions can be estimated from the relevant 2-dimensional data in subsequent camera images.
-
+\section{Introduction}
+In the MonoSLAM approach presented by Davison, the primary sensor information is gathered from a \textbf{single} low-cost digital camera. The following section, first and foremost, aims to present a mathematical and geometrical approach to the modelling of the aforementioned camera in its ideal form. Thereafter, the ideal model can be modified to incorporate the effects of non-idealities such as distortion. This section will also provide a sufficient approach to reconstruct an estimate of the original three dimensional position form a sequence of two dimensional data contained within the cameras images.   
 \subsection{The Pinhole Camera Model}
-This classical model provides a reasonable approximation of a three-dimensional point in world and approximates this positional according to a 2-dimensional plane. This plane is referred to as the \textit{pinhole plane} and consists of an infinitesimal hole - the pinhole. The pinhole corresponds to the origin $O$ of the camera's own 3-dimensional coordinate system and is also known as the optical centre of the camera. 
+This classical model provides a reasonable approximation of a three-dimensional point in world and approximates this position according to a 2-dimensional plane. Though this model is widely utilised in the computer vision field, it is important to note that the model itself is an approximation that incorporates a number of assumptions. The models convenience as well as its simplicity make it a popular choice within practice. The model though, can be adapted to limit certain assumptions and better approximate the properties that coincide with available digital cameras.
+\subsubsection{Description of the Model}
+The pinhole camera model can be described as a two-dimensional plane, containing the projections of the three dimensional coordinate. The process of representing a 3D coordinate in terms of a 2D coordinate is known as \textit{perspective projection}. The two-dimensional plane is commonly referred to as the \textit{pinhole plane} which contains a infinitesimal hole at its centre - the \textit{pinhole}. The camera possess its own 3D coordinate system with coordinate axes $X_C$, $Y_C$ and $Z_C$ (also referred to as the cameras \textit{optical axis}). The pinhole is situated at the origin of this 3D coordinate system - this is also referred to as the \textit{optical centre}, \textit{O}. The image plane is located at a positive distance \textit{f} from the optical centre \textit{O} along the negative $Z_C$-axis and is parallel to the pinhole plane.      
 \begin{figure}[htbp]
 \begin{center}
-\
+
 \caption{default}
 \label{default}
 \end{center}
 \end{figure}
-
-
-
 
 \end{document}  
