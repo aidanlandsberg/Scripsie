@@ -1,4 +1,4 @@
-\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\documentclass[12pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
 \usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
 %\geometry{landscape}                		% Activate for for rotated page geometry
@@ -11,22 +11,43 @@
 \numberwithin{equation}{section}
 \usepackage{color}
 
-
+% Set Margin Sizes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \geometry{
+ a4paper,
+ left= 30mm,
+ right= 20mm,
+ top= 25mm,
+ bottom= 25mm,
+ }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+% Set Line Spacing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{setspace}
+\singlespacing
+%\onehalfspacing
+%\doublespacing
+%\setstretch{1.1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title{Scripsie: State Estimation \& Observation}
 \author{Aidan Landsberg}
 \date{\today}							% Activate to display a given date or no date
-
+\pagenumbering{roman}
 \begin{document}
 \maketitle
 \newpage
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Single Camera Simultaneous Localisation and Mapping }
 The ultimate goal of the approach presented here, is to obtain a probabilistic three dimensional (3D) map of features, representing at every time instance, the estimates of both the state of the camera as well as the positions of every feature observed. These features of interest are more commonly referred to as \textit{landmarks} and the aforementioned terms will, from hereon in, be used synonymously.  Most importantly though, the map is to contain the \textit{uncertainty} associated with each of the aforementioned estimates.\\The process regarding the construction of this map of features is to be implemented through the use of an (Extended) Kalman filter. The map initially, completely void of any landmarks, is recursively updated according to the subsequent fusions of both predictions and measurements presented to the Kalman filter. As new (potentially interesting) features are observed, the state estimates of both the camera as well as the landmarks are both updated - augmenting the state vector with additional features (if indeed they are observed) while deleting any landmarks that are no longer of interest. In order to obtain the best possible result, the algorithm should strive to obtain a sparse set of higher-quality landmarks rather than a dense set of ordinary landmarks within the environment.    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 \section{Kalman Filter}
 The following section will provide a brief introduction to the \textit{Kalman Filter} (KF), the fundamental (and popular) algorithm that enables the realisation of the SLAM problem. With regard to SLAM, a Kalman Filter can be briefly described as an algorithm that \textbf{optimally} estimates the state of the robots pose as well as the position of the landmarks within the map, given process and measurement noise.\\
-The Kalman filter is a popular, well studied technique for filtering and prediction of a \textit{continuous} linear system that contains uncertainty. It is realised utilising a recursive Gaussian filter (more specifically the Bayes filter) in order to estimate the state of the system accordingly. As a result, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\mu_t$ and covariance $\Sigma_t$, at each time instance $t$ (while previous time-steps are denoted as $t-1$, $t-2$ etc.). The general implementation, as described above, is only valid when considering linear systems. Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented as non-linear transformations suppress the Gaussian nature of the distribution that is being modelled. Instead, the Kalman filter algorithm can be extended in order to accommodate non-linear behaviour. The Extended Kalman filter (EKF), an extension of the general Kalman filter, aims to enable the modelling of non-linear systems through linearisation. The fundamental principals regarding the EKF are identical to those of the standard Kalman filter.\\
+The Kalman filter is a popular, well studied technique for filtering and prediction of a \textit{continuous} linear system that contains uncertainty. It is realised utilising a recursive Gaussian filter (more specifically the Bayes filter) in order to estimate the state of the system accordingly. As a result, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\mu_t$ and covariance $\Sigma_t$, at each time instance $t$ (while previous time-steps are denoted as $t-1$, $t-2$, etc.). The general implementation, as described above, is only valid when considering linear systems. Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented as non-linear transformations suppress the Gaussian nature of the distribution that is being modelled. Instead, the Kalman filter algorithm can be extended in order to accommodate non-linear behaviour. The Extended Kalman filter (EKF), an extension of the general Kalman filter, aims to enable the modelling of non-linear systems through linearisation. The fundamental principals regarding the EKF are identical to those of the standard Kalman filter.\\
 %provided that the state vector $\textbf{\^{x}}_k$, and landmark locations $\textbf{\^{y}}_{n,k}$ are modelled by a single multivariate Gaussian distribution. The system is to be observed at discrete steps in time - denoted by the subscript$k =1, 2,  3, ...$ - where at every individual time-step, it can be influenced by a set of actions. It is assumed that\\
 \newpage   
 Moreover, the solution to this specific implementation of the Simultaneous Localisation and Mapping (SLAM) problem, takes the following probabilistic form:
@@ -59,129 +80,126 @@ The Kalman filter can be executed in two (sequential) steps: the \textit{predict
 \end{tabular}
 \end{center}
 \end{table}%
-The estimation of the mean in the first step of the algorithm in table 1 above, as previously mentioned, is described through a transition function $g(\mu_{t}, {\mu}_{t-1})$ that is non-linear in nature. The linearisation process of EKF aims to linearise this function. The linearisation process (to be explained later in this section) can briefly be described by using first order Taylor expansion to create a linear \textit{approximation} of a non-linear function. The Taylor expansion creates an approximation that is linear and dependent on the properties of the functions derivative yielded from a single - generally that of the most likely - point (mean). \textit{Jacobians} are commonly used to linearise non-linear functions. The measurement model $h(\bar \mu_t)$ is also non-linear in nature. It is therefore important - in order to successfully implement a Kalman filter on a non-linear system - to linearise both the state transition model as well as the measurement model; both of which are generally non-linear functions. Once achieved, the EKF; which behaves otherwise identically in terms of operation to the general Kalman filter, can be implemented upon non-linear systems. It is very important to note that because only a first order Taylor expansion is used to approximate the linearisation, severe non-linearities will prohibit acceptable approximations of the Gaussian distribution.     
+As previously mentioned, the state transition function $g(\mu_{t}, {\mu}_{t-1})$, as well as the measurement model $h(\bar \mu_t)$, are both non-linear in nature. The linearisation process of EKF aims to linearise this function. The linearisation process (to be explained later in this section) can briefly be described by using first order Taylor expansion to create a linear \textit{approximation} of a non-linear function. The Taylor expansion creates an approximation that is linear and dependent on the properties of the functions derivative yielded from a single - generally that of the most likely - point (mean). \textit{Jacobians} are commonly used to linearise non-linear functions. It is therefore important - in order to successfully implement a Kalman filter on a non-linear system - to linearise both the state transition model as well as the measurement model; both of which are generally non-linear functions. Once achieved, the EKF; which behaves otherwise identically in terms of operation to the general Kalman filter, can be implemented upon non-linear systems. It is very important to note that because only a first order Taylor expansion is used to approximate the linearisation, severe non-linearities will prohibit acceptable approximations of the Gaussian distribution.     
 %This description then allows for the implementation of a recursive algorithm, namely, a discrete Kalman filter. In order for a Kalman filter to be successfully implemented, a \textbf{state transition (motion) model} as well as an \textbf{observation model} is required to individually describe the effects of the control input as well as the observations respectively.\\
 %It is important to note that the Kalman filter estimates the state of a continuous- or discrete-time process that is described by a set of differential (continuous) or difference (discrete) equations. The Kalman filter then continuously updates the state estimates according to the measurements it obtains. This procedure, takes the form of a two-step recursive process: an a priori prediction (time-update) and an observation based correction (measurement-update). 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{State Representation}
-Generally, a state can be defined as any facet that has the ability to impact the future. In the context of this particular paper, the states will comprise of all facets that impact the future of both the robot and the environment dynamics. As per the definition of the Kalman filter, it is essential that the system possesses a model to estimate future states. All relevant state estimates are embedded within the state vector $\textbf{\^{x}}_t$ which is comprised of two parts, the camera state $\textbf{{x}}_v$ and the feature estimates $\textbf{\^{y}}$ respectively. The camera state provides the estimate for the robot's pose at each time-step and the landmark estimates provide the landmark's estimated position within the map.\\
-Mathematically, the probabilistic map can be represented through the state vector $\textbf{{x}}_t$ and a covariance matrix $\textbf{P}$. $\textbf{{x}}_t$, as previously mentioned, is a a single column vector containing the estimates of the camera as well as the landmark positions, and $\textbf{P}$ is a square matrix containing the covariances of each state with respect to every other state. These quantities can be mathematically shown as follows:
+Generally, a state can be defined as any facet that has the ability to impact the future. In the context of this particular paper, the states will comprise of all facets that impact the future of both the robot and the environment dynamics. As per the definition of the EKF, it is essential that the system possesses a model to estimate future states. This model is commonly referred to as the previously mentioned state transition model. All relevant state estimates are embedded within the state vector $\textbf{{x}}_t$ which is comprised of two parts, the camera state $\textbf{{x}}_v$ and the feature estimates $\textbf{{y}}$ respectively. The camera state provides the estimate for the robot's pose at each time-step and the landmark estimates provide the landmark's estimated position within the map.\\
+Mathematically, the probabilistic map is typically represented through a mean state vector $\textbf{{x}}_t$ and a covariance matrix $\textbf{P}_{nn}$. The mean state vector, as previously mentioned, is a a single column vector containing the estimates of the camera as well as the landmark positions, and $\textbf{P}_{nn}$ is a square matrix containing the covariances of each state with respect to every other state. These quantities can be mathematically shown as follows:
 \begin{equation}
-\textbf{{x}}_k = 
+\textbf{{x}}_t = 
  \begin{pmatrix}
   \textbf{{x}}_v\\
   \textbf{{y}}_1 \\ 
   \textbf{{y}}_2 \\
   \vdots \\
-  \textbf{{y}}_N
+  \textbf{{y}}_n
  \end{pmatrix} , \hspace{0.5cm}
-P_{NN} =
+\textbf{P}_{nn} =
  \begin{bmatrix}
   P_{x,x} & P_{x,{y_1}} & P_{x,{y_2}} & \cdots & P_{x,{y_N}} \\
   P_{{y_1},x} &  P_{{y_1},{y_1}} & P_{{y_1},{y_2}} & \cdots &  P_{{y_1},{y_N}} \\
   P_{{y_2},x} &  P_{{y_2},{y_1}} & P_{{y_2},{y_2}} & \cdots &  P_{{y_2},{y_N}} \\
   \vdots  & \vdots  & \vdots & \ddots & \vdots  \\
-  P_{{y_N},x} & P_{{y_N},{y_1}} & P_{{y_N},{y_2}}& \cdots & P_{{y_N},{y_N}}
+  P_{{y_n},x} & P_{{y_n},{y_1}} & P_{{y_n},{y_2}}& \cdots & P_{{y_n},{y_n}}
  \end{bmatrix},
 \end{equation}
-\\These quantities then, allow us to approximate the uncertainty regarding the generated feature map as a $N$-dimensional single multi-variate Gaussian distribution, where $N$, as stated above, is the total number of state estimates within the state vector.\\
+\\These quantities then, allow us to approximate the uncertainty regarding the generated feature map as a $N$-dimensional single multi-variate Gaussian distribution, where $N$, as stated above, is the total number of state estimates within the state vector and $n$ is the total number of landmarks within the map.\\
 \\Before continuing, it is important to consider and understand the notation used in the sections that follow. Two separate coordinate systems are to be considered, namely the \textit{fixed} inertial reference frame system $W$ and the cameras free coordinate frame system, more commonly referred to as the body frame $C$. System variables defined within either of the aforementioned coordinate systems, are from here on in, to be designated a superscript to establish in which coordinate system it may be relevant (e.g. $x^{W}$). Derivatives of parameters are denoted through a dot symbol, second derivates are denoted through a double dot symbol and so forth; for instance the derivative of position $x$ will be denoted as $\dot{x}$ and its second derivative denoted as $\ddot{x}$. Vectors will be printed in bold and non-italics to better distinguish them from scalars. An example can be shown regarding the variable x: $\textbf{x}$ denotes a vector while its scalar counterpart would be represented as \textit{x}. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Camera Position State Representation}
-The following concept describes a suitable method to represent all relevant information regarding the cameras position and orientation in a 3D space. According to most implementations of robot localisation, there exists no concern to contrast between the concepts of a camera state $\textbf{{x}}_v$ and a camera position state $\textbf{x}_p$: it is therefore important to note that a position state - containing the required information regarding a robots position - is merely an element of the camera state vector. The state camera vector - comprising of 13 individual states - is mathematically described as follows:
+The following concept describes a suitable method to represent all relevant information regarding the cameras position and orientation in a 3D space. According to most implementations of robot localisation, there exists no concern to contrast between the concepts of a camera state $\textbf{{x}}_v$ and a camera position state $\textbf{x}_p$: it is therefore important to note that a position state - containing the required information regarding a robots position - is merely an element of the camera state vector. The state camera vector - comprising of 10 individual states - is mathematically described as follows:
 \begin{equation}
-\textbf{\^{x}}_v=  
+\textbf{{x}}_v=  
  \begin{pmatrix}
   \textbf{{r}}^W\\
   \textbf{{q}}^{WC} \\ 
   \textbf{{v}}^W\\
  \end{pmatrix} ,
 \end{equation}
-where $\textbf{r}^W =$ (\textit{x} \textit{y} \textit{z}$)^T$ indicates the 3D cartesian position of the camera, $\textbf{{q}}^{WC}$ the unit orientation \textit{quarternion} - to be mathematically defined and described in the appendix - indicating the camera orientation (represented in the body frame $C$) relative to the inertial reference frame $W$ while $\textbf{{v}}^W$ indicates the \textit{linear} velocities of the camera relative to the inertial reference frame $W$.\\Often, the modelling of dynamic systems require that additional parameters - separate to those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in the description above, with the position state vector $\textbf{{x}}_p$ comprising of the 3D position vector, $\textbf{{r}}^W$ and the unit orientation \textit{quarternion}, $\textbf{{q}}^{WC}$. The linear velocity vector, $\textbf{V}^W$, forms the additional information required for system modelling. 
+where $\textbf{r}^W =$ (\textit{x} \textit{y} \textit{z}$)^T$ indicates the 3D cartesian position of the camera, $\textbf{{q}}^{WC}$ the unit orientation \textit{quarternion} - to be mathematically defined and described in the appendix - indicating the camera orientation (represented in the body frame $C$) relative to the inertial reference frame $W$ while $\textbf{{v}}^W$ indicates the \textit{linear} velocities of the camera relative to the inertial reference frame $W$.\\Often, the modelling of dynamic systems require that additional parameters - separate to those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in the description above, with the position state vector $\textbf{{x}}_p$ comprising of the 3D position vector, $\textbf{{r}}^W$ and the unit orientation \textit{quarternion}, $\textbf{{q}}^{WC}$. The linear velocity vector, $\textbf{V}^W$, forms the additional information required for system modelling. \textcolor{red}{We want to say here that the control inputs are of such a nature that intermediary states (such as linear velocities) are required to describe the control inputs effect on the position.} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 \subsubsection{Cartesian Feature Representation}
 As previously discussed, the aim is to describe a set of high-quality, well defined landmarks within the map. The map itself is to contain a 3D position of \textit{each} observed landmark  as well as a combined uncertainty. The feature estimates $\textbf{{y}}$ - comprising of $N$ landmarks - is mathematically described through three individual cartesian coordinates - $x$, $y$ and $z$ respectively:
-
 \begin{equation}
 \textbf{{y}}_n = (x_n\hspace{0.25cm}y_n\hspace{0.25cm}z_n)^T,
 \end{equation}
-where $n$ represents a specific single landmark. \\\\
-\textcolor{red}{With reference to the theory on image processing, it can be discussed that the depth of a given landmark (in this case the $z$-coordinate) cannot be immediately determined, but rather approximated via triangulation given the landmark is observed over a sequence of (minimally) two known camera positions. The $x$ and $y$ measurements however, can be immediately determined from the image plane.}
+where $n$ corresponds to a specific, single landmark.
+%\textcolor{red}{With reference to the theory on image processing, it can be discussed that the depth of a given landmark (in this case the $z$-coordinate) cannot be immediately determined, but rather approximated via triangulation given the landmark is observed over a sequence of (minimally) two known camera positions. The $x$ and $y$ measurements however, can be immediately determined from the image plane.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Control Inputs}
 %\textbf{Still reading up on some literature before properly defining this section}
+In most instances of robotics, it is essential to describe the dynamics involving a robot's movement. In the context of the specific implementation discussed in this paper, the camera is free to move freely as per the user's control requests. Evidently, these requests exert external dynamics upon the system which are uncertain and stochastic at best.\\
+In the approach presented by \textcolor{red}{Davison}, a constant velocity model is assumed and at each time-step, unknown linear and angular acceleration zero-mean, Gaussian processes are introduced that cause linear and angular velocity impulses. Even though there have been proven successful implementations regarding the aforementioned approach (as well as other variants and extensions thereof), the model contains very little, if any information on the movement of the camera. The approach proposed in this paper, aims to utilise inertial sensors in order to obtain the necessary information regarding the camera's movement.\\
+The inertial sensors, in the form of an inertial measurement unit (IMU), should ideally be mounted onto the camera. This will allow the camera to be modelled as a rigid body upon which a kinematic estimation can be applied. The IMU directly measures the total accelerations $\textbf{f}_t$ as well as the angular rates $\mathbf{\omega}_t$ with respect to the cameras rigid body frame $C$.\\ 
+The control vector however, requires that the linear portion of the acceleration be obtained from the IMU measurement. It is known that the total acceleration measured by the IMU's accelerometer is expressed mathematically as follows:
 
+\begin{equation}
+\textbf{f}_t = \textbf{R}(\textbf{a}_t - \textbf{g}_t)
+\end{equation}
+where $\textbf{R}$ is the rotation matrix that transforms the body coordinate frame data into the inertial reference frame, $\textbf{a}_t$ is the linear acceleration vector and $\textbf{g}_t$ is the gravity vector. \\
+Once obtained, these measurements (not to be confused with the EKF's measurements) form the control vector $\textbf{u}_t$ that describes, at each time-step, the dynamics of the system as a result of external forces. The control vector is mathematically described as follows:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\begin{equation}
+\textbf{u}_t =
+\begin{pmatrix} 
+ \textbf{a}_t \\
+ {\omega}_t
+\end{pmatrix}
+= \big[\hspace{0.1cm}\ddot{x}_{t}\hspace{0.25cm}\ddot{y}_{t}\hspace{0.25cm}\ddot{z}_{t}\hspace{0.25cm}\textit{\.{q}}_{0,t}\hspace{0.25cm}\textit{\.{q}}_{1,t}\hspace{0.25cm}\textit{\.{q}}_{2,t}\hspace{0.25cm}\textit{\.{q}}_{3,t}\hspace{0.1cm}\big]^T
+\end{equation}
+Because the IMU measurements gather the actual data through exteroceptive sensors, namely an accelerometer and a gyroscope, it is important to note the effects of disturbances and process noise can be directly obtained through these measurements. Moreover, the uncertainty regarding the transition model, namely the process noise, is all incorporated within the noise measurements of the IMU. This noise can be modelled as a zero mean, Gaussian process $\textbf{w}_t$ with a corresponding covariance matrix $\textbf{R}_w$. The system noise can be then be mathematically described as follows:
+ 
+\begin{equation}
+\textbf{w}_t =
+\begin{pmatrix} 
+ \textbf{n}_{\textbf{a},t} \\
+ \textbf{n}_{{\omega},t}
+\end{pmatrix}
+= \big[\hspace{0.1cm}n_{\ddot{x}_{k}}\hspace{0.25cm}n_{\ddot{y}_{k}}\hspace{0.25cm}n_{\ddot{z}_{k}}\hspace{0.25cm}n_{\textit{\.{q}}_{0,k}}\hspace{0.25cm}n_{\textit{\.{q}}_{1,k}}\hspace{0.25cm}n_{\textit{\.{q}}_{2,k}}\hspace{0.25cm}n_{\textit{\.{q}}_{3,k}}\hspace{0.1cm}\big]^T
+\end{equation}
+where the aforementioned noise model yielding each of the above elements a Gaussian random variable.  \\
+Furthermore, the resultant IMU data to be used are to contain the measurements of the linear accelerations and angular rotations as well as the appropriate additive noise.  \\\\
+\textcolor{blue}{Reconsider how to incorporate this section elsewhere or define it properly.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \subsection{Prediction Step}
-With reference to the probabilistic form of the solution to the SLAM problem, the prediction step requires a description in terms of a probability distribution. The description of the aforementioned motion model can then, in terms of the probability distribution on the state transitions, take the following form:
+With reference to the probabilistic form of the solution to the SLAM problem, the prediction step requires a description in terms of a probability distribution. The description of the aforementioned state transition motion can then, in terms of the probability distribution on the state transitions, take the following form:
 \begin{equation}
 \begin{split}
-P(&\textbf{\^{x}}_k\hspace{0.15cm}|\hspace{0.15cm}\textbf{\^{x}}_{k-1}, \textbf{{u}}_k) \\
-&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}exp\hspace{0.1cm}\Big(\frac{1}{2}(\textbf{\^{x}}_k-g(\textbf{\^{x}}_{k-1}))^T\textbf{R}^{-1}_w(\textbf{\^{x}}_k-\textbf{\^{x}}_{k\to k+1})\Big),
+P(&\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{{x}}_{t-1}, \mu_t) \\
+&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{x}}_t-g(\mu_t, \hspace{0.1cm}\mu_{t-1}) - G_t(\textbf{x}_{t-1} - \mu_{t-1})\big]^T\\
+&\textbf{R}^{-1}_w\big[\textbf{{x}}_t-g(\mu_t, \hspace{0.1cm}\mu_{t-1}) - G_t(\textbf{x}_{t-1} - \mu_{t-1})\big]\bigg \},
 \end{split}
 \end{equation} 
-where $\textbf{\^{x}}_{k\to k+1}$ represents the motion model. \\\\
-The motion model is assumed to take the form of a Markov process, yielding that the next state $\textbf{\^{x}}_k$ is only dependent upon the state immediately preceding it - $\textbf{\^{x}}_{k-1}$ - as well as the input control $\textbf{{u}}_k$. Additionally, it is important to note that the uncertainty regarding the motion model is independent of the uncertainty regarding both the observation model as well as that of the probabilistic map itself.
+where $G_t$ represents the Jacobian of the state transition motion. \\\\
+The state transition motion is assumed to take the form of a Markov process, yielding that the current state $\textbf{{x}}_{t}$ is only dependent upon the state immediately preceding it - $\textbf{{x}}_{t-1}$ - as well as the input control $\textbf{{u}}_t$. Additionally, it is important to note that the uncertainty regarding the state transition model is independent of the uncertainty regarding both the observation model as well as that of the probabilistic map itself.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{State Space Model} 
-As previously discussed, the Kalman Filter requires a state transition (motion) model in order to estimate the current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robots kinematic motion as well as the control inputs. The motion model in this particular instance can be described through a \textbf{linear} differential equation of the following form:
+As previously discussed, the Extended Kalman FiIter requires a state transition (motion) model in order to estimate the current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robot's kinematic motion as well as the control inputs. The \textit{ideal} motion model in this particular instance can be described through a \textbf{linear} differential equation of the following form:
 \begin{equation}
-\textbf{\.{x}}(t) = \textbf{A}\textbf{x}(t) + \textbf{B}\textbf{u}(t)+\textbf{w}(t),
+\textbf{\.{x}}_t = \textbf{A}\textbf{x}_{t-1} + \textbf{B}\textbf{u}_t+\textbf{w}_t,
 \end{equation} 
-where the state matrix $\textbf{A}$, describes the manner in which state evolves from time $t-1$ to $t$ without the influence of noise and controls, the input matrix $\textbf{B}$, describes how the control vector $\textbf{u}(t)$ evolves from time step $t-1$ to $t$ and $\textbf{w}(t)$ is a \textbf{zero-mean} Gaussian random variable representing the process noise with a covariance matrix $\textbf{R}_w$.\\\\
-Considering that the Kalman Filter is a recursive, numerical evaluation, it is necessary to convert the previously defined continuous model into its discrete counterpart. Various methods of discretisation exist, though this specific implementation makes use of the forward difference/Euler’s method. This method  \textit{approximates} the derivative for a state for a sampling period $\Delta T$ as follows:  
+where the state matrix $\textbf{A}$, describes the manner in which state evolves from the previous time-step to the current time-step without the influence of noise and controls, the input matrix $\textbf{B}$, describes how the control vector $\textbf{u}(t)$ evolves from the previous time-step to the current time-step and $\textbf{w}(t)$ is a \textbf{zero-mean} Gaussian process representing the process noise with a covariance matrix $\textbf{R}_w$.\\\\
+Considering that the Extended Kalman Filter is a recursive, numerical evaluation, it is necessary to convert the previously defined continuous model into its discrete counterpart. Various methods of discretisation exist, though this specific implementation makes use of the forward difference/Euler’s method. This method  \textit{approximates} the derivative for a state for a sampling period $\Delta T$ as follows:  
 \begin{equation}
 \begin{split}
-\textbf{\.{x}}[k] &= \lim_{\Delta T\to 0}{\frac{\textbf{x}[k+1]-\textbf{x}[k]}{\Delta T}} 		 \\										\Delta T\textbf{\.{x}}[k] &\approx \textbf{x}[k+1]-\textbf{x}[k], \\
+\textbf{\.{x}}_k &= \lim_{\Delta T\to 0}{\frac{\textbf{x}_{k+1}-\textbf{x}_k}{\Delta T}} 		 \\										\Delta T\textbf{\.{x}}_k &\approx \textbf{x}_{k+1}-\textbf{x}_k, \\
 \end{split}
 \end{equation}     
 The state estimate of the discrete counterpart at the following sampling instance, namely $k + 1$, is then presented as follows (given a small enough sampling instance $\Delta T$):
 \begin{equation}
 \begin{split}
-\textbf{x}[k+1] &= \big(\textbf{I}+\textbf{A}\Delta T\big)\textbf{x}[k] + \textbf{B}\textbf{u}[k]\Delta T + \textbf{w}[k]\Delta T,
+\textbf{x}_{k+1} &= \big(\textbf{I}+\textbf{A}\Delta T\big)\textbf{x}_k + \textbf{B}\textbf{u}_k\Delta T + \textbf{w}_k\Delta T,
 \end{split}
 \end{equation}
-where $\big(\textbf{I}+\textbf{A}\Delta T\big) = \textbf{A}_d$ is the discrete state matrix, $ \textbf{B}\Delta T = \textbf{B}_d$ is the discrete input matrix and $\textbf{w}[k]\Delta T=\textbf{w}_d[k]$ is the discrete input process noise. \\\\
+where $\big(\textbf{I}+\textbf{A}\Delta T\big) = \textbf{A}_d$ is the discrete state matrix, $ \textbf{B}\Delta T = \textbf{B}_d$ is the discrete input matrix and $\textbf{w}_k\Delta T=\textbf{w}_{d,k}$ is the discrete input process noise. \\\\
 Ultimately, the form of the final difference equation describing the system at each individual sampling instance is given as follows:
 \begin{equation}
-\textbf{x}[k+1]= \textbf{A}_d\textbf{x}[k] + \textbf{B}_d\textbf{u}[k]+\textbf{w}_d[k],
+\textbf{x}_{k+1}= \textbf{A}_d\textbf{x}_k + \textbf{B}_d\textbf{u}_k+\textbf{w}_{d,k},
 \end{equation} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{State Transition: Linear Model}
@@ -201,17 +219,17 @@ We therefore set out to define a kinematic motion model - using Newton's laws of
 %\end{equation}  
 %with a covariance matrix $\textbf{R}_w$ that is assumed as a diagonal initially, to represent uncorrelated noise in all of the rotational components.\\
 %With reference to the previously defined state motion model in (1.8)
-It must also be stressed that initially, a stochastic, linear discrete-time model is adopted to approximate the motion model. Using the kinematic equations of linear and angular motion, it is aimed to ultimately and complete the previously defined state space model. We begin by describing all relevant states and inputs:
+It must also be stressed that initially, a stochastic, linear discrete-time model is adopted to approximate the motion model. Using the kinematic equations of linear and angular motion, it is aimed to ultimately and complete the previously defined state space model. We begin by describing all relevant states and control inputs:
 \begin{equation}
 \begin{split}
-\textbf{x}[k] &= \big[\textit{x}_{k}\hspace{0.25cm}\textit{y}_{k}\hspace{0.25cm}\textit{z}_{k}\hspace{0.25cm}\textit{\.{x}}_{k}\hspace{0.25cm}\textit{\.{y}}_{k}\hspace{0.25cm}\textit{\.{z}}_{k}\hspace{0.05cm}\hspace{0.25cm}\textit{q}_{0,k}\hspace{0.25cm}\textit{q}_{1,k}\hspace{0.25cm}\textit{q}_{2,k}\hspace{0.25cm}\textit{q}_{3,k}\hspace{0.25cm}{\omega}_{x,k}\hspace{0.25cm}{\omega}_{y,k}\hspace{0.25cm}{\omega}_{z,k}\hspace{0.1cm}\big]^T \\
+\textbf{x}[k] &= \big[\textit{x}_{k}\hspace{0.25cm}\textit{y}_{k}\hspace{0.25cm}\textit{z}_{k}\hspace{0.25cm}\textit{\.{x}}_{k}\hspace{0.25cm}\textit{\.{y}}_{k}\hspace{0.25cm}\textit{\.{z}}_{k}\hspace{0.05cm}\hspace{0.25cm}\textit{q}_{0,k}\hspace{0.25cm}\textit{q}_{1,k}\hspace{0.25cm}\textit{q}_{2,k}\hspace{0.25cm}\textit{q}_{3,k}\big]^T \\
 \textbf{u}[k] &= \big[\hspace{0.1cm}\ddot{x}_{k}\hspace{0.25cm}\ddot{y}_{k}\hspace{0.25cm}\ddot{z}_{k}\hspace{0.25cm}\textit{\.{q}}_{0,k}\hspace{0.25cm}\textit{\.{q}}_{1,k}\hspace{0.25cm}\textit{\.{q}}_{2,k}\hspace{0.25cm}\textit{\.{q}}_{3,k}\hspace{0.1cm}\big]^T\\
 \end{split}
 \end{equation}
 and extend the discrete-time difference equation describing the system to incorporate the motion model,  
 \begin{equation}
 \begin{split}
-\textbf{x}[k+1] &= \textbf{A}_d\textbf{x}[k] + \textbf{B}_d\textbf{u}[k]+\textbf{w}_d[k] \\
+\textbf{x}_{k+1} &= \textbf{A}_d\textbf{x}_k + \textbf{B}_d\textbf{u}_k+\textbf{w}_{d,k}, \\
 \textbf{A}_d&= 
  \begin{bmatrix}
   1 & 0 & 0 & \Delta T & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -224,7 +242,7 @@ and extend the discrete-time difference equation describing the system to incorp
   0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
   0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
   0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
- \end{bmatrix} = (\textbf{I}+\textbf{A}\Delta T\big)  \\
+ \end{bmatrix} = (\textbf{I}+\textbf{A}\Delta T\big),  \\
  \textbf{B}_d&=
 \begin{bmatrix}
   \Delta T & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -234,11 +252,12 @@ and extend the discrete-time difference equation describing the system to incorp
   0 & 0 & 0 & 0 & \Delta T & 0 & 0 \\
   0 & 0 & 0 & 0 & 0 & \Delta T & 0 \\
   0 & 0 & 0 & 0 & 0 & 0 & \Delta T \\
-\end{bmatrix} = \textbf{B}\Delta T \\\\
- \textbf{w}_d[k] &=\mathcal{N}(0,  \textbf{R}_w) =  
- \begin{bmatrix}
- \mathbf{\Omega}^R
- \end{bmatrix} = \textbf{w}[k] \Delta T 
+\end{bmatrix} = \textbf{B}\Delta T, \\\\
+ \textbf{w}_{d,k} &=\mathcal{N}(0,  \textbf{R}_w) =  
+ \begin{pmatrix}
+ \textbf{n}_{\textbf{a}_t,k} \\
+ \textbf{n}_{\omega_t,k} \\
+ \end{pmatrix} = \textbf{w}_{d,k} \Delta T, 
  \end{split}
 \end{equation}
 it can be observed from the model above that the motion model adheres to the forward method of discretisation derived in (2.8). The motion model also adheres to the Markov process assumption, in that it can be completely described through only its transition from the previous state as well as the control inputs.   
