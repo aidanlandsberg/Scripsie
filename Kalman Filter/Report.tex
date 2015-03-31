@@ -94,7 +94,7 @@ where the density across the state variable $x_t$ is characterised through two f
 \subsubsection{Kalman Filter}    
 The \textit{Kalman Filter} algorithm can be briefly described as fundamental (and popular) algorithm that enables the realisation of many practical recursive estimation systems, including the SLAM problem. The Kalman filter is a popular, well studied technique for filtering and prediction of linear systems that contains uncertainty - typically uncertainties which are Gaussian in nature. With reference to equation~\ref{eq:normal}, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\mu_t$ and covariance $\Sigma_t$, at each time instance $t$ (while previous time-steps are denoted as $t-1$, $t-2$, etc.). The general implementation, as described above, is only valid considering that the following three properties hold true: 
 \begin{enumerate}
-\item The state transition model probability - with function $g(\mu_t,\hspace{0.1cm}\mu_{t-1})$ - \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise.
+\item The state transition model probability - with function $g(\textbf{u}_{t},\hspace{0.1cm}\mu_{t-1})$ - \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise.
 \item The observation model probability - with function $h(\bar \mu_t)$ - \textbf{must} be a \textit{linear} function with additive Gaussian (measurement/sensor) noise. 
 \item The initial belief $bel(x_0)$ must be normally distributed.
 \end{enumerate}
@@ -105,7 +105,13 @@ Moreover, the solution to this specific implementation of the Simultaneous Local
 bel(\textbf{{x}}_t) = p\big(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{1:t},\textbf{u}_{1:t}\big),
 \end{equation}
 %with the aforementioned distribution described at every discrete time instance $t$.\\ A brief description would yield that the distribution above, describes, for a given time instance $t$, a joint density of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations, $\textbf{z}_{1:t}$ and control inputs, $\textbf{u}_{1:t}$.\\
-Like the Bayes Filter, the Kalman filter too can be executed in two (sequential) steps: the \textit{prediction step} and the \textit{update step}. Firstly, the prediction step aims to estimate a state into which the system will be transitioned from the previous state estimate ($\mu_{t-1}$, $\Sigma_{t-1}$) as a result of a set of internal and/or external dynamics applied to the system. These dynamics are typically described through the state transition function $g(\mu_{t}, {\mu}_{t-1})$. Once an estimate is obtained for the transitioned state estimate ($\bar \mu_t$, $\bar \Sigma_t$), a measurement prediction is made to provide the expected measurements in the event that the system were to find itself within the estimated transitioned state. These measurements are obtained through an observation model which has a function $h(\bar \mu_t)$. Thereafter, an actual measurement, $\textbf{z}_t$ is then obtained through the system sensors to determine the actual state of the system ($\mu_t$, $\Sigma_t$). Ultimately, the actual state of the system and the previously predicted state are then compared with one another to obtain the (optimally weighted) Kalman gain - that is used to correct the previously predicted state estimate ($\bar \mu_t$, $\bar \Sigma_t$). Each of the aforementioned steps are discussed in more detail - with specific reference to this paper - later in this section. Table~\ref{tab:KF} below, systematically and mathematically represents the aforementioned steps:
+Like the Bayes Filter, the Kalman filter too can be executed in two (sequential) steps: the \textit{prediction step} and the \textit{update step}. Firstly, the prediction step aims to estimate a state into which the system will be transitioned from the previous state estimate ($\mu_{t-1}$, $\Sigma_{t-1}$) as a result of a set of internal and/or external dynamics applied to the system. These dynamics are typically described through the state transition function $g(\mu_{t}, {\mu}_{t-1})$. Once an estimate is obtained for the transitioned state estimate ($\bar \mu_t$, $\bar \Sigma_t$), a measurement prediction is made to provide the expected measurements in the event that the system were to find itself within the estimated transitioned state. These measurements are obtained through an observation model which has a function $h(\bar \mu_t)$. Thereafter, an actual measurement, $\textbf{z}_t$ is then obtained through the system sensors to determine the actual state of the system ($\mu_t$, $\Sigma_t$). Ultimately, the actual state of the system and the previously predicted state are then compared with one another to obtain the (optimally weighted) Kalman gain - that is used to correct the previously predicted state estimate ($\bar \mu_t$, $\bar \Sigma_t$). Each of the aforementioned steps are discussed in more detail - with specific reference to this paper - later in this section. Table~\ref{tab:KF} below, systematically and mathematically represents the aforementioned steps for the following system definition of the state transition model and the observation model respectively:
+\begin{equation}\label{eq:SSmodel}
+\begin{split}
+g(\textbf{u}_{t}, {\mu}_{t-1}) &:  \textbf{x}_t = \textbf{A}_t\textbf{x}_{t-1} + \textbf{B}_t\textbf{x}_t + \textbf{w}_t\\
+h(\bar \mu) &: \textbf{z}_t = \textbf{C}_t\textbf{x}_t + \textbf{v}_t
+\end{split}
+\end{equation}
 
 \begin{table}[h]
 \begin{center}
@@ -118,22 +124,52 @@ Like the Bayes Filter, the Kalman filter too can be executed in two (sequential)
 \hline
 &\textit{Prediction step} \\
 \hline
-1. & $\bar \mu_{t}$ = $g(\mu_t, \mu_{t-1})$ = $\textbf{A}_t\mu_{t-1} + \textbf{B}_t\mu_t$ \\
-2. & $\bar \Sigma_t = G_t \Sigma_{t-1} G_t^T + R_t$ \\
+1. & $\bar \mu_{t}$ = $g(\textbf{u}_{t}, \mu_{t-1})$ = $\textbf{A}_t\hspace{0.05cm}\mu_{t-1} + \textbf{B}_t\hspace{0.05cm}\mu_t$ + $\textbf{w}_t$\\
+2. & $\bar \Sigma_t = \textbf{A}_t \Sigma_{t-1} \textbf{A}_t^T + R_{w,t}$ \\
 \hline
 &\textit{Correction step}\\
 \hline
-3. & $K_t = \bar \Sigma_{t} H_t^T (H_t \bar \Sigma_{t} H_t^T + Q_t)^{-1}$ \\
-4. & $\mu_t = \bar \mu_t + K_t[z_t-h(\bar \mu_t)]$\\  
-5. & $\Sigma_{t} = (I-K_t H_t)\bar \Sigma_t$ \\
+3. & $K_t = \bar \Sigma_{t} \textbf{C}_t^T (\textbf{C}_t \bar \Sigma_{t} \textbf{C}_t^T + Q_{v,t})^{-1}$ \\
+4. & $\mu_t = \bar \mu_t + K_t[\textbf{z}_t-\textbf{C}_t\bar \mu_t]$\\  
+5. & $\Sigma_{t} = (I-K_t \textbf{C}_t)\bar \Sigma_t$ \\
 \hline\hline
 \end{tabular}
 \end{center}
 \end{table}%
+
 \textcolor{blue}{Insert the other relevant information regarding the EKF such as complexity an other unique characteristics and specifications - perhaps observability.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Extended Kalman FIlter} 
-As previously mentioned, the state transition function $g(\mu_{t}, {\mu}_{t-1})$, as well as the observation model $h(\bar \mu_t)$, are both non-linear in nature. The linearisation process of EKF aims to linearise this function. The linearisation process (to be explained later in this section) can briefly be described by using first order Taylor expansion to create a linear \textit{approximation} of a non-linear function. As will be described later in this section, any linear transformation of a Gaussian random variable yields another Gaussian variable. Considering the aforementioned statement, as well as the fact that most systems are non-linear in nature; it is necessary to determine a method for approximating a non-linear function as a linear function. The Taylor expansion creates an approximation that is linear and dependent on the properties of the functions derivative yielded from a single - generally that of the most likely - point (mean). \textit{Jacobians} are commonly used to linearise non-linear functions. It is therefore important - in order to successfully implement a Kalman filter on a non-linear system - to linearise both the state transition model as well as the measurement model; both of which are generally non-linear functions. Once achieved, the EKF; which behaves otherwise identically in terms of operation to the general Kalman filter, can be implemented upon non-linear systems. \\
+\newpage
+\subsubsection{Extended Kalman Filter} 
+Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented as non-linear transformations suppress the Gaussian nature of the distribution that is being modelled. Any linear transformation of a Gaussian random variable yields another Gaussian variable. Non-linear transformations of a Gaussian random variable (RV) however, will always yield an non Gaussian RV; the Kalman filter algorithm thus, cannot be applied to such a system. This phenomenon can be illustrated through figure~\ref{fig:non} presented below:
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.45\textwidth, height=0.45\textwidth]{LinTr.png}
+\includegraphics[width=0.45\textwidth, height=0.45\textwidth]{NonLinTr.png}
+\caption{Graphical representation depicting a linear transformation of a Gaussian random variable \textcolor{red}{NB FORM PROBROB BOOK!!!}}
+\label{fig:non}
+\end{center}
+\end{figure}
+The \textit{Extended Kalman filter} (EKF), an extension of the general Kalman filter, aims to enable the modelling of non-linear systems through linearisation. As previously mentioned, the state transition function $g(\mu_{t}, {\mu}_{t-1})$, as well as the observation model $h(\bar \mu_t)$ of most practical systems are generally both non-linear in nature. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function. The linearisation process of EKF aims to linearise these functions so that the basic fundamental operations of the Kalman Filter algorithm can be validated.\\
+The linearisation process approximates the non linear function $g$ by a linear function that is \textit{tangent} to $g$ st the mean value of the Gaussian. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature. The same technique is applied to observation function $h$. Many methods exist for linearisation of non linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $g$, by it's value as well as its gradient $g'$. The tangent of $g$ can be depicted by it's partial derivative:
+\begin{equation}\label{eq:par}
+g'(\textbf{x}_{t-1}, \textbf{u}_t) := \frac{\partial g(\textbf{x}_{t-1}, \textbf{u}_t)}{\partial \textbf{x}_{t-1}}
+\end{equation}
+\\
+The argument of the function $g$ is chosen as most likely point at the linearisation instance. For Gaussians, the most likely point is the mean $\mu_{t-1}$. The linear approximation of the function $g$ is achieved through the linear extrapolation evaluated at it most likely point $\mu_{t-1}$:
+\begin{equation}\label{eq:app}
+\begin{split}
+g(\textbf{x}_{t-1}, \textbf{u}_t) &\approx g(\textbf{x}_{t-1}, \textbf{u}_t) + g'(\textbf{u}_{t},\mu_{t-1})(\textbf{x}_{t-1}-\mu_{t-1}) \\
+&= g(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{G}_t(\textbf{x}_{t-1}-\mu_{t-1})
+\end{split}
+\end{equation}
+where $\textbf{G}_t = g'(\textbf{u}_{t},\mu_{t-1})$ is the \textit{Jacobian} matrix. \\
+It is important to note that {Jacobian} matrix is determined at each time-step as its parameters differ from one time-step to the next. 
+\\\\
+Once linearisation is achieved, the EKF; which behaves otherwise identically in terms of operation to the general Kalman filter, can be implemented upon non-linear systems. \\
+It is very important to note that because only a first order Taylor expansion is used to approximate the linearisation, severe non-linearities will prohibit acceptable approximations of the Gaussian distribution upon transformations. Other variants of the Kalman filter that aren't discussed in this paper are then required to be considered.\\
+
 Table~\ref{tab:EKF}  below, systematically and mathematically represents the aforementioned steps.
 
 \begin{table}[h]
@@ -147,23 +183,21 @@ Table~\ref{tab:EKF}  below, systematically and mathematically represents the afo
 \hline
 &\textit{Prediction step} \\
 \hline
-1. & $\bar \mu_{t}$ = $g(\mu_t, \mu_{t-1})$ \\
-2. & $\bar \Sigma_t = G_t \Sigma_{t-1} G_t^T + R_t$ \\
+1. & $\bar \mu_{t}$ = $g(\textbf{u}_t, \mu_{t-1})$ \\
+2. & $\bar \Sigma_t = G_t \Sigma_{t-1} G_t^T + R_{w,t}$ \\
 \hline
 &\textit{Correction step}\\
 \hline
-3. & $K_t = \bar \Sigma_{t} H_t^T (H_t \bar \Sigma_{t} H_t^T + Q_t)^{-1}$ \\
+3. & $K_t = \bar \Sigma_{t} H_t^T (H_t \bar \Sigma_{t} H_t^T + Q_{v,t})^{-1}$ \\
 4. & $\mu_t = \bar \mu_t + K_t[z_t-h(\bar \mu_t)]$\\  
 5. & $\Sigma_{t} = (I-K_t H_t)\bar \Sigma_t$ \\
 \hline\hline
 \end{tabular}
 \end{center}
-\end{table}%
-
-Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented as non-linear transformations suppress the Gaussian nature of the distribution that is being modelled. Instead, the Kalman filter algorithm can be extended in order to accommodate non-linear behaviour. The Extended Kalman filter (EKF), an extension of the general Kalman filter, aims to enable the modelling of non-linear systems through linearisation. The fundamental principals regarding the EKF however, are identical to those of the standard Kalman filter. It is very important to note that because only a first order Taylor expansion is used to approximate the linearisation, severe non-linearities will prohibit acceptable approximations of the Gaussian distribution.  
+\end{table}%  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section{MonoSLAM: Monocular Based SLAM Using Kinematic State Estimation}
+\section{EKF MonoSLAM: EKF Monocular Based SLAM Using Kinematic State Estimation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \textcolor{green}{We seek to explain the basic idea of MonoSLAM - particularly that of Davison and present the changes/improvements that are to be made.}\\
 Before continuing, it is important to consider and understand the notation used in the sections that follow. Two separate coordinate systems are to be considered, namely the \textit{fixed} inertial reference frame system $W$ and the cameras free coordinate frame system, more commonly referred to as the body frame $C$. System variables defined within either of the aforementioned coordinate systems, are from here on in, to be designated a superscript to establish in which coordinate system it may be relevant (e.g. $x^{W}$). Derivatives of parameters are denoted through a dot symbol, second derivates are denoted through a double dot symbol and so forth; for instance the derivative of position $x$ will be denoted as $\dot{x}$ and its second derivative denoted as $\ddot{x}$. Vectors will be printed in bold and non-italics to better distinguish them from scalars. An example can be shown regarding the variable x: $\textbf{x}$ denotes a vector while its scalar counterpart would be represented as \textit{x}. 
@@ -262,7 +296,7 @@ The state transition motion is assumed to take the form of a Markov process, yie
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{State Transition: Non-Linear Model} 
+\subsubsection{State Transition Model} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
