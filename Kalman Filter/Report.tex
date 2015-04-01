@@ -100,7 +100,7 @@ The \textit{Kalman Filter} algorithm can be briefly described as fundamental (an
 \end{enumerate}
 With regard to SLAM, a Kalman Filter can be briefly described as an algorithm that \textbf{optimally} estimates the state of the robots pose as well as the position of the landmarks within the map, given process and measurement noise.\\
 %provided that the state vector $\textbf{\^{x}}_k$, and landmark locations $\textbf{\^{y}}_{n,k}$ are modelled by a single multivariate Gaussian distribution. The system is to be observed at discrete steps in time - denoted by the subscript$k =1, 2,  3, ...$ - where at every individual time-step, it can be influenced by a set of actions. It is assumed that\\  
-Moreover, the solution to this specific implementation of the Simultaneous Localisation and Mapping (SLAM) problem, takes a probabilistic form were the belief with regard to state variable $\textbf{x}_t$ is denoted as shown in equation~\ref{eq:belief}:
+Moreover, the solution to this specific implementation of the Simultaneous Localisation and Mapping (SLAM) problem, takes a probabilistic form where the belief with regard to state variable $\textbf{x}_t$ is denoted as shown in equation~\ref{eq:belief}:
 \begin{equation}
 bel(\textbf{{x}}_t) = p\big(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{1:t},\textbf{u}_{1:t}\big),
 \end{equation}
@@ -141,13 +141,13 @@ h(\bar \mu) &: \textbf{z}_t = \textbf{C}_t\textbf{x}_t + \textbf{v}_t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsubsection{Extended Kalman Filter} 
-Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented as non-linear transformations suppress the Gaussian nature of the distribution that is being modelled. Any linear transformation of a Gaussian random variable yields another Gaussian variable. Non-linear transformations of a Gaussian random variable (RV) however, will always yield an non Gaussian RV; the Kalman filter algorithm thus, cannot be applied to such a system. This phenomenon can be illustrated through figure~\ref{fig:non} presented below:
+Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented as non-linear transformations suppress the Gaussian nature of the distribution that is being modelled. Any linear transformation of a Gaussian random variable yields another Gaussian variable. Non-linear transformations of a Gaussian random variable (RV) however, will always yield an non Gaussian RV; the Kalman filter algorithm thus, cannot be applied to such a system. This phenomenon can be illustrated through figure~\ref{fig:non} presented below where a linear transform yields a transformed Gaussian RV and a non linear transform yields a RV with a different probability density:
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=\textwidth, height=0.7\textwidth]{LinTr1.png}
-%\includegraphics[width=0.45\textwidth, height=0.45\textwidth]{NonLinTr.png}
-\caption{Graphical representation depicting a linear transformation of a Gaussian random variable.}
+\includegraphics[width=0.49\textwidth, height=0.6\textwidth]{LinTr1.png}
+\includegraphics[width=0.49\textwidth, height=0.6\textwidth]{NonLinTr.png}
+\caption{Graphical representation depicting both a linear (left) and a non linear (right) transformation of a Gaussian random variable.}
 \label{fig:non}
 \end{center}
 \end{figure}
@@ -282,22 +282,53 @@ Furthermore, the resultant IMU data to be used are to contain the measurements o
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Prediction Step}
-With reference to the probabilistic form of the solution to the SLAM problem, the prediction step requires a description in terms of a probability distribution. The description of the aforementioned state transition motion can then, in terms of the probability distribution on the state transitions, take the following form:
+With reference to the probabilistic form of the solution to the SLAM problem, the prediction step requires a description in terms of a belief distribution. The description of the aforementioned state transition model can then, in terms of the probability distribution on the state transitions, take the following form:
 \begin{equation}
 \begin{split}
-P(&\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{{x}}_{t-1}, \mu_t) \\
+bel(\textbf{x}_t) &= p(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{{x}}_{t-1}, \textbf{u}_t) \\
 &=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{x}}_t-g(\mu_t, \hspace{0.1cm}\mu_{t-1}) - G_t(\textbf{x}_{t-1} - \mu_{t-1})\big]^T\\
 &\textbf{R}^{-1}_w\big[\textbf{{x}}_t-g(\mu_t, \hspace{0.1cm}\mu_{t-1}) - G_t(\textbf{x}_{t-1} - \mu_{t-1})\big]\bigg \},
 \end{split}
 \end{equation} 
 where $G_t$ represents the Jacobian of the state transition motion. \\\\
-The state transition motion is assumed to take the form of a Markov process, yielding that the current state $\textbf{{x}}_{t}$ is only dependent upon the state immediately preceding it - $\textbf{{x}}_{t-1}$ - as well as the input control $\textbf{{u}}_t$. Additionally, it is important to note that the uncertainty regarding the state transition model is independent of the uncertainty regarding both the observation model as well as that of the probabilistic map itself.
+The state transition model is assumed to take the form of a Markov process, yielding that the current state $\textbf{{x}}_{t}$ is only dependent upon the state immediately preceding it - $\textbf{{x}}_{t-1}$ - as well as the input control $\textbf{{u}}_t$. Additionally, it is important to note that the uncertainty regarding the state transition model is independent of the uncertainty regarding both the observation model as well as that of the probabilistic map itself.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{State Transition Model} 
-
+As previously discussed, the Extended Kalman FiIter requires a state transition (motion) model in order to estimate the current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robot’s kinematic motion as well as the control inputs. In order to derive the state transition model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached Inertial Measurement Unit (IMU) package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\\\
+We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors.\\
+It must also be stressed that initially, a stochastic, non linear discrete-time model is adopted to approximate the model. We begin by describing all relevant states and control inputs:
+\begin{equation}
+\begin{split}
+\textbf{x}_t &=\big[\hspace{0.1cm}\textbf{r}_t^{W}\hspace{0.1cm}\textbf{q}_t^{WC}\hspace{0.1cm}\textbf{v}_t^{W}\big]^T\\ 
+&= \big[\textit{x}_{t}\hspace{0.25cm}\textit{y}_{t}\hspace{0.25cm}\textit{z}_{t}\hspace{0.25cm}\textit{\.{x}}_{t}\hspace{0.25cm}\textit{\.{y}}_{t}\hspace{0.25cm}\textit{\.{z}}_{t}\hspace{0.05cm}\hspace{0.25cm}\textit{q}_{0,t}\hspace{0.25cm}\textit{q}_{1,t}\hspace{0.25cm}\textit{q}_{2,t}\hspace{0.25cm}\textit{q}_{3,t}\big]^T \\
+\textbf{u}_t &= \big[\hspace{0.1cm}\textbf{a}_t^C\hspace{0.1cm}\dot{\omega}_t^C\big]^T\\
+&=\big[\hspace{0.1cm}\ddot{x}_{t}\hspace{0.25cm}\ddot{y}_{t}\hspace{0.25cm}\ddot{z}_{t}\hspace{0.25cm}\textit{\.{q}}_{0,t}\hspace{0.25cm}\textit{\.{q}}_{1,t}\hspace{0.25cm}\textit{\.{q}}_{2,t}\hspace{0.25cm}\textit{\.{q}}_{3,t}\big]^T\\
+\end{split}
+\end{equation}
+The state transition function $g_v(\textbf{u}_{t},\mu_{t-1})$ is defined as follows:
+\begin{equation}
+\begin{split}
+g_v(\textbf{u}_{t},\mu_{t-1}) =
+	\begin{pmatrix}
+		\textbf{r}_t^{W}\\
+		\textbf{q}_t^{WC}\\
+		\textbf{v}_t^{W} \\
+	\end{pmatrix} &= 
+	\begin{pmatrix}
+		\textbf{r}_{t-1}^{W}+\textbf{v}_t^W\Delta T\\
+		\textbf{q}_{t-1}^{WC} \otimes \text{quat}\big(\dot{\omega}_t^C\Delta T\big) \\
+		\textbf{v}_t^{W} + \textbf{a}_{t}^C \Delta T \\
+	\end{pmatrix} \\
+&= \begin{pmatrix}
+	 \textbf{r}_{t-1}^{W}+\dot{\textbf{r}}^W\Delta T\\
+	 \textbf{q}_{t-1}^{WC} \otimes \text{quat}\big(\textbf{\.{q}}_t^C\Delta T\big) \\
+	 \dot{\textbf{r}}_t^{W} + \textbf{R}_t^{CW}\big(\ddot{\textbf{r}}_{t}^C \Delta T\big) \\
+\end{pmatrix}
+\end{split}
+\end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Correction Step}
