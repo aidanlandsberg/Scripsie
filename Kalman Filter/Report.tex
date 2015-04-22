@@ -27,7 +27,7 @@
  \geometry{
  a4paper,
  left= 30mm,
- right= 20mm,
+ right= 30mm,
  top= 25mm,
  bottom= 25mm,
  }
@@ -42,7 +42,7 @@
 %\setstretch{1.1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{\textbf{{Monocular Vision Based SLAM} Using Kinematic State Estimation}\\\vspace{7.5 mm}\Large{by}\\\vspace{7.5 mm}\Large{Aidan Russel Landsberg}\\\vspace{50 mm}\large{Report submitted in partial fulfillment of the requirements of the module Project(E) 448 for the degree Baccalaureus in Engineering in the Department of Electrical and Electronic Engineering at the University of Stellenbosch}\\\vspace{40mm}\large{Department of Electrical and Electronic Engineering,\\ University of Stellenbosch,\\
+\title{\textbf{{Monocular Vision Based SLAM} Using Kinematic State Estimation}\\\vspace{7.5 mm}\Large{by}\\\vspace{7.5 mm}\Large{Aidan Russel Landsberg}\\\vspace{45 mm}\large{Report submitted in partial fulfilment of the requirements of the module Project(E) 448 for the degree Baccalaureus in Engineering in the Department of Electrical and Electronic Engineering at the University of Stellenbosch}\\\vspace{45mm}\large{Department of Electrical and Electronic Engineering,\\ University of Stellenbosch,\\
 Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: Dr. C.E. (Corn\'{e}) Van Daalen}}
 \date{May 2015}	% Activate to display a given date or no date
 						
@@ -52,7 +52,7 @@ Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: 
 \parbox[b][\paperheight]{\paperwidth}{%
 \vfill
 \centering
-\includegraphics[keepaspectratio]{crest.JPG}%
+\includegraphics[keepaspectratio]{Figures/crest.JPG}%
 \vfill
 }}}
 
@@ -63,6 +63,15 @@ Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: 
 \maketitle
 \thispagestyle{empty}
 \newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \newgeometry{
+ a4paper,
+ left= 30mm,
+ right= 20mm,
+ top= 25mm,
+ bottom= 25mm,
+ }
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagenumbering{roman}
 \tableofcontents
 \newpage
@@ -72,6 +81,7 @@ Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: 
 %\listofequations
 
 \newpage
+
 \pagenumbering{arabic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -200,8 +210,8 @@ Considering that most practical systems of interest yield non-linear behaviour, 
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.49\textwidth, height=0.6\textwidth]{LinTr1.png}
-\includegraphics[width=0.49\textwidth, height=0.6\textwidth]{NonLinTr.png}
+\includegraphics[width=0.49\textwidth, height=0.6\textwidth]{Figures/LinTr1.png}
+\includegraphics[width=0.49\textwidth, height=0.6\textwidth]{Figures/NonLinTr.png}
 \caption{Graphical representation depicting both a linear (left) and a non linear (right) transformation of a Gaussian random variable.}
 \label{fig:non}
 \end{center}
@@ -427,7 +437,7 @@ P(&\textbf{z}_t\hspace{0.1cm}|\hspace{0.15cm}\textbf{x}_{t}) \\
 where $H_t$ represents the Jacobian of the observation model. \\\\
 It can be (reasonably) assumed that the uncertainty regarding the measurements are conditionally independent given the uncertainty regarding the robot and landmark locations if indeed they are completely defined. Also, the correction step seeks to obtain the difference between the actual measurements $\textbf{\^{z}}_k$ and the predicted measurements. These predicted measurements are to be obtained through an observation model that we from hereon in refer to as the measurement function, denoted as $\textbf{h}_i$.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Measurement Function}
+\subsubsection{Measurement Model}
 The correction step of the Extended Kalman filter aims to ultimately correct the previously estimated robot pose and landmark position through exterior sensor measurements. The measurement process generally involves a measurement estimate that incorporates an uncertainty. With regard to the implantation proposed in this paper, landmarks are required to be observed and measured through the use of a camera. To mathematically describe this process, the previously mentioned measurement function is used to effectively model the measurement estimation. It is essential that the ideal measurement function, like the motion model, be \textbf{linear} in nature and additionally, the measurement function {must} describe the position of a \textbf{point} feature with regard to the previously estimated states - namely the robot pose and the landmark positions. \\\\   
 Considering that the camera observations are obtained with regard to its own reference frame $C$, the definition of the measurement function is adapted in order to be described with regard to the inertial reference frame. The measurement function $\textbf{h}^W_i$ that describes a directional vector in relation to the cameras body frame is thus mathematically defined as follows: 
 \begin{equation}
@@ -578,14 +588,14 @@ it can be observed from the model above that the motion model adheres to the for
 \subsection{Schematics \& Circuit Diagrams}
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.8\textwidth, height=0.46\textwidth]{Schematic_bb.png}
+\includegraphics[width=0.8\textwidth, height=0.46\textwidth]{Figures/Schematic_bb.png}
 \caption{Circuit Diagram of the Inertial Measurement Unit (IMU).}
 \label{fig:circ_dagram}
 \end{center}
 \end{figure}
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=\textwidth, height=0.5\textwidth]{Schematic.png}
+\includegraphics[width=\textwidth, height=0.5\textwidth]{Figures/Schematic.png}
 \caption{Schematic of the Inertial Measurement Unit (IMU).}
 \label{fig:schematic}
 \end{center}
