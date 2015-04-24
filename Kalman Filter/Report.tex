@@ -431,7 +431,7 @@ With reference again to the probabilistic form of the solution to the SLAM probl
 \begin{equation}
 \begin{split}
 P(&\textbf{z}_t\hspace{0.1cm}|\hspace{0.15cm}\textbf{x}_{t}) \\
-&=\cfrac{1}{\sqrt{|2\pi\textbf{Q}_t|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\Big\{ \frac{1}{2}\big[\textbf{{z}}_t-h(\bar \mu)-H_t(\textbf{x}_t - \bar \mu_t)\big]^T \textbf{Q}_t^{-1}\big[\textbf{{z}}_t-h(\bar \mu)-H_t(\textbf{x}_t - \bar \mu_t)\big] \Big\}.
+&=\cfrac{1}{\sqrt{|2\pi\textbf{Q}_t|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{z}}_t-h(\bar \mu)-H_t(\textbf{x}_t - \bar \mu_t)\big]^T \textbf{Q}_t^{-1}\big[\textbf{{z}}_t-h(\bar \mu)-H_t(\textbf{x}_t - \bar \mu_t)\big] \bigg\}.
 \end{split}
 \end{equation} 
 where $H_t$ represents the Jacobian of the observation model. \\\\
@@ -493,12 +493,20 @@ where $fk_u$, $fk_v$, $u_0$ and $v_0$ are the previously described camera calibr
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
 %\pagenumbering{roman}
 \appendix
+\section{Summary of Work done}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Achieved Exit Level Outcomes}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theoretical Concepts} \label{App:Concepts}
-\textcolor{magenta}{TODO: Summary of work done, Achieved Exit level outcomes}
 \subsection{State Space Model} 
 As previously discussed, the Extended Kalman FiIter requires a state transition (motion) model in order to estimate the current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robot's kinematic motion as well as the control inputs. The \textit{ideal} motion model in this particular instance can be described through a \textbf{linear} differential equation of the following form:
 \begin{equation}
@@ -522,7 +530,7 @@ Ultimately, the form of the final difference equation describing the system at e
 \begin{equation}
 \textbf{x}_{k+1}= \textbf{A}_d\textbf{x}_k + \textbf{B}_d\textbf{u}_k+\textbf{w}_{d,k},
 \end{equation} 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{State Transition: Linear Model}
 In order to derive the motion model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached Inertial Measurement Unit (IMU) package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\
 We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors. 
