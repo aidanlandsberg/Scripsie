@@ -314,7 +314,13 @@ The following concept describes a suitable method to represent all relevant info
   \textbf{{v}}^W\\
  \end{pmatrix} ,
 \end{equation}
-where $\textbf{r}^W =$ (\textit{x} \textit{y} \textit{z}$)^T$ indicates the 3D cartesian position of the camera, $\textbf{{q}}^{WC}$ the unit orientation \textit{quarternion} - to be mathematically defined and described in the appendix - indicating the camera orientation (represented in the body frame $C$) relative to the inertial reference frame $W$ while $\textbf{{v}}^W$ indicates the \textit{linear} velocities of the camera relative to the inertial reference frame $W$.\\Often, the modelling of dynamic systems require that additional parameters - separate to those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in the description above, with the position state vector $\textbf{{x}}_p$ comprising of the 3D position vector, $\textbf{{r}}^W$ and the unit orientation \textit{quarternion}, $\textbf{{q}}^{WC}$. The linear velocity vector, $\textbf{V}^W$, forms the additional information required for system modelling. This is due to the control inputs, which are of such a nature that intermediary states (namely the linear velocity) is required to describe the control inputs effect on the actual position. 
+where $\textbf{r}^W =$ (\textit{x} \textit{y} \textit{z}$)^T$ indicates the 3D cartesian position of the camera, $\textbf{{q}}^{WC}$ the unit orientation \textit{quarternion} indicating the camera orientation (represented in the body frame $C$) relative to the inertial reference frame $W$ while $\textbf{{v}}^W$ indicates the \textit{linear} velocities of the camera relative to the inertial reference frame $W$.\\
+A quarternion, as previously mentioned, represents the camera's orientation. It should be noted that all quaternions represented in this paper are unit quaternions. This implies that the square root of the sum of all the squared elements is always equal to 1:
+\begin{equation}
+\textit{q}_{0,t}^2 + \textit{q}_{1,t}^2 + \textit{q}_{2,t}^2 + \textit{q}_{3,t}^2 = 1
+\end{equation}
+The process of computing the quarternion involves obtaining an angle-axis as well as a magnitude by which this axis is to be rotated. This process is described later in this chapter with reference to the state transition model.\\\\
+Often, the modelling of dynamic systems require that additional parameters - separate to those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in the description above, with the position state vector $\textbf{{x}}_p$ comprising of the 3D position vector, $\textbf{{r}}^W$ and the unit orientation \textit{quarternion}, $\textbf{{q}}^{WC}$. The linear velocity vector, $\textbf{V}^W$, forms the additional information required for system modelling. This is due to the control inputs, which are of such a nature that intermediary states (namely the linear velocity) is required to describe the control inputs effect on the actual position. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 \subsubsection{Cartesian Feature Representation}
@@ -336,7 +342,15 @@ The control vector however, requires that the linear portion of the acceleration
 \begin{equation}
 \textbf{f}_t = \textbf{\text{R}}^{CW}(\textbf{a}_t - \textbf{g}_t)
 \end{equation}
-where $\textbf{\text R}^{CW}$ is the rotation matrix that transforms the body coordinate frame data into the inertial reference frame, $\textbf{a}_t$ is the linear acceleration vector and $\textbf{g}_t$ is the gravity vector. \\
+with $\textbf{a}_t$ is the linear acceleration vector and $\textbf{g}_t$ is the gravity vector.\\ $\textbf{\text R}^{CW}$, the rotation matrix that transforms the body coordinate frame data into the inertial reference frame is expressed as follows:
+\begin{equation}
+\textbf{R}^{CW} = 
+\begin{pmatrix}
+q_{0,t}^2+q_{x,t}^2-q_{y,t}^2-q_{z,t}^2 & 2(q_{x,t}q_{y,t}-q_{0,t}q_{z,t}) & 2(q_{x,t}q_{z,t}-q_{0,t}q_{y,t}) \\ 
+2(q_{x,t}q_{y,t} +q_{0,t}q_{z,t}) & q_{0,t}^2-q_{x,t}^2-q_{y,t}^2-q_{z,t}^2 & 2(q_{y,t}q_{y,z}-q_{0,t}q_{x,t}) \\ 
+2(q_{x,t}q_{x,t}-q_{0,t}q_{y,t}) & 2(q_{y,t}q_{z,t}+q_{0,t}q_{x,t}) & q_{0,t}^2-q_{x,t}^2-q_{y,t}^2+q_{z,t}^2 \\ 
+\end{pmatrix}
+\end{equation}
 Once obtained, these measurements (not to be confused with the EKF's measurements) form the control vector $\textbf{u}_t$ that describes, at each time-step, the dynamics of the system as a result of external forces. The control vector is mathematically described as follows:
 
 \begin{equation}
@@ -360,6 +374,7 @@ Because the IMU measurements gather the actual data through exteroceptive sensor
 with the aforementioned noise model yielding for each of the above elements, a Gaussian random variable.  \\
 Furthermore, the resultant IMU data to be used is to contain the measurements of the linear accelerations and angular rotations as well as the appropriate additive noise.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \subsection{Prediction Step}
 With reference to the probabilistic form of the solution to the SLAM problem, the prediction step requires a description in terms of a belief distribution. The description of the aforementioned state transition model can then, in terms of the probability distribution on the state transitions, take the following form:
 \begin{equation}
@@ -374,7 +389,6 @@ The state transition model is assumed to take the form of a Markov process, yiel
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \subsubsection{Mean Estimate: State Transition Model} 
 As previously discussed, the Extended Kalman FiIter requires a state transition (motion) model in order to obtain the mean estimate $ \boldsymbol{\bar \mu}_t$, of  current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robot’s kinematic motion as well as the control inputs. In order to derive the state transition model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached IMU package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\\\
 We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors.\\\\
@@ -410,12 +424,11 @@ g_v(\textbf{u}_{t},\boldsymbol{\mu}_{t-1}) =
 \end{split}
 \end{equation}
 where $\Delta T$ is defined as the sample period between the previous time $t-1$ and $t$ and $\text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big)$ denotes the quartering corresponding to the rotation represented by $\boldsymbol{\dot \omega}_t^C\Delta T$. Information regarding the change in linear acceleration is directly obtained form the control input data gathered by the IMU and can be numerically integrated in order to illustrate it's effect on the systems linear velocity and ultimately, translational position.\\\\
-As previously mentioned, a quarternion represents the camera's orientation. In order to compute the aforementioned quarternion, the rate at which the camera's rotational degrees of freedom are changing is required. The control inputs from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated to obtain the angular position before the quarternion is taken thereof. The process of computing the quarternion involves obtaining an angle-axis as well as a magnitude by which this axis is to be rotated. The angle-axis $\gamma$ is defined as follows:
-
+In order to compute the aforementioned quarternion, the rate at which the camera's rotational degrees of freedom are changing is required. The control inputs from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated in order to obtain the angular position $\boldsymbol{\theta}_t$, before the quarternion is taken thereof. As previously mentioned, an angle-axis as well as a magnitude by which this axis is to be rotated is required to compute a quarternion. The angle-axis $\gamma$ is defined as follows:
 \begin{equation} \label{eq:axis}
 \begin{split}
 \gamma &= \begin{pmatrix}
-\boldsymbol{\theta}, {\alpha} 
+\boldsymbol{\theta}, {\norm{\boldsymbol{\theta}}} 
 \end{pmatrix} =
 \begin{pmatrix}
 \begin{pmatrix}
@@ -437,7 +450,9 @@ where $\omega_{t,\beta}$, $\beta \in \{X, Y, Z\}$ denotes the angular velocity a
 \begin{equation} \label{eq:quat} 
 \textbf{q} = \bigg(\cos \frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_x}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_y}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_z}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \bigg)^T
 \end{equation}
-A quarternion multiplication between the orientation quarternion obtained at the previous time step and the angle-axis rotation quarternion in~\ref{eq:quat} results in the camera's final orientation state at the the current time $t$.
+A quarternion multiplication between the orientation quarternion obtained at the previous time step and the angle-axis rotation quarternion in~\ref{eq:quat} results in the camera's final orientation state at the the current time $t$.\\\\
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Covariance Update}
 Before the prediction step can be concluded, the covariance matrix $\bar \Sigma_t$, corresponding to the previously determined mean vector $\boldsymbol{\bar \mu_t}$ is required to be updated as a result of the linearisation process undertaken by the EKF. This procedure is denoted in step 2 of table~\ref{tab:EKF}. It can be noticed that the previously described Jacobian matrix of $g_v(\textbf{u}_{t},\boldsymbol{\mu_{t-1})}$ is thus required to realise this procedure. The Jacobian matrix of $g_v(\textbf{u}_{t},\boldsymbol{\mu_{t-1}})$, $\textbf{G}_t$, can be mathematically defined as follows:
