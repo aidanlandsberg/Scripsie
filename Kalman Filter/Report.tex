@@ -165,25 +165,25 @@ The mathematical derivation of the Bayes Filter contains many assumptions and fu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 As previously discussed, the Bayes Filter possesses many different derivations and variants thereof. Amongst these derivations, are the \textit{Gaussian filter} family. The basic idea behind a Gaussian filter is that beliefs can be represented as a multivariate Gaussian distributions, represented mathematically as follows:
 \begin{equation} \label{eq:normal}
-p(x_t)=\cfrac{1}{\sqrt{|2\pi\Sigma|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{-\frac{1}{2}(x_t-\mu)^T\Sigma^{-1}(x_t-\mu)\bigg\},
+p(\textbf{x}_t)=\cfrac{1}{\sqrt{|2\pi\boldsymbol{\Sigma}|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{-\frac{1}{2}(\textbf{x}_t-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\textbf{x}_t-\boldsymbol{\mu})\bigg\},
 \end{equation} 
-where the density across the state variable $x_t$ is characterised through two fundamental parameters: The mean $\mu$ and the covariance $\Sigma$. Such a parameterisation whereby a Gaussian is characterised through it's respective mean and covariance is called the \textit{moments parameterisation} (as the mean and covariance represent the first and second order moments respectively). Here from, a number of recursive filter algorithms can be derived, two of which are examined in this paper: the \textit{Kalman Filter} (KF) and it's non-linear counterpart, the \textit{Extended Kalman Filter} (EKF). It is important to realise that both of the aforementioned Filters belong to the same sub-class of filters - namely the Kalman Filter Family - and therefore most of the fundamental concepts and functionality between them are identical. Each Filter is discussed in further detail in the following segments of this section.   
+where the density across the state variable $x_t$ is characterised through two fundamental parameters: The mean $\boldsymbol{\mu}$ and the covariance $\boldsymbol{\Sigma}$. Such a parameterisation whereby a Gaussian is characterised through it's respective mean and covariance is called the \textit{moments parameterisation} (as the mean and covariance represent the first and second order moments respectively). Here from, a number of recursive filter algorithms can be derived, two of which are examined in this paper: the \textit{Kalman Filter} (KF) and it's non-linear counterpart, the \textit{Extended Kalman Filter} (EKF). It is important to realise that both of the aforementioned Filters belong to the same sub-class of filters - namely the Kalman Filter Family - and therefore most of the fundamental concepts and functionality between them are identical. Each Filter is discussed in further detail in the following segments of this section.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Kalman Filter}    
-Probably the most fundamental (and popular) of all Gassian filter algorithms, is the \textit{Kalman Filter}. The Kalman filter can be briefly described as the algorithm that enables the realisation of many practical recursive estimation systems, including the SLAM problem. It remains a popular, well studied technique for filtering and prediction of linear systems that contains uncertainty - typically uncertainties which are Gaussian in nature. The Kalman filter seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\mu_t$ and covariance $\Sigma_t$, at each time instance $t$ (while previous time-steps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true: 
+Probably the most fundamental (and popular) of all Gassian filter algorithms, is the \textit{Kalman Filter}. The Kalman filter can be briefly described as the algorithm that enables the realisation of many practical recursive estimation systems, including the SLAM problem. It remains a popular, well studied technique for filtering and prediction of linear systems that contains uncertainty - typically uncertainties which are Gaussian in nature. The Kalman filter seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\mu_t$ and covariance $\Sigma_t$, at each time instance $t$ (while previous time-steps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true (as listed in \textcolor{red}{[Probabilistic Robotics]}): 
 \begin{enumerate}
-\item The state transition model probability - with function $g(\textbf{u}_{t},\hspace{0.1cm}\mu_{t-1})$ - \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise.
-\item The observation model probability - with function $h(\bar \mu_t)$ - \textbf{must} be a \textit{linear} function with additive Gaussian (measurement/sensor) noise. 
+\item The state transition model probability - with function $g(\textbf{u}_{t},\hspace{0.1cm}\boldsymbol{\mu}_{t-1})$ - \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise.
+\item The observation model probability - with function $h(\boldsymbol{\bar \mu}_t)$ - \textbf{must} be a \textit{linear} function with additive Gaussian (measurement/sensor) noise. 
 \item The initial belief $bel(x_0)$ must be normally distributed.
 \end{enumerate}
-In the context of Simultaneous Localisation and Mapping (SLAM), a Kalman Filter algorithm \textbf{optimally} estimates the state of the robots pose as well as the position of the landmarks within the map, given process and measurement noise.\\
+In the context of Simultaneous Localisation and Mapping (SLAM), a Kalman Filter algorithm seeks to determine the \textbf{optimal} trade off between the state of the robots pose and the position of the landmarks within the map - given process and measurement noise.\\
 %provided that the state vector $\textbf{\^{x}}_k$, and landmark locations $\textbf{\^{y}}_{n,k}$ are modelled by a single multivariate Gaussian distribution. The system is to be observed at discrete steps in time - denoted by the subscript$k =1, 2,  3, ...$ - where at every individual time-step, it can be influenced by a set of actions. It is assumed that\\  
 Moreover, the solution to this specific implementation of the SLAM problem, takes a probabilistic form where the belief with regard to state variable $\textbf{x}_t$ is denoted as shown in equation~\ref{eq:belief}:
 \begin{equation}
 bel(\textbf{{x}}_t) = p\big(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{1:t},\textbf{u}_{1:t}\big),
 \end{equation}
 %with the aforementioned distribution described at every discrete time instance $t$.\\ A brief description would yield that the distribution above, describes, for a given time instance $t$, a joint density of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations, $\textbf{z}_{1:t}$ and control inputs, $\textbf{u}_{1:t}$.\\
-Like the Bayes Filter, the Kalman filter too is executed in two (sequential) steps: the \textit{prediction step} and the \textit{update step}. Firstly, the prediction step aims to estimate a state into which the system will be transitioned from the previous state estimate ($\mu_{t-1}$, $\Sigma_{t-1}$) as a result of a set of internal and/or external dynamics to the system. These dynamics are typically described through the state transition function $g(\mu_{t}, {\mu}_{t-1})$. Once an estimate is obtained for the transitioned state estimate ($\bar \mu_t$, $\bar \Sigma_t$), a measurement prediction is made in order to provide the expected measurements provided that the system were to find itself within the estimated transitioned state. These measurements are obtained through an observation model which has a function $h(\bar \mu_t)$. Thereafter, an actual measurement, $\textbf{z}_t$ is then obtained through the system sensors in order to determine the actual state of the system ($\mu_t$, $\Sigma_t$). Ultimately, the actual state of the system and the previously predicted state are then compared with one another in order  to obtain the (optimally weighted) \textit{Kalman gain}: This entity yields minimum mean-squared error in the estimate and ultimately provides an optimal trade-off between the measurement and the estimate. Intuitively, the Kalman gain controls how much the systems "trusts" the measurements over the estimate. Each of the aforementioned steps are later discussed in more detail - with reference to implementations specific to this paper. Table~\ref{tab:KF} below, presents a pseudo-algorithmic representation the aforementioned steps. Table~\ref{tab:KF} also incorporates a systematical and mathematical representation for the following system definition of the state transition and the observation models respectively:
+Like the Bayes Filter, the Kalman filter too is executed in two (sequential) steps: the \textit{prediction step} and the \textit{update step}. Firstly, the prediction step aims to estimate a state into which the system will be transitioned from the previous state estimate ($\boldsymbol{\mu}_{t-1}$, $\boldsymbol{\Sigma}_{t-1}$) as a result of a set of internal and/or external dynamics to the system. These dynamics are typically described through the state transition function $g(\textbf{u}_t, \boldsymbol{\mu}_{t-1})$. Once an estimate is obtained for the transitioned state estimate ($\boldsymbol{\bar \mu}_t$, $\boldsymbol{\bar \Sigma}_t$), a measurement prediction is made in order to provide the expected measurements provided that the system were to find itself within the estimated transitioned state. These measurements are obtained through an observation model which has a function $h(\boldsymbol{\bar \mu}_t)$. Thereafter, an actual measurement, $\textbf{z}_t$ is then obtained through the system sensors in order to determine the actual state of the system ($\boldsymbol{\mu}_t$, $\boldsymbol{\Sigma}_t$). Ultimately, the actual state of the system and the previously predicted state are then compared with one another in order  to obtain the (optimally weighted) \textit{Kalman gain}: This entity yields minimum mean-squared error in the estimate and ultimately provides the desired optimal trade-off between the measurement and the estimate. Intuitively, the Kalman gain controls how much the systems "trusts" the measurements over the estimate. Each of the aforementioned steps are later discussed in more detail - with reference to implementations specific to this paper. Table~\ref{tab:KF} below, presents a pseudo-algorithmic representation the aforementioned steps and also incorporates a systematical and mathematical representation for the following system definition of the state transition and the observation models respectively:
 \begin{equation}\label{eq:SSmodel}
 \begin{split}
 g(\textbf{u}_{t}, {\mu}_{t-1}) &:  \textbf{x}_t = \textbf{A}_t\textbf{x}_{t-1} + \textbf{B}_t\textbf{x}_t + \textbf{w}_t\\
@@ -200,16 +200,16 @@ where $\textbf{w}_t$ and $\textbf{v}_t$ represent process and sensor noise respe
 \textbf{Output}: &mean $\mu_{t}$, covariance $\Sigma_{t}$\\
 \hline
 \hline
-&\textit{Prediction step} \\
+&\textbf{Prediction step} \\
 \hline
-1. & $\bar \mu_{t}$ = $g(\textbf{u}_{t}, \mu_{t-1})$ = $\textbf{A}_t\hspace{0.05cm}\mu_{t-1} + \textbf{B}_t\hspace{0.05cm}\mu_t$ + $\textbf{w}_t$\\
-2. & $\bar \Sigma_t = \textbf{A}_t \Sigma_{t-1} \textbf{A}_t^T + R_{w,t}$ \\
+1. & $\boldsymbol{\bar \mu}_{t}$ = $g(\textbf{u}_{t}, \boldsymbol{\mu}_{t-1})$ = $\textbf{A}_t\hspace{0.05cm}\boldsymbol{\mu}_{t-1} + \textbf{B}_t\hspace{0.05cm}\boldsymbol{\mu}_t$ + $\textbf{w}_t$\\
+2. & $\boldsymbol{\bar \Sigma}_t = \textbf{A}_t \boldsymbol{\Sigma}_{t-1} \textbf{A}_t^T + \textbf{R}_{w,t}$ \\
 \hline
-&\textit{Correction step}\\
+&\textbf{Correction step}\\
 \hline
-3. & $K_t = \bar \Sigma_{t} \textbf{C}_t^T (\textbf{C}_t \bar \Sigma_{t} \textbf{C}_t^T + Q_{v,t})^{-1}$ \\
-4. & $\mu_t = \bar \mu_t + K_t[\textbf{z}_t-\textbf{C}_t\bar \mu_t]$\\  
-5. & $\Sigma_{t} = (I-K_t \textbf{C}_t)\bar \Sigma_t$ \\
+3. & $\textbf{K}_t = \boldsymbol{\bar \Sigma}_{t} \textbf{C}_t^T (\textbf{C}_t \boldsymbol{\bar \Sigma}_{t} \textbf{C}_t^T + \textbf{Q}_{v,t})^{-1}$ \\
+4. & $\boldsymbol{\mu}_t = \boldsymbol{\bar \mu}_t + \textbf{K}_t[\textbf{z}_t-\textbf{C}_t\boldsymbol{\bar \mu}_t]$\\  
+5. & $\boldsymbol{\Sigma}_{t} = (\textbf{I}-\textbf{K}_t \textbf{C}_t)\boldsymbol{\bar \Sigma}_t$ \\
 \hline\hline
 \end{tabular}
 \end{center}
@@ -219,7 +219,7 @@ where $\textbf{w}_t$ and $\textbf{v}_t$ represent process and sensor noise respe
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsubsection{Extended Kalman Filter} 
-Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented to many systems. Non-linear transformations tend to suppress the Gaussian nature of the distribution that is being modelled. Any linear transformation of a Gaussian random variable yields another \textbf{different} Gaussian variable. Non-linear transformations of a Gaussian random variable (RV) however, will always yield a non Gaussian RV. The Kalman filter algorithm thus, cannot be implemented system. This phenomenon can be illustrated through figure~\ref{fig:non} presented below: % where a linear transform yields a transformed Gaussian RV and a non linear transform yields a RV with a different probability density:
+Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented upon the vast majority of modern day systems. Non-linear transformations tend to suppress the Gaussian nature of the distribution that is being modelled. Any linear transformation of a Gaussian random variable yields another \textbf{different} Gaussian variable. Non-linear transformations of a Gaussian random variable (RV) however, will always yield a non Gaussian RV. The Kalman filter algorithm thus, cannot be implemented system. This phenomenon can be illustrated through figure~\ref{fig:non} presented below: % where a linear transform yields a transformed Gaussian RV and a non linear transform yields a RV with a different probability density:
 
 \begin{figure}[h]
 \begin{center}
@@ -229,8 +229,8 @@ Considering that most practical systems of interest yield non-linear behaviour, 
 \label{fig:non}
 \end{center}
 \end{figure}
-The \textit{Extended Kalman filter} (EKF), an extension of the general Kalman filter, aims to enable the modelling of non-linear systems through linearisation. As previously mentioned, the state transition function $g(\mu_{t}, {\mu}_{t-1})$, as well as the observation model $h(\bar \mu_t)$ of most practical systems are typically both non-linear in nature. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function. The linearisation process of EKF aims to linearise these functions so that the basic fundamental operations of the Kalman Filter algorithm can be validated.\\
-The linearisation process approximates an arbitrary non linear function $f$ by a linear function that is \textit{tangent} to $f$ at the mean value of the Gaussian. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature. This technique is applied to both the state transition and observation functions. Many methods exist for linearisation of non linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $f$, by it's own value as well as that of it's gradient $f'$. The tangent of $f$ can be depicted by it's partial derivative with respect to the state vector $\textbf{x}_{t-1}$:
+The \textit{Extended Kalman filter} (EKF), an extension of the general Kalman filter, aims to enable the modelling of non-linear systems through linearisation. As previously mentioned, the state transition function $g(\textbf{u}_t, {\mu}_{t-1})$, as well as the observation model $h(\bar \mu_t)$ of most practical systems are typically both non-linear in nature. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function, more commonly referred to as linearisation. The linearisation process of EKF aims to linearise these functions so that the fundamental operations of the Kalman Filter algorithm remain valid.\\
+The linearisation process approximates an arbitrary non linear function $f$ by a linear function that is \textit{tangent} to $f$ at the mean value of the Gaussian, $\boldsymbol{\mu}$. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature (as in figure~\ref{fig:non}). This technique is applied to both the state transition and observation functions. Many methods exist for linearisation of non linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $f$, by it's own value as well as that of it's gradient $f'$. The tangent of $f$ can be depicted by it's partial derivative with respect to the state vector $\textbf{x}_{t-1}$:
 \begin{equation}\label{eq:par}
 f'(\textbf{x}_{t-1}, \textbf{u}_t) := \frac{\partial f(\textbf{x}_{t-1}, \textbf{u}_t)}{\partial \textbf{x}_{t-1}}
 \end{equation}
@@ -238,15 +238,15 @@ f'(\textbf{x}_{t-1}, \textbf{u}_t) := \frac{\partial f(\textbf{x}_{t-1}, \textbf
 The argument of the function $f$ is chosen as the most likely point at the linearisation instance. For Gaussians, the most likely point is the mean $\mu_{t-1}$. The linear approximation of the function $f$ can then be achieved through the linear extrapolation evaluated at it's most likely point $\mu_{t-1}$:
 \begin{equation}\label{eq:app}
 \begin{split}
-f(\textbf{x}_{t-1}, \textbf{u}_t) &\approx f(\textbf{x}_{t-1}, \textbf{u}_t) + f'(\textbf{u}_{t},\mu_{t-1})(\textbf{x}_{t-1}-\mu_{t-1}) \\
-&= f(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{F}_t(\textbf{x}_{t-1}-\mu_{t-1})
+f(\textbf{x}_{t-1}, \textbf{u}_t) &\approx f(\textbf{x}_{t-1}, \textbf{u}_t) + f'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}) \\
+&= f(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{F}_t(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1})
 \end{split}
 \end{equation}
-where $\textbf{F}_t = f'(\textbf{u}_{t},\mu_{t-1})$ is the \textit{Jacobian} matrix. \\
+where $\textbf{F}_t = f'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})$ is the \textit{Jacobian} matrix. \\
 It is important to note that {Jacobian} matrix is determined at each linearisation instance (each individual time-step) as its parameters differ from one linearisation instance to the next. 
 \\\\
 Once linearisation is achieved, the EKF; which behaves otherwise identically in terms of operation to the general Kalman filter, can be implemented upon non-linear systems. \\
-It is very important to note that because only a first order Taylor expansion is used to approximate the linearisation, severe non-linearities will prohibit acceptable approximations of the Gaussian distribution upon transformations. Other variants of the Kalman filter that aren't discussed in this paper, are then required to be considered.\\
+It is very important to note that because only a first order Taylor expansion is used to approximate the linearisation, severe non-linearities will prohibit acceptable approximations of the Gaussian distribution upon transformations. Provided that the linearisation point is in close proximity to the mean of the Guassian, the EKF will yield an acceptable approximation from the linearisation process. Other variants of the Kalman filter (such as the Unscented Kalman filter) that aren't discussed in this paper, are then required to be considered.\\
 
 Table~\ref{tab:EKF}  below, systematically and mathematically represents the aforementioned steps.
 
@@ -255,35 +255,35 @@ Table~\ref{tab:EKF}  below, systematically and mathematically represents the afo
 \caption{The Extended Kalman Filter Algorithm}\label{tab:EKF}
 \begin{tabular}{l l l}
 \hline
-\textbf{Input}: &previous mean $\mu_{t-1}$ and covariance $\Sigma_{t-1}$, control inputs $\textbf{u}_t$, measurements $\textbf{z}_t$\\ 
-\textbf{Output}: &mean $\mu_{t}$, covariance $\Sigma_{t}$\\
+\textbf{Input}: &previous mean $\boldsymbol{\mu}_{t-1}$ and covariance $\boldsymbol{\Sigma}_{t-1}$, control inputs $\textbf{u}_t$, measurements $\textbf{z}_t$\\ 
+\textbf{Output}: &mean $\boldsymbol{\mu}_{t}$, covariance $\boldsymbol{\Sigma}_{t}$\\
 \hline
 \hline
-&\textit{Prediction step} \\
+&\textbf{Prediction step} \\
 \hline
-1. & $\bar \mu_{t}$ = $g(\textbf{u}_t, \mu_{t-1})$ \\
-2. & $\bar \Sigma_t = G_t \Sigma_{t-1} G_t^T + R_{w,t}$ \\
+1. & $ \boldsymbol{\bar \mu}_t$ = $g(\textbf{u}_t,  \boldsymbol{\bar \mu}_{t-1})$ \\
+2. & $\boldsymbol{\bar \Sigma_t} = \textbf{G}_t \boldsymbol{\bar \Sigma_{t-1}} \textbf{G}_t^T + \textbf{R}_{w,t}$ \\
 \hline
-&\textit{Correction step}\\
+&\textbf{Correction step}\\
 \hline
-3. & $K_t = \bar \Sigma_{t} H_t^T (H_t \bar \Sigma_{t} H_t^T + Q_{v,t})^{-1}$ \\
-4. & $\mu_t = \bar \mu_t + K_t[z_t-h(\bar \mu_t)]$\\  
-5. & $\Sigma_{t} = (I-K_t H_t)\bar \Sigma_t$ \\
+3. & $\textbf{K}_t = \boldsymbol{\bar \Sigma_{t}} \textbf{H}_t^T (\textbf{H}_t \boldsymbol{\bar \Sigma_{t}} \textbf{H}_t^T + \textbf{Q}_{v,t})^{-1}$ \\
+4. & $\boldsymbol{\mu_t} = \boldsymbol{\bar \mu}+ \textbf{K}_t[\textbf{z}_t-h(\boldsymbol{\bar \mu})]$\\  
+5. & $\boldsymbol{\Sigma}_{t} = (\textbf{I}-\textbf{K}_t \textbf{H}_t)\boldsymbol{\bar \Sigma_t}$ \\
 \hline\hline
 \end{tabular}
 \end{center}
 \end{table}%  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section{Design: EKF Monocular Based SLAM Using Kinematic State Estimation}
+\section{Design: EKF Monocular Vision Based SLAM Using Kinematic State Estimation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The ultimate goal of the approach presented here, is to obtain a probabilistic three dimensional (3D) map of features, representing at every time instance, the estimates of both the state of the camera as well as the positions of every feature observed. This scenario is one approach of the previously discussed SLAM problem. Such a problem, is typically solved through the utilisation of the EKF. The goal of a particular SLAM algorithm termed MonoSLAM (Monocular vision based SLAM), is to ultimately realise the objective of obtaining the aforementioned probabilistic map, through the utilisation of a single camera as achieved by \textcolor{red}{[Davison 2003]}. Various \textbf{successful} SLAM algorithms exist that utilise sensors other than cameras (laser range finders, ultrasonic sensors etc.). Cameras though, prove a better economical alternative to these sensors. Another successful and popular implementation is stereo vision (two calibrated cameras), yet the obvious disadvantage regarding such an approach is that double the cost is required as opposed to a single camera approach.\\  
-It can be argued though, that the general approach presented by \textcolor{red}{[Davison 2003]} as well as variants thereof \textcolor{red}{[Other sources]} can be improved through the utilisation of additional information regarding the motion of the robot. The approach presented in this paper then, seeks to utilise exactly such information through the utilisation of an inertial measurement unit (IMU) as an extension to the original implementation. Inertial measurement unit's have been implemented in SLAM based systems before, as implemented in \textcolor{red}{[Other sources]}. With the addition of an IMU, information regarding the changes in movement and orientation of the camera (namely the linear accelerations and the angular rates) can be obtained and \textit{observed} accordingly. Ultimately, the stochastic constant velocity motion model of the general MonoSLAM algorithm can then be replaced with a kinematic estimation based motion model - one that is initially assumed to be more accurate as it contains a considerably larger amount of information. \\ 
-Furthermore, the remaining components of the proposed approach presented in this paper are identical to that of the general MonoSLAM algorithm of Davison: that is, using the EKF to successfully obtain the desired probabilistic map. \\\\
-This section sets out to define the necessary segments of the MonoSLAM algorithm in the context of this paper alone. Initially the adequate state representation of the system at hand will be denoted, whereby the components of the state vector - namely the camera position and cartesian feature states - will be defined and discussed. Additionally, the affect of the proposed extension - namely the control inputs to the system - will be properly defined and described. Furthermore, this section will seek to use the aforementioned definitions to completely define the two sequential steps required to successfully implement the EKF, namely the \textit{prediction} and \textit{update} steps. 
+The ultimate goal of the approach presented here, is to obtain a probabilistic three dimensional (3D) map of features, representing at every time instance, the estimates of both the state of the camera as well as the positions of every feature observed. This scenario is one approach of the previously discussed SLAM problem. Such a problem, is typically solved through the utilisation of the EKF. The goal of a particular SLAM algorithm termed MonoSLAM (Monocular vision based SLAM), is to ultimately realise the objective of obtaining the aforementioned probabilistic map, through the utilisation of a single camera as achieved by \textcolor{red}{[Davison 2003]}. Various \textbf{successful} SLAM algorithms exist that utilise sensors other than cameras (laser range finders, ultrasonic sensors etc.). Cameras though, prove a better economical alternative to these sensors. Another successful and popular implementation is stereo vision (two calibrated cameras), yet the obvious disadvantage regarding such an approach is that double the cost is required as opposed to a single camera approach. Also, the calibration setup of a stereo vision system is generally quite complex. \\  
+It can be argued though, that the general approach presented by \textcolor{red}{[Davison 2003]} as well as the variants thereof \textcolor{red}{[Other sources]} can be improved through the utilisation of additional information regarding the motion of the robot. As previously discussed, the MonoSLAM system presented by \textcolor{red}{[Davison 2003]} utilises a single camera as the primary and only sensor and the mot critical of the inherent disadvantages of such a system is that the system possesses no knowledge regarding it's movement. The approach presented in this paper then, seeks to utilise exactly such information through the utilisation of an inertial measurement unit (IMU) as an extension to the original implementation. Inertial measurement unit's have been successfully implemented in SLAM based systems before, as implemented in \textcolor{red}{[Other sources]}. With the addition of an IMU, information regarding the changes in movement and orientation of the camera (namely the linear accelerations and the angular rates) can be obtained and \textit{observed} accordingly. Ultimately, the stochastic constant velocity motion model of the general MonoSLAM algorithm can then be replaced with a kinematic estimation based motion model - one that is initially assumed to be more accurate as it contains a considerably larger amount of information directly associated with a robot's movement. \\ 
+Furthermore, the remaining components of the proposed approach presented in this paper are identical to that of the general MonoSLAM algorithm of Davison: that is, using the EKF \textcolor{green}{(also mention the particle depth hypothesis, image search patches, planar surfaces etc.)} to successfully obtain the desired probabilistic map. \\\\
+This section sets out to define the necessary segments of the MonoSLAM algorithm in the context of this paper alone. Initially, the adequate state representation of the system at hand will be denoted, whereby the components of the state vector - namely the camera position and cartesian feature states - will be defined and discussed. Additionally, the affect of the proposed extension - namely the control inputs to the system - will be properly defined and described. Furthermore, this section will seek to use the aforementioned definitions to completely define the two sequential steps required to successfully implement the EKF, namely the \textit{prediction} and \textit{update} steps. 
 \subsection{State Representation}
-Generally, a state can be defined as any facet that has the ability to impact the future. In the context of this particular paper, the states will comprise of all facets that impact the future of both the robot and the environment dynamics. As per the definition of the EKF, it is essential that the system possesses a model to estimate future states. This model is commonly referred to as the previously discussed state transition model. All relevant state estimates are embedded within the state vector $\textbf{{x}}_t$, which is comprised of two parts, the camera state $\textbf{{x}}_v$ and the landmark position estimates $\textbf{{y}}$ respectively. The camera state provides the estimate for the robot's pose at each time-step and the landmark estimates provide the landmark's estimated position within the map.\\
-Mathematically, the probabilistic map is typically represented through a mean state vector $\textbf{{x}}_t$ and a covariance matrix $\textbf{P}_{nn}$. The mean state vector, as previously mentioned, is a a single column vector containing the estimates of the camera as well as the landmark positions, and $\textbf{P}_{nn}$ is a square matrix containing the covariances of each state with respect to every other state. These quantities can be mathematically shown as follows:
+Generally, a state can be defined as any facet that has the ability to impact the future. In the context of this particular paper, the states will comprise of all facets that impact the future of both the robot and the environment dynamics. As per the definition of the EKF, it is essential that the system possesses a model to estimate future states. This model is commonly referred to as the previously discussed state transition model. All relevant state estimates are embedded within the state vector $\textbf{{x}}_t$, which is comprised of two parts, the camera state $\textbf{{x}}_v$ and the landmark position estimates $\textbf{{y}}_n$ respectively. The camera state provides the estimate for the robot's pose at each time-step and the landmark estimates provide the landmark's estimated position within the map.\\
+Mathematically, the probabilistic map is typically represented through a mean state vector $\textbf{{x}}_t$ and a covariance matrix $\textbf{P}_{nN}$. The mean state vector, as previously mentioned, is a a single column vector containing the estimates of the camera as well as the landmark positions, and $\textbf{P}_{nN}$ is a square matrix containing the covariances of each state with respect to every other state. These quantities can be mathematically shown as follows:
 \begin{equation}
 \textbf{{x}}_t = 
  \begin{pmatrix}
@@ -293,14 +293,14 @@ Mathematically, the probabilistic map is typically represented through a mean st
   \vdots \\
   \textbf{{y}}_{n,t}
  \end{pmatrix} , \hspace{0.5cm}
-\textbf{P}_{nn} =
- \begin{bmatrix}
+\textbf{P}_{nN} =
+ \begin{pmatrix}
   P_{x,x} & P_{x,{y_1}} & P_{x,{y_2}} & \cdots & P_{x,{y_N}} \\
   P_{{y_1},x} &  P_{{y_1},{y_1}} & P_{{y_1},{y_2}} & \cdots &  P_{{y_1},{y_N}} \\
   P_{{y_2},x} &  P_{{y_2},{y_1}} & P_{{y_2},{y_2}} & \cdots &  P_{{y_2},{y_N}} \\
   \vdots  & \vdots  & \vdots & \ddots & \vdots  \\
-  P_{{y_n},x} & P_{{y_n},{y_1}} & P_{{y_n},{y_2}}& \cdots & P_{{y_n},{y_n}}
- \end{bmatrix},
+  P_{{y_n},x} & P_{{y_n},{y_1}} & P_{{y_n},{y_2}}& \cdots & P_{{y_n},{y_N}}
+ \end{pmatrix},
 \end{equation}
 \\These quantities then, allow us to approximate the uncertainty regarding the generated feature map as a $N$-dimensional single multi-variate Gaussian distribution, where $N$, as stated above, is the total number of state estimates within the state vector and $n$ is the total number of landmarks within the map.\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -345,17 +345,17 @@ Once obtained, these measurements (not to be confused with the EKF's measurement
  \textbf{a}_t \\
  {\boldsymbol \omega}_t
 \end{pmatrix}
-= \big[\hspace{0.1cm}\ddot{x}_{t}\hspace{0.25cm}\ddot{y}_{t}\hspace{0.25cm}\ddot{z}_{t}\hspace{0.25cm}\textit{\.{q}}_{0,t}\hspace{0.25cm}\textit{\.{q}}_{1,t}\hspace{0.25cm}\textit{\.{q}}_{2,t}\hspace{0.25cm}\textit{\.{q}}_{3,t}\hspace{0.1cm}\big]^T
+= \big[\hspace{0.1cm}\ddot{x}_{t}\hspace{0.25cm}\ddot{y}_{t}\hspace{0.25cm}\ddot{z}_{t}\hspace{0.25cm}{\omega}_{x,t}\hspace{0.25cm}{\omega}_{y,t}\hspace{0.25cm}{\omega}_{z,t}\hspace{0.1cm}\big]^T
 \end{equation}
 Because the IMU measurements gather the actual data through exteroceptive sensors, namely an accelerometer and a gyroscope, it is important to note the effects of disturbances and process noise can be directly obtained through these measurements. Moreover, the uncertainty regarding the transition model, namely the process noise, is all incorporated within the noise measurements of the IMU. This noise can be modelled as a zero mean, Gaussian process $\textbf{w}_t$ with a corresponding covariance matrix $\textbf{R}_w$. The system noise can be then be mathematically described as follows:
  
-\begin{equation}
+\begin{equation} \label{eq:pertn}
 \textbf{w}_t =
 \begin{pmatrix} 
  \textbf{n}_{\textbf{a},t} \\
  \textbf{n}_{{\omega},t}
 \end{pmatrix}
-= \big[\hspace{0.1cm}n_{\ddot{x}_{k}}\hspace{0.25cm}n_{\ddot{y}_{k}}\hspace{0.25cm}n_{\ddot{z}_{k}}\hspace{0.25cm}n_{\textit{\.{q}}_{0,k}}\hspace{0.25cm}n_{\textit{\.{q}}_{1,k}}\hspace{0.25cm}n_{\textit{\.{q}}_{2,k}}\hspace{0.25cm}n_{\textit{\.{q}}_{3,k}}\hspace{0.1cm}\big]^T
+= \big[\hspace{0.1cm}n_{\ddot{x}_{t}}\hspace{0.25cm}n_{\ddot{y}_{t}}\hspace{0.25cm}n_{\ddot{z}_{t}}\hspace{0.25cm}n_{{\omega}_{x,t}}\hspace{0.25cm}n_{{\omega}_{y,t}}\hspace{0.25cm}n_{{\omega}_{z,t}}\hspace{0.1cm}\big]^T
 \end{equation}
 with the aforementioned noise model yielding for each of the above elements, a Gaussian random variable.  \\
 Furthermore, the resultant IMU data to be used is to contain the measurements of the linear accelerations and angular rotations as well as the appropriate additive noise.
@@ -365,8 +365,8 @@ With reference to the probabilistic form of the solution to the SLAM problem, th
 \begin{equation}
 \begin{split}
 bel(\textbf{x}_t) &= p(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{{x}}_{t-1}, \textbf{u}_t) \\
-&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{x}}_t-g(\mu_t, \hspace{0.1cm}\mu_{t-1}) - G_t(\textbf{x}_{t-1} - \mu_{t-1})\big]^T\\
-&\textbf{R}^{-1}_w\big[\textbf{{x}}_t-g(\mu_t, \hspace{0.1cm}\mu_{t-1}) - G_t(\textbf{x}_{t-1} - \mu_{t-1})\big]\bigg \},
+&=\cfrac{1}{\sqrt{|2\pi\textbf{R}_w|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{x}}_t-g(\boldsymbol{\mu}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]^T\\
+&\textbf{R}^{-1}_w\big[\textbf{{x}}_t-g(\boldsymbol{\mu}_t, \hspace{0.1cm}\boldsymbol{\mu}_{t-1}) - \textbf{G}_t(\textbf{x}_{t-1} - \boldsymbol{\mu}_{t-1})\big]\bigg \},
 \end{split}
 \end{equation} 
 where $G_t$ represents the Jacobian of the state transition motion. \\\\
@@ -375,22 +375,22 @@ The state transition model is assumed to take the form of a Markov process, yiel
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{State Transition Model} 
-As previously discussed, the Extended Kalman FiIter requires a state transition (motion) model in order to estimate the current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robot’s kinematic motion as well as the control inputs. In order to derive the state transition model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached Inertial Measurement Unit (IMU) package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\\\
+\subsubsection{Mean Estimate: State Transition Model} 
+As previously discussed, the Extended Kalman FiIter requires a state transition (motion) model in order to obtain the mean estimate $ \boldsymbol{\bar \mu}_t$, of  current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robot’s kinematic motion as well as the control inputs. In order to derive the state transition model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached IMU package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\\\
 We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors.\\\\
-It must also be stressed that initially, a stochastic, non linear discrete-time model is adopted to approximate the model. We begin by describing all relevant states and control inputs:
+It must also be stressed that initially, a stochastic, non linear discrete-time model is adopted to approximate the model. We begin by recalling all relevant states and control inputs:
 \begin{equation}
 \begin{split}
 \textbf{x}_t &=\big[\hspace{0.1cm}\textbf{r}_t^{W}\hspace{0.1cm}\textbf{q}_t^{WC}\hspace{0.1cm}\textbf{v}_t^{W}\big]^T\\ 
-&= \big[\textit{x}_{t}\hspace{0.25cm}\textit{y}_{t}\hspace{0.25cm}\textit{z}_{t}\hspace{0.25cm}\textit{\.{x}}_{t}\hspace{0.25cm}\textit{\.{y}}_{t}\hspace{0.25cm}\textit{\.{z}}_{t}\hspace{0.05cm}\hspace{0.25cm}\textit{q}_{0,t}\hspace{0.25cm}\textit{q}_{1,t}\hspace{0.25cm}\textit{q}_{2,t}\hspace{0.25cm}\textit{q}_{3,t}\big]^T \\
+&= \big[\textit{x}_{t}\hspace{0.25cm}\textit{y}_{t}\hspace{0.25cm}\textit{z}_{t}\hspace{0.25cm}\textit{q}_{0,t}\hspace{0.25cm}\textit{q}_{1,t}\hspace{0.25cm}\textit{q}_{2,t}\hspace{0.25cm}\textit{q}_{3,t}\hspace{0.25cm}\textit{\.{x}}_{t}\hspace{0.25cm}\textit{\.{y}}_{t}\hspace{0.25cm}\textit{\.{z}}_{t}\big]^T \\
 \textbf{u}_t &= \big[\hspace{0.1cm}\textbf{a}_t^C\hspace{0.1cm}\boldsymbol{\omega}_t^C\big]^T\\
-&=\big[\hspace{0.1cm}\ddot{x}_{t}\hspace{0.25cm}\ddot{y}_{t}\hspace{0.25cm}\ddot{z}_{t}\hspace{0.25cm}\textit{\.{q}}_{0,t}\hspace{0.25cm}\textit{\.{q}}_{1,t}\hspace{0.25cm}\textit{\.{q}}_{2,t}\hspace{0.25cm}\textit{\.{q}}_{3,t}\big]^T\\
+&=\big[\hspace{0.1cm}\ddot{x}_{t}\hspace{0.25cm}\ddot{y}_{t}\hspace{0.25cm}\ddot{z}_{t}\hspace{0.25cm}{\omega}_{x,t}\hspace{0.25cm}{\omega}_{y,t}\hspace{0.25cm}{\omega}_{z,t}\hspace{0.1cm}\big]^T\\
 \end{split}
 \end{equation}
-The state transition function $g_v(\textbf{u}_{t},\mu_{t-1})$ defined at the current time $t$, is dependent on both the current control inputs $\textbf{u}_t$ as well as the previous mean $\mathbf{\mu}_{t-1}$:
+The state transition function $g_v(\textbf{u}_{t},\boldsymbol{\mu_{t-1})}$ defined at the current time $t$, is dependent on both the current control inputs $\textbf{u}_t$ as well as the previous mean $\boldsymbol{\mu}_{t-1}$:
 \begin{equation} \label{eq:trmod}
 \begin{split}
-g_v(\textbf{u}_{t},\mu_{t-1}) =
+g_v(\textbf{u}_{t},\boldsymbol{\mu}_{t-1}) =
 	\begin{pmatrix}
 		\textbf{r}_t^{W}\\
 		\textbf{q}_t^{WC}\\
@@ -398,17 +398,18 @@ g_v(\textbf{u}_{t},\mu_{t-1}) =
 	\end{pmatrix} &= 
 	\begin{pmatrix}
 		\textbf{r}_{t-1}^{W}+\textbf{v}_t^W\Delta T\\
-		\textbf{q}_{t-1}^{WC} \otimes \text{quat}\big({\omega}_t^C\Delta T\big) \\
+		\textbf{q}_{t-1}^{WC} \otimes \text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big) \\
 		\textbf{v}_t^{W} + \textbf{a}_{t}^C \Delta T \\
 	\end{pmatrix} \\
 &= \begin{pmatrix}
 	 \textbf{r}_{t-1}^{W}+\dot{\textbf{r}}^W\Delta T\\
 	 \textbf{q}_{t-1}^{WC} \otimes \text{quat}\big(\textbf{\.{q}}_t^C\Delta T\big) \\
 	 \dot{\textbf{r}}_t^{W} + \textbf{R}_t^{CW}\big(\ddot{\textbf{r}}_{t}^C \Delta T\big) \\
-\end{pmatrix}
+\end{pmatrix} \\
+&=  \boldsymbol{\bar \mu}_t
 \end{split}
 \end{equation}
-where $\Delta T$ is defined as the sample period between the previous time $t-1$ and $t$ and $\text{quat}\big({\omega}_t^C\Delta T\big)$ denotes the quartering corresponding to the rotation represented by $\dot{\omega}_t^C\Delta T$. Information regarding the change in linear acceleration is directly obtained form the control input data gathered by the IMU and can be numerically integrated in order to illustrate it's effect on the systems linear velocity and ultimately, translational position.\\\\
+where $\Delta T$ is defined as the sample period between the previous time $t-1$ and $t$ and $\text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big)$ denotes the quartering corresponding to the rotation represented by $\boldsymbol{\dot \omega}_t^C\Delta T$. Information regarding the change in linear acceleration is directly obtained form the control input data gathered by the IMU and can be numerically integrated in order to illustrate it's effect on the systems linear velocity and ultimately, translational position.\\\\
 As previously mentioned, a quarternion represents the camera's orientation. In order to compute the aforementioned quarternion, the rate at which the camera's rotational degrees of freedom are changing is required. The control inputs from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated to obtain the angular position before the quarternion is taken thereof. The process of computing the quarternion involves obtaining an angle-axis as well as a magnitude by which this axis is to be rotated. The angle-axis $\gamma$ is defined as follows:
 
 \begin{equation} \label{eq:axis}
@@ -433,10 +434,66 @@ As previously mentioned, a quarternion represents the camera's orientation. In o
 \end{split}
 \end{equation}
 where $\omega_{t,\beta}$, $\beta \in \{X, Y, Z\}$ denotes the angular velocity about each respective coordinate axis. The result in~\ref{eq:axis} is then represented as a unit quarternion denoting the same rotation:
-\begin{equation} \label{eq:quat}
+\begin{equation} \label{eq:quat} 
 \textbf{q} = \bigg(\cos \frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_x}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_y}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_z}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \bigg)^T
 \end{equation}
-A quarternion multiplication between the orientation quarternion obtained at the previous time step and the angle-axis rotation quarternion in ~\ref{eq:quat} results in the camera's final orientation state at the the current time $t$. \\\\
+A quarternion multiplication between the orientation quarternion obtained at the previous time step and the angle-axis rotation quarternion in~\ref{eq:quat} results in the camera's final orientation state at the the current time $t$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Covariance Update}
+Before the prediction step can be concluded, the covariance matrix $\bar \Sigma_t$, corresponding to the previously determined mean vector $\boldsymbol{\bar \mu_t}$ is required to be updated as a result of the linearisation process undertaken by the EKF. This procedure is denoted in step 2 of table~\ref{tab:EKF}. It can be noticed that the previously described Jacobian matrix of $g_v(\textbf{u}_{t},\boldsymbol{\mu_{t-1})}$ is thus required to realise this procedure. The Jacobian matrix of $g_v(\textbf{u}_{t},\boldsymbol{\mu_{t-1}})$, $\textbf{G}_t$, can be mathematically defined as follows:
+\begin{equation} \label{eq:jacG}
+\textbf{G}_t = \frac{\partial \textbf{x}_t}{\partial \textbf{x}_{t-1}}
+=\begin{pmatrix}
+\frac{\partial \textbf{r}^W_t}{\partial \textbf{r}^W_{t-1}} & \boldsymbol{0} & \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{r}^W_{t-1}}\\
+\boldsymbol{0} & \frac{\partial \textbf{q}^{WC}_{t}}{\partial \textbf{q}^{WC}_{t-1}} & \boldsymbol{0}  \\
+\boldsymbol{0} & \boldsymbol{0} & \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{v}^W_{t-1}}  \\
+\end{pmatrix} 
+\end{equation}   
+with the non-zero elements of the Jacobian further trivially defined as follows (and according to the model defined in equation~\ref{eq:trimmed}),
+\begin{equation}
+\frac{\partial \textbf{r}^W_t}{\partial \textbf{r}^W_{t-1}} = \frac{\partial \textbf{v}^W_{t}}{\partial \textbf{v}^W_{t-1}} =
+\begin{pmatrix} \label{eq:iden}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1\\
+\end{pmatrix} = \textbf{I}
+\end{equation}
+and
+\begin{equation} \label{eq:tiden}
+\frac{\partial \textbf{r}^W_{t}}{\partial \textbf{v}^W_{t-1}} = 
+\Delta T\begin{pmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1\\
+\end{pmatrix} = \Delta T\hspace{0.2cm}\textbf{I}
+\end{equation}
+The specially defined Jacobian with a partial derivate that is taken with respect to a quarternion however, requires a more intricate solution. The process of defining a new quaternion from the measured angular rate $\boldsymbol{\omega}_t^C$ - as denoted in equation~\ref{eq:trmod} can be more formerly defined as follows:
+\begin{equation}
+\textbf{q}_t^C = \text{quat}(\boldsymbol{\omega}^C_t \Delta T) = \text{quat}({\dot{q}}^C_t \Delta T)
+\end{equation}
+Hereafter, the final non zero element of the Jacobian can be defined in terms of the aforementioned new quarternion: 
+\begin{equation}
+\frac{\partial \textbf{q}^{WC}_{t}}{\partial \textbf{q}^{WC}_{t-1}} = 
+\begin{pmatrix}
+ q^C_{1,t}&-q^C_{2,t} & -q^C_{3,t} & -q^C_{4,t}\\
+ q^C_{2,t}&  q^C_{1,t} & -q^C_{4,t} &  q^C_{3,t}\\
+ q^C_{3,t}&  q^C_{4,t} &  q^C_{1,t} & -q^C_{2,t}\\
+ q^C_{4,t}& -q^C_{3,t} &  q^C_{2,t} &  q^C_{1,t} \\
+\end{pmatrix} 
+\end{equation}
+In order to complete the covariance update, the process noise covariance is still required to be updated. The process noise covariance, namely $\textbf{R}_w$ (not to be confused with the coordinate frame rotational matrix \textbf{R})is described in section 3.1.3. Upon revising, the process noise is captured by the control inputs and modelled as a zero-mean Gaussian process. The noise covariance $\textbf{R}_w$ then, can be formally defined as follows:
+\begin{equation}\label{eq:proR}
+\textbf{R}_w = 
+\begin{pmatrix}
+n_{\ddot{x},t}& 0 & 0 & 0 & 0 & 0 \\
+0& n_{\ddot{y},t} & 0 & 0 & 0 & 0 \\
+0& 0 & n_{\ddot{z},t} & 0 & 0 & 0 \\
+0& 0 & 0 & n_{\omega_{x},t} & 0 & 0 \\
+0& 0 & 0 & 0 & n_{\omega{y},t} & 0 \\
+0& 0 & 0 & 0 & 0 & n_{\omega{z},t} \\
+\end{pmatrix} ^2
+\end{equation}
+with the perturbation levels $n_{w,t}$ as defined in equation~\ref{eq:pertn}.\\\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Correction Step}
@@ -444,7 +501,7 @@ With reference again to the probabilistic form of the solution to the SLAM probl
 \begin{equation}
 \begin{split}
 P(&\textbf{z}_t\hspace{0.1cm}|\hspace{0.15cm}\textbf{x}_{t}) \\
-&=\cfrac{1}{\sqrt{|2\pi\textbf{Q}_t|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{z}}_t-h(\bar \mu)-H_t(\textbf{x}_t - \bar \mu_t)\big]^T \textbf{Q}_t^{-1}\big[\textbf{{z}}_t-h(\bar \mu)-H_t(\textbf{x}_t - \bar \mu_t)\big] \bigg\}.
+&=\cfrac{1}{\sqrt{|2\pi\textbf{Q}_t|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{ \frac{1}{2}\big[\textbf{{z}}_t-h( \boldsymbol{\bar \mu}_t)-\textbf{H}_t(\textbf{x}_t -  \boldsymbol{\bar \mu}_t)\big]^T \textbf{Q}_t^{-1}\big[\textbf{{z}}_t-h( \boldsymbol{\bar \mu}_t)-\textbf{H}_t(\textbf{x}_t -  \boldsymbol{\bar \mu}_t)\big] \bigg\}.
 \end{split}
 \end{equation} 
 where $H_t$ represents the Jacobian of the observation model. \\\\
