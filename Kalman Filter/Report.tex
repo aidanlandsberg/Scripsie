@@ -282,6 +282,14 @@ Furthermore, the remaining components of the proposed approach presented in this
 Moreover, this particular vision based approach aims to use salient image \textit{patches} as long term landmarks as presented in \cite{mono2003,actvis}. These aforementioned patches are typically large in size (11 $\times$ 11 pixels) and are obtained through the image detection operator of Shi and Tomasi~\cite{shitom} from raw monochrome (greyscale) image data presented by the camera. The goal remains to repeatedly re-identify these image template patches over time after (potentially severe) camera movements. Invariably, basic 2D template matching algorithms are of little use, considering that any particular movements of the camera (even minimal) can severely alter the shape of a saved template patch. As a result, MonoSLAM provides the assumption that each patch lies on a locally planar surface and that the surface normal is parallel to the vector from the feature to the camera at the instance that it is initialised. Once the depth of this patch has been determined - this is done through a small particle filter - the patch is stored to be used as a long term landmark. It is important to note that these patches are not replaced but rather stored to provide a template for matching against a newly obtained 2D image at a later stage. Because the patches are never updated and remain in memory, long term localisation is possible. \\
 With regard to the management of the probabilistic map, it remains essential to the SLAM algorithm that decisions regarding the identification and deletion of landmarks be accurate and efficient. MonoSLAM's map-maintenance criterion demands that 12 reliable "good" features be visible within the camera's field of view in order to maintain accurate localisation. Good features imply that feature remains visible given the relative position of the camera and the feature, as well as the camera position at which the feature is initially saved. A new feature is initialised using the image operator of Shi and Tomasi~\cite{shitom} upon a box of pixels (80 $\times$ 60 pixels) placed within an image. This box position is chosen at random with the constraints that it shouldn't overlap with any existing features and that according to the camera's linear and angular velocities, features cannot immediately disappear from the camera's field of view. If a visible feature is unsuccessfully matched more than 50\% of the time, the landmark is required to be deleted. It must again be stressed that the aforementioned methods regarding vision based MonoSLAM measurements and map-management are described and implemented exactly as they are in ~\cite{dav2007}.    
 \\\\The following section sets out to define the necessary segments of the MonoSLAM algorithm in the context of this paper alone. Initially, the adequate state representation of the system at hand will be denoted, whereby the components of the state vector - namely the camera position and cartesian feature states - will be defined and discussed. Additionally, the affect of the proposed extension - namely the IMU measurements as the control inputs to the system - will be properly defined and described. Furthermore, this section will seek to use the aforementioned definitions to completely define the two sequential steps required to successfully implement the EKF, namely the \textit{prediction} and \textit{update} steps. 
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\textwidth, height=0.4\textwidth]{Figures/frames_mac.png}
+\caption{Cartesian Representation of the Reference Frames - REF:DAVISON}
+\label{fig:frame}
+\end{center}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{State Representation}
@@ -323,7 +331,7 @@ A quarternion, as previously mentioned, represents the camera's orientation. It 
 \textit{q}_{0,t}^2 + \textit{q}_{1,t}^2 + \textit{q}_{2,t}^2 + \textit{q}_{3,t}^2 = 1
 \end{equation}
 The process of computing the quarternion involves obtaining an angle-axis as well as a magnitude by which this axis is to be rotated. This process is described later in this chapter with reference to the state transition model.\\\\
-Often, the modelling of dynamic systems require that additional parameters - separate to those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in the description above, with the position state vector $\textbf{{x}}_p$ comprising of the 3D position vector, $\textbf{{r}}^W$ and the unit orientation \textit{quarternion} $\textbf{{q}}^{WC}$. The linear velocity vector, $\textbf{V}^W$, forms the additional information required for system modelling. This is due to the control inputs, which are of such a nature that intermediary states (namely the linear velocity) is required to describe the control inputs effect on the actual position. 
+Often, the modelling of dynamic systems require that additional parameters - separate to those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in the description above, with the position state vector $\textbf{{x}}_p$ comprising of the 3D position vector, $\textbf{{r}}^W$ and the unit orientation \textit{quaternion} $\textbf{{q}}^{WC}$. The linear velocity vector, $\textbf{V}^W$, forms the additional information required for system modelling. This is due to the control inputs, which are of such a nature that intermediary states (namely the linear velocity) is required to describe the control inputs effect on the actual position. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 \subsubsection{Cartesian Feature Representation}
@@ -338,7 +346,7 @@ where $n$ corresponds to a specific, single landmark.
 %\textbf{Still reading up on some literature before properly defining this section}
 The following concept describes the dynamics to the system as a result of external influences. Upon considering the original MonoSLAM approach, it is evident that there are no \textit{observable} control inputs. The approach presented in this paper though, aims to use observable control inputs obtained through an inertial sensor in order to derive a motion model that is potentially more accurate than that in~\cite{dav2007}.\\\\
 In most instances of robotics, it is essential to describe the dynamics involving a robot's movement. In the context of this paper, the robot/camera is free to move freely as per the user's control requests. Evidently, these requests exert external dynamics upon the system which are uncertain and stochastic at best.\\
-In the approach presented by Davison et al. (2007), a constant velocity model is assumed and at each time-step, unknown linear and angular acceleration zero-mean, Gaussian processes are introduced that cause linear and angular velocity impulses. Even though there have been proven successful implementations regarding the aforementioned approach (as well as other variants and extensions thereof) as in~\cite{sola,scale2010}, the model contains very little, if any information on the movement of the camera. It can be assumed that the utilisation of additional information regarding the camera's movement (through the proposed inertial sensors) will provide greater accuracy upon state estimation - especially with regard to the transitioning thereof.\\\\
+In the approach presented by Davison et al. (2007), a constant velocity model is assumed and at each time-step, unknown linear and angular acceleration zero-mean, Gaussian processes are introduced that cause linear and angular velocity impulses. Even though there have been proven successful implementations regarding the aforementioned approach (as well as other variants and extensions thereof~\cite{sola,scale2010}), the model contains very little, if any information on the movement of the camera. It can be assumed that the utilisation of additional information regarding the camera's movement (through the proposed inertial sensors) will provide greater accuracy upon state estimation - especially with regard to the transitioning thereof.\\\\
 The inertial sensors, in the form of an IMU, is ideally mounted onto the camera. This allows the camera to be modelled as a rigid body upon which a kinematic estimation can be applied. The IMU directly measures the total accelerations $\textbf{f}_t$ as well as the angular rates $\boldsymbol{\omega}_t$ with respect to the cameras rigid body frame $C$.\\ 
 The control vector however, requires that the linear portion of the acceleration be obtained from the IMU measurement. It is known that the total acceleration measured by the IMU's accelerometer is expressed mathematically as follows:
 
@@ -392,9 +400,9 @@ The state transition model is assumed to take the form of a Markov process, yiel
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Mean Estimate: State Transition Model} 
+\subsubsection{Mean Estimate: State Transition Model}\label{sec:kinest} 
 As previously discussed, the Extended Kalman FiIter requires a state transition (motion) model in order to obtain the mean estimate $ \boldsymbol{\bar \mu}_t$, of  current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robot’s kinematic motion as well as the control inputs. In order to derive the state transition model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached IMU package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. \\\\
-We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors.\\\\
+We therefore set out to define a kinematic estimation based motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors.\\\\
 It must also be stressed that initially, a stochastic, non linear discrete-time model is adopted to approximate the model. We begin by recalling all relevant states and control inputs:
 \begin{equation}
 \begin{split}
@@ -427,7 +435,7 @@ g_v(\textbf{u}_{t},\boldsymbol{\mu}_{t-1}) =
 \end{split}
 \end{equation}
 where $\Delta T$ is defined as the sample period between the previous time $t-1$ and $t$ and $\text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big)$ denotes the quartering corresponding to the rotation represented by $\boldsymbol{\dot \omega}_t^C\Delta T$. Information regarding the change in linear acceleration is directly obtained form the control input data gathered by the IMU and can be numerically integrated in order to illustrate it's effect on the systems linear velocity and ultimately, translational position.\\\\
-In order to compute the aforementioned quarternion, the rate at which the camera's rotational degrees of freedom are changing is required. The control inputs from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated in order to obtain the angular position $\boldsymbol{\theta}_t$, before the quarternion is taken thereof. As previously mentioned, an angle-axis as well as a magnitude by which this axis is to be rotated is required to compute a quarternion. The angle-axis $\gamma$ is defined as follows:
+In order to compute the aforementioned quaternion, the rate at which the camera's rotational degrees of freedom are changing is required. The control inputs from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated in order to obtain the angular position $\boldsymbol{\theta}_t$, before the quaternion is taken thereof. As previously mentioned, an angle-axis as well as a magnitude by which this axis is to be rotated is required to compute a quaternion. The angle-axis $\gamma$ is defined as follows:
 \begin{equation} \label{eq:axis}
 \begin{split}
 \gamma &= \begin{pmatrix}
@@ -453,7 +461,7 @@ where $\omega_{t,\beta}$, $\beta \in \{X, Y, Z\}$ denotes the angular velocity a
 \begin{equation} \label{eq:quat} 
 \textbf{q} = \bigg(\cos \frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_x}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_y}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \hspace{0.4cm} \frac{\theta_z}{\norm{\boldsymbol{\theta}}}\sin\frac{\alpha}{2} \bigg)^T
 \end{equation}
-A quarternion multiplication between the orientation quarternion obtained at the previous time step and the angle-axis rotation quarternion in~\ref{eq:quat} results in the camera's final orientation state at the the current time $t$.
+A quaternion multiplication between the orientation quaternion obtained at the previous time step and the angle-axis rotation quaternion in~\ref{eq:quat} results in the camera's final orientation state at the the current time $t$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Covariance Update}
 Before the prediction step can be concluded, the covariance matrix $\bar \Sigma_t$, corresponding to the previously determined mean vector $\boldsymbol{\bar \mu_t}$ is required to be updated as a result of the linearisation process undertaken by the EKF. This procedure is denoted in step 2 of table~\ref{tab:EKF}. It can be noticed that the previously described Jacobian matrix of $g_v(\textbf{u}_{t},\boldsymbol{\mu_{t-1})}$ is thus required to realise this procedure. The Jacobian matrix of $g_v(\textbf{u}_{t},\boldsymbol{\mu_{t-1}})$, $\textbf{G}_t$, can be mathematically defined as follows:
@@ -524,11 +532,21 @@ where $\textbf{H}_t$ represents the Jacobian of the observation model. \\\\
 It can be (reasonably) assumed that the uncertainty regarding the measurements are conditionally independent given the uncertainty regarding the robot and landmark locations if indeed they are completely defined. Also, the correction step seeks to obtain the difference between the actual measurements $\textbf{{z}}_k$ and the predicted measurements. These predicted measurements are to be obtained through an observation model that we from hereon in refer to as the measurement function, denoted as $\textbf{h}(\boldsymbol{\bar \mu})$.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsubsection{}
+\subsubsection{Vision Based Sensor Theory}
+The pinhole camera model, is an approximation of the CMOS machine vision camera that is actually being used. To account for the errors that such an approximation may yield, it is proposed that the \textit{projected} coordinates ($u,v$) be warped with a \textit{radial distortion} as is done in~\cite{mono2003}, in order to obtain a new \textit{distortion} coordinate ($u_d, v_d$) that will better resemble the one which the camera will provide. This radial distortion is mathematically shown as follows:%~\cite{distort}:
+\begin{equation} \label{eq:raddist}
+\begin{split}
+u_d - u_0 &= \frac{u-u_0}{(1+k^2_1r^2+k_2r^4)} \\
+v_d - v_0 &= \frac{v-v_0}{(1+k^2_1r^2+k_2r^4)}, \\
+r &= \sqrt{(u - u_0)^2+(v-v_0)^2}.
+\end{split}
+\end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Measurement Model}
-The correction step of the Extended Kalman filter aims to ultimately correct the previously estimated robot pose and landmark position through exterior sensor measurements. With regard to the implementation proposed in this paper, these measurements are obtained through the use of a camera. The measurement process generally involves a measurement estimate that incorporates an uncertainty.
-The measurement function $\textbf{h}^W_i(\boldsymbol{\bar \mu})$ describes a directional vector from the camera to the feature's cartesian \textbf{point} in relation to the camera's reference frame   
-Considering that the camera observations are obtained with regard to its own reference frame $C$, the definition of the measurement function is adapted so that it coincides with the inertial reference frame: 
+The correction step of the Extended Kalman filter aims to ultimately correct the previously estimated robot pose and landmark position through exterior sensor measurements. With regard to the implementation proposed in this paper, these measurements are obtained through the use of a camera. The measurement process generally involves a measurement estimate that incorporates uncertainty.\\
+
+With reference to figure~\ref{fig:frame}, a feature's cartesian position can be described through a cartesian vector $\textbf{h}^W_i(\boldsymbol{\bar \mu})$, where the feature's cartesian \textbf{point} is shown in relation to the camera's centre: 
+
 \begin{equation}
 \textbf{h}^W_{i}(\boldsymbol{\bar \mu}) = \textbf{R}^{CW}\big(\textbf{y}^W_{i}-\textbf{r}^W\big) = 
   \begin{pmatrix}
@@ -539,12 +557,13 @@ Considering that the camera observations are obtained with regard to its own ref
   \end{pmatrix} - \textbf{r}^{W} 
   \end{pmatrix}  
 \end{equation}
-where the subscript $i$ corresponds a directional vector $\textbf{h}^C$ to its cartesian point $\textbf{y}^W$, $\textbf{r}^W$ describes the cartesian position of the camera, $\textbf{y}^W$ describes the cartesian position of a given landmark and $\textbf{R}^{CW}$ represents the rotational matrix that is required to transform the aforementioned positional vectors from the cameras body frame into the cameras body frame inertial reference frame coordinate system. All of the aforementioned entities are determined at each instance of time, even though the $t$ subscript is omitted.\\\\
-With respect to the perspective camera model described Appendix~\ref{App:Concepts} \textcolor{blue}{(will move this section into the main report...)}, it can be shown that, for an undistorted image, a given features position is expected to be described by a 2D pixel coordinate ($u,v$) in the image frame of the camera. Recalling, the standard pinhole camera model defines this position mathematically as follows:
- \begin{equation}
+the subscript $i$ corresponds a directional vector $\textbf{h}^C$ from it's cartesian position $\textbf{r}^W$ to the cartesian position of a given landmark $\textbf{y}^W$.\\\\
+A camera however, cannot directly measure a cartesian vector. Instead, a camera measurement (based on the model presented) obtains a vector $\textbf{h}_i$ that is a function of $\textbf{h}^W_{i}$. This vector describes a given feature's horizontal and vertical image positions $(u,v)$. For an undistorted image, the vector $\textbf{h}_i$, more commonly referred to as the measurement function is defined as follows:
+
+ \begin{equation} \label{eq:fmmd}
 \textbf{h}_i = 
   \begin{pmatrix}
-  u_i\\
+  u_i \\
   v_i \\ 
   \end{pmatrix} =
     \begin{pmatrix}
@@ -553,20 +572,138 @@ With respect to the perspective camera model described Appendix~\ref{App:Concept
   \end{pmatrix} 
 \end{equation}
 where $u_0$ and $v_0$ represent the principal point and $fk_u$ and $fk_v$ are the camera calibration parameters described in Appendix~\ref{App:Concepts}.\\
-The perspective camera model however, is an approximation of the CMOS machine vision camera that is being used. To account for the errors that such an approximation may yield, it is proposed that the \textit{perspective-projected} coordinates ($u,v$) be warped with a \textit{radial distortion} as is done in \cite{dav2007}, in order to obtain a new \textit{distortion} coordinate ($u_d, v_d$) that will better resemble the one which the camera will provide. This radial distortion is mathematically shown as follows \cite{distort}:
-\begin{equation} \label{eq:raddist}
-\begin{split}
-u_d - u_0 &= \frac{u-u_0}{\sqrt{1+2Kr^2}} \\
-v_d - v_0 &= \frac{v-v_0}{\sqrt{1+2Kr^2}}, \\
-r &= \sqrt{(u - u_0)^2+(v-v_0)^2}.
-\end{split}
-\end{equation}
-After using a $9 \times 6$ chessboard pattern for camera calibration in OpenCV \cite{opencv}, the calibration parameters of the camera used in this particular implementation are as follows: $fk_u = fk_v = 520$ pixels, principal point $(u_0,v_0) = (315,239)$ and $K=0.982$ for capture at a resolution of $680\times480$.
-\textcolor{blue}{TODO: Describe the remainder of the Measurement update process (feature depth initialisation, orientation correction) as well as the Feature managment.}
+It is evident from the model presented in equation~\ref{eq:fmmd} cannot be directly inverted to obtain a feature's position. The projection of a feature onto the camera's image plane removes any information required to directly obtain the depth of the feature.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsubsection{Feature Tracking}
+\subsubsection{Feature Matching}
+The following section discusses the measurement of a feature \textit{fully} initialised within the SLAM map. The measurement process seeks to initially estimate the cartesian position of a given feature $\textbf{y}_i$ within the SLAM map. Thereafter, the feature can be compared via a matching sequence. Generally, feature matching is conducted using a normalised cross-correlation search, where a 2D template of the 3D feature is scanned is across the entire image (at each pixel location) until a peak is obtained. MonoSLAM however, seeks to utilise an \textit{active} approach for matching, minimising the the search field and improving efficiency.\\
+The EKF inherently contains information that may be utilised in order to prohibit a full cross-correlation search. The measurement function $\textbf{h}({\bar\mu})$ for instance, provides an estimate for a given features location, namely $\textbf{u}_d = ({u}_d,v_d)$. Knowledge of this location therefore allows an active search region to be described within the vicinity of this location. The location estimate of the feature is not the only information regarding the feature that is available as a result of the EKF. Additionally, the uncertainty regarding a given feature's location is stored within the state vector covariance matrix $\textbf{P}_{nN}$. This information can be used to determine the size of the active search region surrounding the location estimate; where the size of the search region is directly proportional to the uncertainty of it's location. If the feature cannot be matched within the aforementioned search region, it cannot contribute to the correction of the robot's pose estimate and is therefore deleted form the SLAM map. The aforementioned process of defining the active search region can be mathematically defined through the \textit{innovation covariance matrix} $\textbf{S}_i$:
+\begin{equation}\label{eq:inov}
+%\begin{split}
+\textbf{S}_i = \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}P_{xx}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}P_{xy_i}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}P_{y_ix}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}P_{y_iy_i}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}^T + \textbf{R}_v
+%\end{split}
+\end{equation}
+The symmetric $2\times2$ matrix $\textbf{S}_i$ represents a 2D Gaussian PDF around the estimated image coordinate. The innovation covariance matrix can then be used to determine an active region the a given feature should lie within. Typically, the active search region is defined to confine within 3 standard deviations (3$\sigma$) of the mean.\\
+Furthermore, the innovation matrix provides a measure of the amount of content expected within an eventual actual measurement $\textbf{z}_i$. In the event that many potential measurements are available, features containing a higher $\textbf{S}_i$ present the EKF with more information regarding the camera's position. Candidates for feature estimates are thus chosen according to those that present the most information regarding the position estimate. Feature searches per sampling instance are generally limited (usually about 12 features) due to computational constrains.\\         
+Finally, as described in~\cite{dav2007}, an active search will always reduce the area of the template matching search region at the potential \textit{additional} cost of calculating the reduced search region.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Feature Initialisation}
+The inherent disadvantage of a monocular camera, as previously mentioned, is the inability to immediately provide an estimate for the depth of a feature. As a result, a given feature is required to be observed at various viewpoints before its depth can be approximated through a multiple view triangulation. Instead, Davison et al. presents an alternative approach whereby a feature is initialised to lie along an infinite 3D line. This line, originating from the position at which the camera is estimated, extends indefinitely in the direction of the feature. The depth of the feature lies somewhere along the aforementioned line. This depth can be modelled as a uniformly distributed set of discrete depth hypothesis. Briefly, the feature's depth can be interpreted as a 1D probability density, represented only by particle distribution instead. The feature is can then \textit{partially} initialised in the SLAM map as follows:
+\begin{equation}
+\textbf{y}_{pi} =
+\begin{pmatrix}
+\textbf{r}_{i}^W \\
+ \textbf{\^{h}}_{i}^W \\
+\end{pmatrix}
+\end{equation}
+where $\textbf{r}_{i}^W$ represents the origin of the line and $\textbf{\^{h}}_{i}^W$ is a unit vector representing its direction. The uncertainty describing the aforementioned entities are Gaussian in nature.\\\\
+After a feature has been partially initialised, it can be assumed that the feature is re-observed and that each additional observation improves the depth estimate. The particle filter based depth estimation process itself is to a large extent complex, and is explained in more detain in ~\cite{dav2007}. Intuitively, the depth estimation process can be explained as follows: each particle in the particle set is projected into the image and subsequently matched across each observation. The resulting observations transform the initially uniformly distributed depth probability into one that better resembles a Gaussian density. Once the depth covariance is below a certain threshold, the depth is approximated with a Guassian probability density. Thereafter a feature becomes \textit{fully} initialised, assigned with a standard 3D Gaussian representation.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Map Management}
+Map management forms an integral role in the realisation of the MonoSLAM algorithm. A real-time algorithm, as proposed in this paper, relies on efficient and accurate decisions regarding features within the SLAM map. As a result, a strict protocol is followed in~\cite{dav2007} in order to realise a successful real-time algorithm.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsubsection{System Update}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Experimental Configuration \& Procedure}
+\subsection{System Overview}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Hardware Configuration}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Inertial Measurement Unit}
+It can be recalled that inertial measurements are required in order to realise the kinematic estimator described in section~\ref{sec:kinest}. The 6DOF IMU board to be used in this implementation is the SparkFun 6 DOF IMU. This board is comprised of a ITG3200 MEMS 3-axis gyroscope and a ADXL345 3-axis linear accelerometer. The IMU is configured with the following properties:
+\begin{enumerate}
+\item 3.3 Volt input
+\item I2C interface (this device serves as the \textit{slave})
+\item $\pm 2000^{\circ}$ per second range for the gyroscope
+\item $\pm 4 g$ range and 10-bit resolution for the accelerometer
+\item 100 Hz sample rate with 100 Hz Low Pass/Anti Aliasing Filter
+\end{enumerate}
+The accelerometer and gyroscope are configured in such a way that the sampling frequency is at least twice the bandwidth of the data (Nyquist frequency) to prevents Aliasing.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{CMOS Machine Vision Camera}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Hardware Integration}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Software Configuration}
+\subsection{Single Byte Write Cycle}
+\begin{table}[htdp]
+\caption{Single-Byte I2C Write Cycle}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+MR & ST & ADR + W & & R\textunderscore ADR & & DATA & & SP \\ 
+\hline
+SL & & & ACK & & ACK & & ACK &  \\
+\hline
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
+\begin{table}[h]
+\caption{Single-Byte I2C Write Cycle}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+MR & ST & ADR + W & & R\textunderscore ADR & & S & R\textunderscore ADR & & & NACK & SP \\ 
+\hline
+SL & & & ACK & & ACK & & & ACK & DATA &  \\
+\hline
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Analysis: Testing \& Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
