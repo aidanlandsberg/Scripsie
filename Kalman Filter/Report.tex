@@ -63,6 +63,7 @@ Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: 
 \maketitle
 \thispagestyle{empty}
 \newpage
+\thispagestyle{empty}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \newgeometry{
  a4paper,
@@ -71,29 +72,92 @@ Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: 
  top= 25mm,
  bottom= 25mm,
  }
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Summary}
+\newpage
+\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Opsomming}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Report Begins
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagenumbering{roman}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+I would like to express my sincere gratitude toward the following individuals for their role in making this project a success:\\
+
+\begin{itemize}
+\item My heavenly Father, for providing me with the intellectual capacity, guidance and support necessary to make a success of this project while raining faithful and true in the toughest of times.\\
+\item My study leader, Dr. Corn\'{e} Van Daalen, for his endless enthusiasm, guidance, patience, support, time and invaluable recommendations. As well as for personally setting aside the time to supervise this project. \\
+\item My parents, for their endless support and motivation. As well as for making all the necessary sacrifices to provide me with the opportunity to complete this project successfully. \\
+\item Mr. Arno Barnard, for his advice regarding the embedded software design.\\
+\item My girlfriend Bianca La Gorc\'{e}, for supporting me endlessly.\\
+\item Benjamin Pannell, for being a great personal mentor and friend. As well as assisting me with various software concepts.        
+\end{itemize}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Declaration}
+\addcontentsline{toc}{section}{Declaration}
+I, the undersigned, hereby declare that the work contained in this report is my own original work unless indicated otherwise.
+\vspace{200mm}
+\\
+Signature.....................................................		Date..........................................................
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \tableofcontents
 \newpage
 
 \listoffigures
 \listoftables
-%\listofequations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section*{Acronyms}
+\begin{table}[h]
+\caption*{}
+\begin{center}
+\begin{tabular}{l l}
+\textbf{2D} 	 &Two-dimensional \\
+\textbf{3D} 	 &Three-dimensional \\
+\textbf{CMOS}	 & Complementary Metal-Oxide Semiconductor \\   
+\textbf{IMU} 	 &Inertial Measurement Unit \\
+\textbf{KF}         &Kalman Filter \\
+\textbf{EKF}	 &Extended Kalman Filter \\
+\textbf{I2C}	 &Inter-Integrated Circuit Bus \\
+\textbf{MonoSLAM} & Monocular Vision Bases Simultaneous Localisation and Mapping \\
+\textbf{PDF}	 &Probability Density Function \\ 
+\textbf{PTAM} 	 &Parallel Tracking and Mapping \\ 
+\textbf{RV}	 &Random Variable \\
+\textbf{SLAM} 	 &Simultaneous Localisation and Mapping \\
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
 
 \newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+% Introduction
 \pagenumbering{arabic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Robotic Localisation and Mapping}
 Map building, the idea of constructing a map of a previously unknown environment remains a favourable field of research amongst the robotics community. Briefly, robotics incorporates the observation of surrounding environments as well as the manipulation thereof, through the utilisation of electro-mechanical devices (robots). Its application in modern day society ranges from planetary exploration to assembly lines. Robotic systems - like real world systems - are situated in the physical world. Ultimately, the physical world presents many unforeseen factors and circumstances. These factors contribute to \textit{uncertainty} and generally emerge due to a robot's lack of critical information. The following five factors invariably lead to an increase in uncertainty: environments, sensors, robots, models and computation. \\\\
-%\begin{description}
-%\item[1.] Environments %- Physical worlds are inherently predictable.
-%\item[2.] Sensors %- Subject to limitations such as range, resolution as well as noise.
-%\item[3.] Robots %- Incorporation of actuators involves to a certain extent, uncertainty.
-%\item[4.] Models %- These are abstractions of the real world and only partially model underlying physical processes. Model errors though, tend to be ignored.
-%\item[5.] Computation %- Real-time systems limit the amount of capable computation. Most algorithms themselves are approximations that sacrifice accuracy for efficiency.  
-%\end{description}
 \textit{Probabilistic robotics} is an alternative approach to robotics that acknowledges uncertainty; a factor that until only recently, has been generally ignored in the field of robotics. The key idea of probabilistic robotics is to model uncertainty mathematically, using the calculus of probability theory. Probabilistic robotics aims to utilise these uncertainty models in order to provide probabilistic algorithms that will ultimately allow meaningful comparisons between \textbf{reliably obtained} sensor data and an appropriate model. Such algorithms have since, provided the fundamental basis for the advancement of many conceptual implementations in the \textit{mobile robotics} field.\\\\
 One such concept, namely \textit{autonomous robot navigation}, is of great importance to the aforementioned concept of map building. Autonomous navigation has seen significant advances over the past decade or so, yielding a number of successful implementations - none more so than Simultaneous Localisation and Mapping (SLAM). The extent of the aforementioned advancements can be observed in an overview of map generating techniques presented in \cite{thrun2007}. The SLAM problem can be briefly described as utilising a robot's sensor information in order to construct a map of the surrounding environment, while concurrently approximating it's location within this map - all autonomously. The relationship regarding the map construction as well as the localisation within the map remains essential to the SLAM problem. If the localisation technique is evidently erroneous, subsequently obtained sensor information will be incorrect, resulting in map approximations that differ from the actual state of the environment. An incorrectly modelled environment however, will render sensor information gathered by the robot useless; as this information will not correlate with those expected by the constructed map. Ultimately, the resulting localisation approximation will drift over time and eventually become erroneous and useless.\\
 \newpage
