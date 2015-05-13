@@ -16,6 +16,8 @@
 \usepackage{caption}
 \usepackage{glossaries}
 \usepackage{commath}
+\usepackage{float}
+\usepackage{pbox}
 %\usepackage{natbib}
 %==== TITLE PAGE ====================================================
 
@@ -133,12 +135,13 @@ Signature.....................................................		Date............
 \begin{tabular}{l l}
 \textbf{2D} 	 &Two-dimensional \\
 \textbf{3D} 	 &Three-dimensional \\
-\textbf{AI}		& Artificial Intelligence \\
+\textbf{AI}		 & Artificial Intelligence \\
 \textbf{CMOS}	 & Complementary Metal-Oxide Semiconductor \\   
 \textbf{EKF}	 &Extended Kalman Filter \\
 \textbf{IMU} 	 &Inertial Measurement Unit \\
 \textbf{KF}         &Kalman Filter \\
 \textbf{I2C}	 &Inter-Integrated Circuit Bus \\
+\textbf{ISR}	 & Interrupt Service Routine \\
 \textbf{LIDAR}   & Light Detection and Ranging \\
 \textbf{MonoSLAM} & Monocular Vision Bases Simultaneous Localisation and Mapping \\
 \textbf{PDF}	 &Probability Density Function \\ 
@@ -146,6 +149,7 @@ Signature.....................................................		Date............
 \textbf{RV}	 &Random Variable \\
 \textbf{SIS} 	 & Sequential Importance Sampling \\
 \textbf{SLAM} 	 &Simultaneous Localisation and Mapping \\
+\textbf{USB} 	 & Universal Serial Bus
 \end{tabular}
 \end{center}
 \label{default}
@@ -161,19 +165,19 @@ Signature.....................................................		Date............
 \begin{tabular}{l l}
 $W$ & Inertial reference fame \\
 $C$ & Camera's free coordinate body frame \\
+$\Delta T$ & Sampling instance \\
+$ \pi $ & Constant denoting the ratio between a circles radius and its circumference \\
 $\boldsymbol{\mu}$ & Mean vector of a Gaussian random variable \\
 $\boldsymbol{\Sigma}$ & Covariance matrix of a Gaussian random variable \\
 $ \textbf{I}$ & Identity matrix \\
 $\boldsymbol{\omega}$ & Angular Rate (expressed in radians per second)\\
-$ \pi $ & Constant denoting the ratio between a circles radius and its circumference \\
-$\Delta T$ & Sampling instance \\
 $\textbf{R}^{CW}$ & Rotation matrix projecting an entity from the body frame to the inertial frame \\ 
 $\textbf{C}$ & Camera calibration matrix\\
 $f$ & Focal length of camera\\
 $k_u$ & Focal length normalisation constant\\
 $k_v$ & Focal length normalisation constant\\
-$u_0$ & Principal Point x-coordinate \\
-$v_0$ & Principal Point y-coordinate \\
+$u_0$ & Principal Point $x$-coordinate \\
+$v_0$ & Principal Point $y$-coordinate \\
 $r$     & Radial Distortion Parameter 
 \end{tabular}
 %\end{center}
@@ -243,18 +247,53 @@ $\cfrac{\partial x}{\partial t}$ & Liebniz's notation to denote a partial deriva
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Robotic Localisation and Mapping}
-\textit{Robotics} aims to equip machines with the capability of operating autonomously in the physical world to serve various practical purposes. These machines (robots) - whether industrial, military or exploratory - are designed to resemble human behaviour and comprehension, so that they can substitute for humans in unknown and/or potentially hazardous environments ranging from planetary exploration to assembly lines~\cite{mars,indus}. To achieve complete autonomous operation, it is essential amongst other things that the robot is capable of observing the environment while subsequently building a map of thereof and locating itself within this map. The aforementioned processes are more commonly referred to as \textit{map building} and \textit{localisation} respectively \cite{thrun2007}. Ultimately, the physical world presents many unforeseen factors and circumstances. These factors contribute to \textit{uncertainty} and generally emerge due to a robot's lack of critical information. Factors such as environments, sensors, robots, models and computation all lead to an increase in uncertainty and can prohibit accurate map building. \textit{Probabilistic robotics} however, acknowledges uncertainty, modelling it mathematically in order to provide fundamental probabilistic algorithms. \\\\
-Simultaneous Localisation and Mapping (SLAM) presents a suitable solution that concurrently realises map building and localisation even if the robot has no access to a map of the environment or its own pose~\cite{slam}. SLAM can be briefly described as utilising a robot's sensor information in order to construct a map of the surrounding environment, while concurrently approximating it's location within this map. The generated SLAM map is typically a feature based representation of point landmarks located in a cartesian coordinate system (sparse set). An example of a SLAM map can be depicted as in figure~\ref{fig:map}:
-
-\begin{figure}[h]
-\begin{center}
+\textit{Robotics} aims to equip machines with the capability of operating autonomously in the physical world to serve various practical purposes. These machines (robots) - whether used for industrial, military or exploratory purposes - are designed to resemble human behaviour and action, so that they can substitute for humans in unknown and/or potentially hazardous environments ranging from planetary exploration to assembly lines~\cite{mars,indus}. To achieve complete autonomous operation, it is essential amongst other things that the robot is capable of observing the surrounding environment, subsequently building a map of thereof in order to locate itself within this map. The aforementioned processes are more commonly referred to as \textit{map building} and \textit{localisation} respectively \cite{thrun2007}. Ultimately, the physical world presents many unforeseen factors and circumstances. These factors contribute to \textit{uncertainty} and generally emerge due to a robot's lack of critical information. Factors such as environments, sensors, robots, models and computation all lead to an increase in uncertainty and can prohibit accurate map building and subsequently, localisation. \textit{Probabilistic robotics} however, acknowledges uncertainty, modelling it mathematically in order to provide fundamental probabilistic algorithms that can be used to obtain accurate and efficient map building and localisation.\\\\
+Simultaneous Localisation and Mapping (SLAM) presents such a solution that concurrently realises map building and localisation even if the robot has no prior information regarding the environment~\cite{slam}. SLAM can be briefly described as utilising a robot's measurement sensor information in order to construct a continuously expanding map of the surrounding environment, while concurrently approximating it's location within this map. This SLAM map is typically a feature based representation of point landmarks located in a cartesian coordinate system (sparse set). An example of a SLAM map can be depicted as in figure~\ref{fig:map}. Most modern realisations of SLAM rely on the probabilistic methods, namely that of \textit{recursive state estimation} and vary according to the application of the system. The most commonly used recursive state estimation techniques include both~\textit{optimal filtering} techniques~\cite{ekfslam} as well as \textit{sequential importance sampling} (SIS)~\cite{fast,fast2}. Chen provides a summary regarding the aforementioned probabilistic approaches~\cite{chen2003}.  
+\begin{figure}[H]
 \includegraphics[width=0.48\textwidth, height=0.3\textwidth]{Figures/PTAM_cam.png}
 \includegraphics[width=0.48\textwidth, height=0.3\textwidth]{Figures/PTAM_map.png}
 \caption{Left: Image frame indicating the feature points. Colours represent the size of a feature (warm colours being the smallest and cool colours being the largest). Right: Reconstructed SLAM three-dimensional (3D) map depicting the feature points with respect to a ground plane (shown as a grid). Adapted from~\cite{scale_visodom}.}
 \label{fig:map}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.32\textwidth, height=0.25\textwidth]{Figures/step1.png}
+\includegraphics[width=0.32\textwidth, height=0.25\textwidth]{Figures/step2.png}
+\includegraphics[width=0.32\textwidth, height=0.25\textwidth]{Figures/step3.png}
+\includegraphics[width=0.32\textwidth, height=0.25\textwidth]{Figures/step4.png}
+\includegraphics[width=0.32\textwidth, height=0.25\textwidth]{Figures/step5.png}
+\includegraphics[width=0.32\textwidth, height=0.25\textwidth]{Figures/step6.png}
+\includegraphics[width=0.32\textwidth, height=0.25\textwidth]{Figures/step7.png}
+\includegraphics[width=0.32\textwidth, height=0.25\textwidth]{Figures/step8.png}
+\includegraphics[width=0.32\textwidth, height=0.25\textwidth]{Figures/step9.png}
+\caption{A basic representation of the SLAM procedure. Grey ellipses depict uncertainty regarding the robot's pose and purple ellipses depict uncertainty regarding the feature positions. Adapted from~\cite{step1}.}
+\label{fig:slam}
 \end{center}
 \end{figure}
-Most modern realisations of SLAM rely on the probabilistic methods, namely that of \textit{recursive state estimation}, provided by probabilistic robotics. The various implementations of the SLAM methods vary according to the application of the system. The most commonly used recursive state estimation techniques include both~\textit{optimal filtering} techniques (such as the \textit{Kalman filter} based EKF-SLAM)~\cite{ekfslam} as well as \textit{sequential importance sampling} (SIS) techniques (such as the \textit{particle filter} based FastSLAM)~\cite{fast,fast2}. A summary regarding these aforementioned probabilistic approaches can be found in \cite{chen2003}. Briefly, the differences regarding the aforementioned methods can be described as follows: a Kalman filter only considers a single hypothesis upon modelling, whereas the particle filter allows multiple hypothesis to be considered.  Another fundamental parameter to consider upon choosing a suitable SLAM implementation is the choice of measurement sensor. Currently, vision based sensors allow relatively simple and efficient SLAM solutions at relatively low cost compared to range finder sensors as in~\cite{2dlaser}.\\
+Figure~\ref{fig:slam} depicts a procedural implementation of SLAM and can be further explained in table~\ref{tab:Slam}. The robot stores an internal representation of the map (position of features), its own pose and the uncertainty associated with each entity as well as each entity with the other (considering that they are correlated with one another). At each frame, a \textit{prediction} regarding the robot's pose, a \textit{measurement} of the observed feature and an update of the internal representation is made.
+\begin{table}[h]
+\caption{SLAM individual steps.}
+%\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Image & \multicolumn{1}{|c|}{Process} \\
+\hline
+$1-3$ & \pbox{15cm}{Robot begins exploration, observes landmark A and updates the internal representation accordingly.}\\
+\hline
+$4$ & Robot moves, subsequently increasing uncertainty regarding it's pose.\\
+\hline
+$5-6$ & \pbox{15cm}{Robot observes landmarks B and C and updates the internal representation accordingly. Note that the increase in pose uncertainty yields a greater feature position uncertainty due to correlation between the robot's pose and feature estimates.}\\
+\hline
+$7-8$ & \pbox{15cm}{Robot moves again, increasing uncertainty before re-observing old feature A. This is referred to as loop closure.} \\
+\hline
+$9$ & \pbox{15cm}{Because feature location and robot pose estimates are correlated, The uncertainty regarding the pose estimate as well as that of all feature estimates decreases.}\\
+\hline
+\end{tabular}
+%\end{center}
+\label{tab:Slam}
+\end{table}% 
+%Briefly, the differences regarding the aforementioned methods can be described as follows: a Kalman filter only considers a single hypothesis upon modelling, whereas the particle filter allows multiple hypothesis to be considered.  
 %Other fundamental parameters and specifications (type of measurement sensor, map dimensionality and sparsity etc.) also determine which specific implementation of the SLAM problem is most applicable. Generally, the main distinguishment between the various realisations of SLAM is the choice of sensor. \\\\
 
 %Oftentimes, these parameters mainly include the type of sensor/s along with the time constraint imposed upon the application (e.g. online map generation vs. offline map generation). Furthermore parameters such as the resultant map's dimensionality (e.g. two-dimensional (2D) vs. three-dimensional (3D)) as well as their sparsity representation (e.g. point clouds, occupancy grids or sparse sets) are considered upon a suitable SLAM implementation.  Ultimately the choice of sensor results in the two popular approaches that are to be further explained: \textit{range finder approaches} and \textit{vision based approaches}:  
@@ -264,23 +303,29 @@ Most modern realisations of SLAM rely on the probabilistic methods, namely that 
 %\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           
 %\subsubsection{Vision Based Approaches}
-Vision based approaches utilise the data captured from cameras. Camera's project the 3D features they observe in the world around them onto a 2D \textit{image plane}. Once projected, the 2D image is then digitised into pixel coordinates where they can then be interpreted, analysed and manipulated in software. There has been a great improvement in the quality of data captured by cameras in the past decade, allowing very reliable projections of the environment. Additionally, cameras are compact, reliable and relatively low-cost with respect to alternative sensors used in SLAM implementations.\\\\
-Camera systems can be configured in different ways to realise SLAM, utilising anything from a single camera to many calibrated cameras. Each configuration yields it's unique advantages (as well as disadvantages) with successful published implementations existing for each configuration. The two most popular implementations include that of a single camera system and that of a stereo pair. Each of the aforementioned implementations are briefly described below along with their respective pros and cons: 
-\begin{enumerate}
-\item \textbf{Single Camera}\\
-Single camera systems (a.k.a monocular systems) rely on using the image data of a single camera only. Although there have been various successful implementations and variations using single camera systems~\cite{dav2007,ptam,visodom}, it remains an issue that the depth of a feature cannot be recovered from a single image. The utilisation of a single camera however, ensures a lower cost as well as a relatively simple SLAM realisation as apposed to that of alternative SLAM approaches.
-\item\textbf{Stereo Calibrated Camera Pair} 
-\\Stereo camera pairs utilise two identical cameras fixed at a given distance between them. These systems are able to effectively recover the depth of a feature in an image from a single observation, through matching a this feature across both images. The setup for such a system however, is somewhat complex as the individual cameras are required to be carefully calibrated. Additionally, stereo systems generally provide a greater computational and financial expense than that of a monocular system.   
-\end{enumerate}
-A meaningful comparison between the aforementioned algorithms is given by~\cite{comp}. 
+%Vision based approaches utilise the data captured from cameras. Camera's project the 3D features they observe in the world around them onto a 2D \textit{image plane}. Once projected, the 2D image is then digitised into pixel coordinates where they can then be interpreted, analysed and manipulated in software. There has been a great improvement in the quality of data captured by cameras in the past decade, allowing very reliable projections of the environment. Additionally, cameras are compact, reliable and relatively low-cost with respect to alternative sensors used in SLAM implementations.\\\\
+%Camera systems can be configured in different ways to realise SLAM, utilising anything from a single camera to many calibrated cameras. Each configuration yields it's unique advantages (as well as disadvantages) with successful published implementations existing for each configuration. The two most popular implementations include that of a single camera system and that of a stereo pair. Each of the aforementioned implementations are briefly described below along with their respective pros and cons: 
+%\begin{enumerate}
+%\item \textbf{Single Camera}\\
+%Single camera systems (a.k.a monocular systems) rely on using the image data of a single camera only. Although there have been various successful implementations and variations using single camera systems~\cite{dav2007,ptam,visodom}, it remains an issue that the depth of a feature cannot be recovered from a single image. The utilisation of a single camera however, ensures a lower cost as well as a relatively simple SLAM realisation as apposed to that of alternative SLAM approaches.
+%\item\textbf{Stereo Calibrated Camera Pair} 
+%\\Stereo camera pairs utilise two identical cameras fixed at a given distance between them. These systems are able to effectively recover the depth of a feature in an image from a single observation, through matching a this feature across both images. The setup for such a system however, is somewhat complex as the individual cameras are required to be carefully calibrated. Additionally, stereo systems generally provide a greater computational and financial expense than that of a monocular system.   
+%\end{enumerate}
+%A meaningful comparison between the aforementioned algorithms is given by~\cite{comp}. 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
-\subsection{Project Proposal and Outline}
-The ultimate goal of any three dimensional (3D) SLAM approach, is to obtain a probabilistic 3D map of point features, representing at every time instance, the estimates of both the state of the robot as well as the positions of every feature observed. The previously mentioned features of interest are more commonly referred to as \textit{landmarks} and the aforementioned terms will, from hereon in, be used synonymously.  Most importantly though, the map is to contain the \textit{uncertainty} associated with each of the aforementioned estimates.\\ The past decade however, has yielded many acceptable and impressive solutions as in~\cite{highspeed2008, scale2010,srukf}, to the aforementioned requirements using a single camera, with the original proposal presented by Davison et al.~\cite{dav2007}, more commonly referred to as MonoSLAM (Monocular vision based SLAM). In MonoSLAM, the robot is set to \textbf{only} obtain sensor information through the utilisation of a singular camera system. There are however, inherent disadvantages of such a system: Firstly, the utilisation of a single camera prevents the system from immediately obtaining an accurate depth estimate. Landmarks are required to be examined from various viewpoints before an appropriate depth estimation can be concluded. Secondly, the motion model (namely a constant velocity model) constrains the movement of the system to smooth, constant trajectories. In the event that erratic, immediate disturbances act upon the system, the pose of the robot is generally lost, and in most cases irrecoverable. Lastly, because no sufficient knowledge regarding the movement of the robot exists - its practical application is vastly limited. \\The proposed approach to be presented in the following paper, aims to improve the system to limit of these disadvantages, namely the latter two. This paper aims to extend the aforementioned system of Davison with the utilisation of \textit{additional} sensor information regarding the robot's motion. An inertial measurement unit (IMU) will provide this additional information, recording the movement of the robot through space as a result of the control inputs to the system. The additional data allows the system to be modelled as a rigid, kinematic body upon which kinematic estimation can be applied. Inevitably, a kinematic estimator allows the system a greater knowledge of its movement - because it is being measured through inertial sensors.\\\\
-The process regarding the construction of this map of features, namely that of recursive state estimation, is to be implemented through the use of an (Extended) Kalman filter. The map initially, completely void of any landmarks, is recursively updated according to the subsequent fusions of both the prediction and  the measurement presented to the Kalman filter. As new (potentially interesting) features are observed, the state estimates of both the camera as well as the landmarks are both updated - augmenting the state vector with additional features (if indeed they are observed) while deleting any landmarks that are no longer of interest. In order to obtain the best possible result, the algorithm should strive to obtain accurate state estimation regarding the movement of the robot as well as a sparse set of high-quality landmarks. Each of the steps regarding the realisation of the previously mentioned map of features are to be defined, described and analysed in the sections that follow. 
-\newpage
-The intended contribution of this paper realises an improvement in not only the state estimation of the system, but localisation as a whole. Additionally the kinematic estimator embedded within the system should serve as a means to integrate the proposed system as part of a larger system regardless of that system's physical model.  Moreover, the proposed system is required to operate in real time at a rate of at least the 30 Hz for 100 landmarks; as achieved by Davison in his original work presented in \cite{dav2007}.  
-\\\\
+\subsection{Project Proposal}
+An autonomous vehicle that is capable of controlling it's own motion within a restricted environment requires information about it's \textit{current location}. Most autonomous systems have limited knowledge regarding their surrounding environment prior to exploration. It is therefore essential that the solution to the localisation problem incorporates the ability to build a map on the fly while concurrently locating itself within the map. In a restricted environment, it is likely that a robot will return to a previously observed region, making it essential to incorporate \textit{repeatable} localisation whereby drift from ground truth is eliminated. Suitable SLAM implementations as depicted in figure~\ref{fig:slam} provide the necessary functionality to achieve such localisation. \\\\
+SLAM implementations differ according to the specifications of the application but typically include range finder and vision based approaches. Considering that vision based approaches use cameras to obtain measurements, they present an opportunity for simple yet effective practical implementations. Cameras are relatively low cost, accurate and easily accessible.
+Cameras also provide a suitable alternative to far more expensive laser rangefinders while maintaining the accuracy required. In particular, SLAM algorithms utilising single cameras~\cite{dav2007,sola} have provided elegant yet accurate solutions to the SLAM problem at very low costs. One such algorithm presented by Davison et al.~\cite{dav2007}, namely MonoSLAM, allows repeatable localisation of a handheld camera moving within a restricted environment. MonoSLAM along with other relating work~\cite{dav2007,highspeed2008,scale2010,idp}, has achieved successful results in retrieving the trajectory of a robot, forming a persistent SLAM map and ultimately maintaining repeatable localisation.\\\\
+\textcolor{blue}{Disadvantages} \\\\
+\textcolor{blue}{Suggestion}\\\\    
+%The ultimate goal of any three dimensional (3D) SLAM approach, is to obtain a probabilistic 3D map of point features, representing at every time instance, the estimates of both the state of the robot as well as the positions of every feature observed. The previously mentioned features of interest are more commonly referred to as \textit{landmarks} and the aforementioned terms will, from hereon in, be used synonymously.  Most importantly though, the map is to contain the \textit{uncertainty} associated with each of the aforementioned estimates.\\ The past decade however, has yielded many acceptable and impressive solutions as in~\cite{highspeed2008, scale2010,srukf}, to the aforementioned requirements using a single camera, with the original proposal presented by Davison et al.~\cite{dav2007}, more commonly referred to as MonoSLAM (Monocular vision based SLAM). In MonoSLAM, the robot is set to \textbf{only} obtain sensor information through the utilisation of a singular camera system. There are however, inherent disadvantages of such a system: Firstly, the utilisation of a single camera prevents the system from immediately obtaining an accurate depth estimate. Landmarks are required to be examined from various viewpoints before an appropriate depth estimation can be concluded. Secondly, the motion model (namely a constant velocity model) constrains the movement of the system to smooth, constant trajectories. In the event that erratic, immediate disturbances act upon the system, the pose of the robot is generally lost, and in most cases irrecoverable. Lastly, because no sufficient knowledge regarding the movement of the robot exists - its practical application is vastly limited. \\The proposed approach to be presented in the following paper, aims to improve the system to limit of these disadvantages, namely the latter two. This paper aims to extend the aforementioned system of Davison with the utilisation of \textit{additional} sensor information regarding the robot's motion. An inertial measurement unit (IMU) will provide this additional information, recording the movement of the robot through space as a result of the control inputs to the system. The additional data allows the system to be modelled as a rigid, kinematic body upon which kinematic estimation can be applied. Inevitably, a kinematic estimator allows the system a greater knowledge of its movement - because it is being measured through inertial sensors.\\\\
+%The process regarding the construction of this map of features, namely that of recursive state estimation, is to be implemented through the use of an (Extended) Kalman filter. The map initially, completely void of any landmarks, is recursively updated according to the subsequent fusions of both the prediction and  the measurement presented to the Kalman filter. As new (potentially interesting) features are observed, the state estimates of both the camera as well as the landmarks are both updated - augmenting the state vector with additional features (if indeed they are observed) while deleting any landmarks that are no longer of interest. In order to obtain the best possible result, the algorithm should strive to obtain accurate state estimation regarding the movement of the robot as well as a sparse set of high-quality landmarks. Each of the steps regarding the realisation of the previously mentioned map of features are to be defined, described and analysed in the sections that follow. 
+%\newpage
+%The intended contribution of this paper realises an improvement in not only the state estimation of the system, but localisation as a whole. Additionally the kinematic estimator embedded within the system should serve as a means to integrate the proposed system as part of a larger system regardless of that system's physical model.  Moreover, the proposed system is required to operate in real time at a rate of at least the 30 Hz for 100 landmarks; as achieved by Davison in his original work presented in \cite{dav2007}.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Project Outline}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 \newpage
