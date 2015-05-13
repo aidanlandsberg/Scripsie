@@ -54,6 +54,7 @@ omegaZ = control(6) + w(6);
  
  if norm(omega) == 0
      q = q_W;
+     [a_C] = remove_gravity(q,a_C,omega,dt);
      a_W = a_C;
      v_W = v_W + a_W*dt;
 
@@ -61,6 +62,7 @@ omegaZ = control(6) + w(6);
      q_C = axis2quat_f(omega,dt);
      % Updates
      q = quatmultiply_f(q_W,q_C);
+     [a_C] = remove_gravity(q,a_C,omega, dt);
      a_W = quatrotate_f(q,a_C);
      v_W = v_W + a_W'*dt;
  end

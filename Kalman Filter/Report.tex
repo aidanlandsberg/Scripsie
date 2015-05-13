@@ -92,22 +92,23 @@ Private Bag X1, Matieland 7602, South Africa.}\\\vspace{20mm}\large{Supervisor: 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section*{Acknowledgements}
-\addcontentsline{toc}{section}{Acknowledgements}
+%\addcontentsline{toc}{section}{Acknowledgements}
 I would like to express my sincere gratitude toward the following individuals for their role in making this project a success:\\
 
 \begin{itemize}
-\item My heavenly Father, for providing me with the intellectual capacity, guidance and support necessary to make a success of this project while raining faithful and true in the toughest of times.\\
+\item My heavenly Father, for providing me with the intellectual capacity, guidance and support necessary to make a success of this project while remaining faithful and true in the toughest of times.\\
 \item My study leader, Dr. Corn\'{e} Van Daalen, for his endless enthusiasm, guidance, patience, support, time and invaluable insight. As well as for personally setting aside the time to propose and supervise this project. \\
 \item My parents, for their endless support and motivation. As well as for making all the necessary sacrifices to provide me with the opportunity to complete this project successfully. \\
 \item Mr. Arno Barnard, for his advice regarding the embedded software design.\\
 \item My girlfriend Bianca La Gorc\'{e}, for supporting me endlessly.\\
-\item Benjamin Pannell, for being a great personal mentor and friend. As well as assisting me with various software concepts. \\
+\item Benjamin Pannell, for being a great personal mentor and friend. As well as for providing me with insight regarding various software concepts. \\
+\item Luca Duesimi, for aiding in the design and construction of the stability platform. \\
 \item Warren Farmer, Kurt Coetzer and Lowku Leeuwenaar, for helping construct the stability platform.       
 \end{itemize}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Declaration}
-\addcontentsline{toc}{section}{Declaration}
+%\addcontentsline{toc}{section}{Declaration}
 I, the undersigned, hereby declare that the work contained in this report is my own original work unless indicated otherwise.
 \vspace{200mm}
 \\
@@ -125,7 +126,7 @@ Signature.....................................................		Date............
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section*{Acronyms}
-\addcontentsline{toc}{section}{Acronyms}
+%\addcontentsline{toc}{section}{Acronyms}
 \begin{table}[h]
 \caption*{}
 \begin{center}
@@ -153,7 +154,7 @@ Signature.....................................................		Date............
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{List of Symbols}
-\addcontentsline{toc}{section}{List of Symbols}
+%\addcontentsline{toc}{section}{List of Symbols}
 \begin{table}[h]
 \caption*{}
 %\begin{center}
@@ -182,13 +183,14 @@ $r$     & Radial Distortion Parameter
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Notation}
-\addcontentsline{toc}{section}{Notation}
+%\addcontentsline{toc}{section}{Notation}
 \begin{table}[h]
 \caption*{}
 \begin{center}
-\begin{tabular}{|l | l|}
+\begin{tabular}{|c | l|}
 \hline
-Notation &  Entities\\
+\textbf{Notation} &  \textbf{Entities}\\
+\hline
 \hline
 $x$ 			& Lower case italic text represents a scalar\\
 \hline
@@ -200,7 +202,9 @@ $x_t$ 		& Subscripts bind a values to a specific instance (e.g. time or feature)
 \hline
 $\bar x$		& Overscore text represent an estimate \\
 \hline
-$\norm x$		& A double modulus text denotes the norm \\ 
+$\abs x$		& A modulus denotes the absolute value \\ 
+\hline
+$\norm x$		& A double modulus denotes the norm \\ 
 \hline
 $\dot{x}$		& Dot symbols represent derivatives\\
 \hline
@@ -208,9 +212,11 @@ $\textbf{x}$ 	& Lowercase boldface text represents a vector \\
 \hline
 \textbf{X}		& Capital boldface text represents a Matrix \\
 \hline
-$\textbf{X}'$ 	& Accented Capital boldface text represent Jacobians \\
+$\textbf{X}'$ 	& Accented capital boldface text represent Jacobians \\
 \hline
-			& Processes \\
+\hline
+			& \textbf{Processes} \\
+\hline
 \hline
 $quat(x)$		& Function that converts a variable into a quaternion  \\
 \hline
@@ -218,7 +224,9 @@ $bel(x)$ 		& Function that computes the Belief \\
 \hline
 $x\otimes x$ 	& Represents a quaternion multiplication\\
 \hline
-$\cfrac{\partial x}{\partial t}$ & Liebniz's notation denotes a partial derivative \\		
+$\cfrac{d x}{d t}$ & Liebniz's notation to denote a standard derivative \\		
+\hline
+$\cfrac{\partial x}{\partial t}$ & Liebniz's notation to denote a partial derivative \\		
 \hline
 \end{tabular}
 \end{center}
@@ -235,19 +243,27 @@ $\cfrac{\partial x}{\partial t}$ & Liebniz's notation denotes a partial derivati
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Robotic Localisation and Mapping}
-\textit{Robotics} aims to equip machines with the capability of operating autonomously in the physical world to serve various practical purposes. These machines (robots) - whether commercially, militarily or exploratory - are designed to resemble human behaviour and comprehension, so that they can substitute for humans in unknown and/or potentially hazardous environments ranging from planetary exploration to assembly lines.\\
-Map building, the concept of constructing a map of a previously unknown environment
-Ultimately, the physical world presents many unforeseen factors and circumstances. These factors contribute to \textit{uncertainty} and generally emerge due to a robot's lack of critical information. Factors such as environments, sensors, robots, models and computation invariably lead to an increase in uncertainty. \\\\
-\textit{Probabilistic robotics} is an alternative approach to robotics that acknowledges uncertainty; a factor that has generally been ignored. The key idea of probabilistic robotics is to model uncertainty mathematically, using the calculus of probability theory. Probabilistic robotics aims to utilise these uncertainty models in order to provide probabilistic algorithms that will ultimately allow meaningful comparisons between \textbf{reliably obtained} sensor data and an appropriate model. Such algorithms have since, provided the fundamental basis for the advancement of many conceptual implementations in the \textit{mobile robotics} field.\\\\
-One such concept, namely \textit{autonomous robot navigation}, is of great importance to the aforementioned concept of map building. Autonomous navigation has seen significant advances over the past decade or so, yielding a number of successful implementations - none more so than Simultaneous Localisation and Mapping (SLAM). The extent of the aforementioned advancements can be observed in an overview of map generating techniques presented in \cite{thrun2007}. The SLAM problem can be briefly described as utilising a robot's sensor information in order to construct a map of the surrounding environment, while concurrently approximating it's location within this map - all autonomously. The relationship regarding the map construction as well as the localisation within the map remains essential to the SLAM problem. If the localisation technique is evidently erroneous, subsequently obtained sensor information will be incorrect, resulting in map approximations that differ from the actual state of the environment. An incorrectly modelled environment however, will render sensor information gathered by the robot useless; as this information will not correlate with those expected by the constructed map. Ultimately, the resulting localisation approximation will drift over time and eventually become erroneous and useless.\\
-\newpage
-Many modern realisations of SLAM rely on underlying probabilistic methods, namely that of \textit{recursive state estimation}, for successful implementation. Methods pertaining to recursive state estimation vary according to the application of the system. The most commonly used probabilistic methods include \textit{optimal filtering} techniques such as the Kalman filter (as well as all it's variants), as well as \textit{sequential importance sampling} (SIS) techniques such as the \textit{particle filter}. A summary regarding these aforementioned probabilistic approaches can be found in \cite{chen2003}. Briefly, the differences regarding the aforementioned methods can be described as follows: a Kalman filter in a mono-modal approach, meaning that only a single hypothesis is considered upon modelling, whereas the particle filter allows multiple hypothesis to be considered. Other fundamental parameters and specifications also determine which specific implementation of the SLAM problem is most applicable. Oftentimes, these parameters mainly include the type of sensor/s along with the time constraint imposed upon the application (e.g. online map generation vs. offline map generation). Furthermore parameters such as the resultant map's dimensionality (e.g. two-dimensional (2D) vs. three-dimensional (3D)) as well as their sparsity representation (e.g. point clouds, occupancy grids or sparse sets) are considered upon a suitable SLAM implementation. Generally, the main distinguishment between the various realisations of SLAM is the choice of sensor. Ultimately the choice of sensor results in the two popular approaches that are to be further explained: \textit{range finder approaches} and \textit{vision based approaches}:  
-\subsubsection{Range Finder Approaches}
-Range finder approaches utilise a beam or a wave to determine the distance to an obstacle in the environment. Generally, the distance to an obstacle from the range finder can be obtained through measuring the time it takes for a pulse generated in a beam/wave to return to the transmitter, after it has reflected off the obstacle. Two-dimensional range finders are only able to obtain these aforementioned distances in a given plane at an opening angle (e.g. range finders with an opening angle of $180^{\circ}$ obtain all range measurements within a $180^{\circ}$ field of view in the given plane). Three-dimensional range finders however, aren't limited to a single plane and can obtain range measurements in all planes within a field of view equivalent to the opening angle. The 3D point in space where the pulse is reflected can then be reconstructed given that the orientation of the range finder are known, resulting in a 3D point cloud. Range finder approaches include sonar, laser, infra-red and ultrasonic. Laser range finders, more commonly referred to as LIDAR (Light Detection And Ranging) are generally considered to provide the best accuracy, especially with regard to depth measurements. The choice of range finder however, varies dependent on the application and specifications of the system at hand.\\
-Range finders obtain large amounts of data regarding the range to obstacles in the environment, especially in the 3D map case. As a result, non-probabilistic methods (as opposed to those previously discussed) are implemented. One such method, namely \textit{scan matching}, aims to merge overlapping point clouds into a single point cloud. This approach, like many range finder approaches however, generally present a great cost in both processing as well as finance. 
-\newpage
+\textit{Robotics} aims to equip machines with the capability of operating autonomously in the physical world to serve various practical purposes. These machines (robots) - whether industrial, military or exploratory - are designed to resemble human behaviour and comprehension, so that they can substitute for humans in unknown and/or potentially hazardous environments ranging from planetary exploration to assembly lines~\cite{mars,indus}. To achieve complete autonomous operation, it is essential amongst other things that the robot is capable of observing the environment while subsequently building a map of thereof and locating itself within this map. The aforementioned processes are more commonly referred to as \textit{map building} and \textit{localisation} respectively \cite{thrun2007}. Ultimately, the physical world presents many unforeseen factors and circumstances. These factors contribute to \textit{uncertainty} and generally emerge due to a robot's lack of critical information. Factors such as environments, sensors, robots, models and computation all lead to an increase in uncertainty and can prohibit accurate map building. \textit{Probabilistic robotics} however, acknowledges uncertainty, modelling it mathematically in order to provide fundamental probabilistic algorithms. \\\\
+Simultaneous Localisation and Mapping (SLAM) presents a suitable solution that concurrently realises map building and localisation even if the robot has no access to a map of the environment or its own pose~\cite{slam}. SLAM can be briefly described as utilising a robot's sensor information in order to construct a map of the surrounding environment, while concurrently approximating it's location within this map. The generated SLAM map is typically a feature based representation of point landmarks located in a cartesian coordinate system (sparse set). An example of a SLAM map can be depicted as in figure~\ref{fig:map}:
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.48\textwidth, height=0.3\textwidth]{Figures/PTAM_cam.png}
+\includegraphics[width=0.48\textwidth, height=0.3\textwidth]{Figures/PTAM_map.png}
+\caption{Left: Image frame indicating the feature points. Colours represent the size of a feature (warm colours being the smallest and cool colours being the largest). Right: Reconstructed SLAM three-dimensional (3D) map depicting the feature points with respect to a ground plane (shown as a grid). Adapted from~\cite{scale_visodom}.}
+\label{fig:map}
+\end{center}
+\end{figure}
+Most modern realisations of SLAM rely on the probabilistic methods, namely that of \textit{recursive state estimation}, provided by probabilistic robotics. The various implementations of the SLAM methods vary according to the application of the system. The most commonly used recursive state estimation techniques include both~\textit{optimal filtering} techniques (such as the \textit{Kalman filter} based EKF-SLAM)~\cite{ekfslam} as well as \textit{sequential importance sampling} (SIS) techniques (such as the \textit{particle filter} based FastSLAM)~\cite{fast,fast2}. A summary regarding these aforementioned probabilistic approaches can be found in \cite{chen2003}. Briefly, the differences regarding the aforementioned methods can be described as follows: a Kalman filter only considers a single hypothesis upon modelling, whereas the particle filter allows multiple hypothesis to be considered.  Another fundamental parameter to consider upon choosing a suitable SLAM implementation is the choice of measurement sensor. Currently, vision based sensors allow relatively simple and efficient SLAM solutions at relatively low cost compared to range finder sensors as in~\cite{2dlaser}.\\
+%Other fundamental parameters and specifications (type of measurement sensor, map dimensionality and sparsity etc.) also determine which specific implementation of the SLAM problem is most applicable. Generally, the main distinguishment between the various realisations of SLAM is the choice of sensor. \\\\
+
+%Oftentimes, these parameters mainly include the type of sensor/s along with the time constraint imposed upon the application (e.g. online map generation vs. offline map generation). Furthermore parameters such as the resultant map's dimensionality (e.g. two-dimensional (2D) vs. three-dimensional (3D)) as well as their sparsity representation (e.g. point clouds, occupancy grids or sparse sets) are considered upon a suitable SLAM implementation.  Ultimately the choice of sensor results in the two popular approaches that are to be further explained: \textit{range finder approaches} and \textit{vision based approaches}:  
+%\subsubsection{Range Finder Approaches}
+%Range finder approaches utilise a beam or a wave to determine the distance to an obstacle in the environment. Generally, the distance to an obstacle from the range finder can be obtained through measuring the time it takes for a pulse generated in a beam/wave to return to the transmitter, after it has reflected off the obstacle. Two-dimensional range finders are only able to obtain these aforementioned distances in a given plane at an opening angle (e.g. range finders with an opening angle of $180^{\circ}$ obtain all range measurements within a $180^{\circ}$ field of view in the given plane). Three-dimensional range finders however, aren't limited to a single plane and can obtain range measurements in all planes within a field of view equivalent to the opening angle. The 3D point in space where the pulse is reflected can then be reconstructed given that the orientation of the range finder are known, resulting in a 3D point cloud. Range finder approaches include sonar, laser, infra-red and ultrasonic. Laser range finders, more commonly referred to as LIDAR (Light Detection And Ranging) are generally considered to provide the best accuracy, especially with regard to depth measurements. The choice of range finder however, varies dependent on the application and specifications of the system at hand.\\
+%Range finders obtain large amounts of data regarding the range to obstacles in the environment, especially in the 3D map case. As a result, non-probabilistic methods (as opposed to those previously discussed) are implemented. One such method, namely \textit{scan matching}, aims to merge overlapping point clouds into a single point cloud. This approach, like many range finder approaches however, generally present a great cost in both processing as well as finance. 
+%\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           
-\subsubsection{Vision Based Approaches}
+%\subsubsection{Vision Based Approaches}
 Vision based approaches utilise the data captured from cameras. Camera's project the 3D features they observe in the world around them onto a 2D \textit{image plane}. Once projected, the 2D image is then digitised into pixel coordinates where they can then be interpreted, analysed and manipulated in software. There has been a great improvement in the quality of data captured by cameras in the past decade, allowing very reliable projections of the environment. Additionally, cameras are compact, reliable and relatively low-cost with respect to alternative sensors used in SLAM implementations.\\\\
 Camera systems can be configured in different ways to realise SLAM, utilising anything from a single camera to many calibrated cameras. Each configuration yields it's unique advantages (as well as disadvantages) with successful published implementations existing for each configuration. The two most popular implementations include that of a single camera system and that of a stereo pair. Each of the aforementioned implementations are briefly described below along with their respective pros and cons: 
 \begin{enumerate}
@@ -367,7 +383,7 @@ Considering that most practical systems of interest yield non-linear behaviour, 
 \begin{center}
 \includegraphics[width=0.49\textwidth, height=0.7\textwidth]{Figures/LIN.png}
 \includegraphics[width=0.49\textwidth, height=0.7\textwidth]{Figures/NON.png}
-\caption{Graphical representation depicting both a linear (left) and a non linear (right) transformation of a Gaussian random variable.}
+\caption{Left: Linear transformation of a Gaussian random variable. Right: Non-linear transformation of a Gaussian random variable.}
 \label{fig:non}
 \end{center}
 \end{figure}
