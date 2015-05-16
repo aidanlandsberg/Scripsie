@@ -341,9 +341,9 @@ A feature is required to be observed from several different viewpoints before an
 \end{figure}
 \newpage
 \subsection{Project Objectives}
-This project seeks to utilise the aforementioned system of Davison et al. and improve the localisation thereof using \textit{additional} sensor information. The improvement(s) to the system should also extend the range of applications upon which the system can be applied. 
+This project seeks to utilise the aforementioned system of Davison et al. and improve the localisation thereof using \textit{additional} sensor information. The improvement(s) to the system should also extend the range of applications upon which the system can be applied. The system should utilise a \textit{single} camera as the measurement sensor and preferably support real-time operation. 
 
-The problem definition demands that the choice of measurement sensor be a single camera. Implementations of single camera SLAM using information from an additional measurement sensor, such as that presented by \textcolor{red}{[10]}, present complications regarding cost and implementation. This study investigates a more elegant solution that uses measurements to improve the motion estimates.   
+The problem definition demands that the choice of measurement sensor be a single camera. Implementations of single camera SLAM using information from an additional measurement sensor (e.g. a laser range finder), such as that presented in a study by Fu et al.~\cite{lasermono}, are not only expensive but require complications regarding cost and implementation. This study investigates a more elegant solution that uses measurements to improve the motion estimates.   
 
 Inertial measurement units (IMU) record the accelerations and angular rates of a body travelling through space. 
 
@@ -358,8 +358,8 @@ The process regarding the construction of this map of features, namely that of r
 \subsection{Project Outline}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
-\section{Literature Study}
-\newpage
+%\section{Literature Study}
+%\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 \section{Theory: Recursive State Estimation}
 Probabilistic robotics yields a unique yet fundamental concept at its core, that is: estimating a state through sensor data. Quantities exist that are not directly observable, yet are still able to be obtained through sensor data. Sensors though, obtain limited data regarding certain quantities and most importantly, are affected and often corrupted by \textit{noise}.\\
@@ -862,6 +862,7 @@ The accelerometer and gyroscope are configured in such a way that the sampling f
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Serial Communication}
+
 \begin{table}[htdp]
 \caption{Single-Byte I2C Write Cycle}
 \begin{center}
