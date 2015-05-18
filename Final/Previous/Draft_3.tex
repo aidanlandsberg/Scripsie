@@ -1,0 +1,214 @@
+\documentclass[12pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or epsß with pdflatex; use eps in DVI mode
+\usepackage{amsmath}
+\usepackage{mathtools}
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+\numberwithin{equation}{section}
+\usepackage{color}
+
+
+
+\title{Scripsie: State Estimation \& Observation}
+\author{Aidan Landsberg}
+\date{\today}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+Dr. Van Daalen,\\\\
+\textbf{This section, for the moment, provides initially, a general background to explain the content that follows. It will very likely be integrated into another section in the final report, while other information will still be added to this particular section. The main goal is to set up the necessary theoretical basis in order to describe the motion model for you to examine. Also, I have purposefully omitted all relevant references as I am yet to complete all the literature I have obtained. I am though, well aware of which sections of this write up is to be referenced and will proceed to do so at a later stage.}\\
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Single Camera Simultaneous Localisation and Mapping }
+The ultimate goal of the approach presented here, is to obtain a probabilistic three dimensional (3D) map of features, representing at every time instance, the estimates of both the state of the camera as well as the positions of every feature observed. These features of interest are more commonly referred to as \textit{landmarks} and the aforementioned terms will, from hereon in, be used synonymously.  Most importantly though, the map is to contain the \textit{uncertainty} associated with each of the aforementioned estimates.\\The process regarding the construction of this map of features is to be implemented through the use of an (Extended) Kalman Filter. The map initially, completely void of any landmarks, is recursively updated according to the subsequent fusions of both predictions and measurements presented to the Kalman Filter. As new (potentially interesting) features are observed, the state estimates of both the camera as well as the landmarks are both updated - augmenting the state vector with additional features (if indeed they are observed) while deleting any landmarks that are of no longer of interest. In order to obtain the best possible result, the algorithm should strive to obtain a sparse set of higher-quality landmarks rather than a dense set of ordinary landmarks within the environment.    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+\section{Extended Kalman Filter}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{State Representation}
+All relevant state estimates are embedded within the state vector $\textbf{\^{x}}_t$ which is comprised of two parts, the camera state $\textbf{\^{x}}_v$ and the feature estimates $\textbf{\^{y}}$ respectively. The camera state provides the estimate for its pose at each tilmestep and the landmark estimates provide the landmark's feature description as well its estimated position within the map.\\
+Mathematically, the probabilistic map can be represented through the state vector $\textbf{\^{x}}_t$ and a covariance matrix $P$. $\textbf{\^{x}}_t$, as previously mentioned, is a a single column vector containing the estimates of the camera as well as the landmarks, and $P$ is a square matrix. These quantities can be mathematically shown as follows:
+\begin{equation}
+\textbf{\^{x}}_t = 
+ \begin{pmatrix}
+  \textbf{\^{x}}_v\\
+  \textbf{\^{y}}_1 \\ 
+  \textbf{\^{y}}_2 \\
+  \vdots \\
+  \textbf{\^{y}}_N
+ \end{pmatrix} , \hspace{0.5cm}
+P_{NN} =
+ \begin{bmatrix}
+  P_{x,x} & P_{x,{y_1}} & P_{x,{y_2}} & \cdots & P_{x,{y_N}} \\
+  P_{{y_1},x} &  P_{{y_1},{y_1}} & P_{{y_1},{y_2}} & \cdots &  P_{{y_1},{y_N}} \\
+  P_{{y_2},x} &  P_{{y_2},{y_1}} & P_{{y_2},{y_2}} & \cdots &  P_{{y_2},{y_N}} \\
+  \vdots  & \vdots  & \vdots & \ddots & \vdots  \\
+  P_{{y_N},x} & P_{{y_N},{y_1}} & P_{{y_N},{y_2}}& \cdots & P_{{y_N},{y_N}}
+ \end{bmatrix}.
+\end{equation}
+\\These quantities then, allow us to approximate the uncertainty regarding the generated feature map as a $N$-dimensional single multi-variate Gaussian distribution, where $N$, as stated above, is the total number of state estimates within the state vector.\\
+\\Before continuing, it is important to consider and understand the notation used in the sections that follow. Two separate coordinate systems are to be considered, namely the \textit{fixed} inertial reference fame system $W$ and the cameras free coordinate frame system, more commonly referred to as the body frame $C$. System variables defined within either of the aforementioned coordinate systems, are from here on in, to be designated a superscript to establish in which coordinate system it may be relevant (e.g. $x^{W}$). Derivatives of parameters are denoted through a prime symbol, second derivates are denoted through a double dot symbol and so forth; for instance the derivative of position $x$ will be denoted as $\dot{x}$ and its second derivative denoted as $\ddot{x}$. Vectors will be printed in bold and non-italics to better distinguish them from scalers. An example can be shown regarding the variable x: $\textbf{x}$ denotes a vector while its scalar counterpart would be represented as \textit{x}. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Camera Position State Representation}
+The following concept describes a suitable method to represent all relevant information regarding the cameras position and orientation in a 3D space. According to most implementations of robot localisation, there exists no concern to contrast between the concepts of a camera state $\textbf{\^{x}}_v$ and a camera position state $\textbf{x}_p$: it is therefore important to note that a position state - containing the required information regarding a robots position - is merely an element of the camera state vector. The state camera vector - comprising of 10 individual states - is mathematically described as follows:
+\begin{equation}
+\textbf{\^{x}}_v=  
+ \begin{pmatrix}
+  \textbf{{r}}^W\\
+  \textbf{{q}}^{WC} \\ 
+  \textbf{{V}}^W\\
+ \end{pmatrix} .
+\end{equation}
+where $\textbf{r}^W =$ (\textit{x} \textit{y} \textit{z}$)^T$ indicates the 3D cartesian position of the camera, $\textbf{{q}}^{WC}$ the unit orientation \textit{quarternion} - to be mathematically defined and described in the appendix - indicating the camera orientation (represented in the body frame) \textit{relative to the inertial reference frame} $W$ and $\textbf{{V}}^W$ indicating the linear velocities of the camera relative to the inertial reference frame $W$.     
+Often, the modelling of dynamic systems require that additional parameters - separate to those describing the position and orientation of the robot - be included in the state vector along with the position state vector. This is illustrated in the description above, with the position state vector $\textbf{{x}}_p$ comprising of the 3D position vector, $\textbf{{r}}^W$ and the unit orientation \textit{quarternion}, $\textbf{{q}}^{WC}$. The linear velocity $\textbf{V}^W$, is the additional information required for system modelling. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%The position state $\textbf{{x}}_p$ can furthermore be fully represented as follows:
+%\begin{equation}
+%\textbf{{x}}_p=  
+% \begin{pmatrix}
+% x\\
+% y\\ 
+% z\\
+% q_0\\
+% q_1\\
+% q_2\\
+% q_3\\
+% \end{pmatrix} .
+%\end{equation}  
+%Various alternative implementations exist to represent a robots pose in a 3D space, each presenting their own unique advantages (and disadvantages) with respect to the others. A representation of an arbitrary 3D position and orientation, requires at least, three parameters describing the cartesian position as well as an additional three describing the orientation. This specific implementation, utilises the \textbf{quarternion} representation to portray the orientation information and thus requires an additional parameter to aid its description. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+\subsubsection{Cartesian Feature Representation}
+As previously discussed, the aim is to describe a set of high-quality, well defined landmarks within the map. The map itself is to contain a 3D position of \textit{each} observed landmark  as well as a combined uncertainty. The feature estimates $\textbf{\^{y}}$ - comprising of $N$ landmarks - is mathematically described through three individual cartesian coordinates - $x$, $y$ and $z$ respectively:
+
+\begin{equation}
+\textbf{\^{y}}_n = (x_n\hspace{0.25cm}y_n\hspace{0.25cm}z_n)^T.
+\end{equation}
+where $n$ represents a specific single landmark. \\\\
+With reference to the theory on image processing, it can be discussed that the depth of a given landmark (in this case the $z$-coordinate) cannot be immediately determined, but rather approximated via triangulation given the landmark is observed over a sequence of (minimally) two known camera positions. The $x$ and $y$ measurements however, can be immediately determined from the image plane.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Control Inputs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsubsection{Inverse Depth Feature Representation}   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Prediction Step}
+The solution to this specific implementation of the Simultaneous Localisation and Mapping (SLAM) problem, takes the following probabilistic form:
+\begin{equation}
+P\big(\textbf{\^{x}}_k,\textbf{\^{y}}\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{0:k},\textbf{u}_{0:k},\textbf{x}_0\big)
+\end{equation}
+ with the aforementioned distribution described at every time or sampling instance ($t$ or $k$ respectively). A brief description would yield that the distribution describes a joint density - at given time instance $t$ - of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations and control inputs. This description then allows for the implementation of a recursive algorithm, namely, a Kalman Filter. In order for a Kalman Filter to be successfully implemented, a state transition (motion) model as well as an observation model is required to individually describe the effects of the control input as well as the observations respectively. The Kalman Filter (as well as its variants) are more implicitly described later in the report.\\
+It is important to note that the Kalman Filter estimates the state of a continuous- or discrete-time process that is described by a set of differential (continuous) or difference (discrete) equations. The Kalman Filter then continuously updates the state estimates according to the measurements it obtains.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{State Space Model} 
+As previously discussed, the Kalman Filter requires a state transition (motion) model in order to estimate the current state of the system. In short, the motion model describes the transition from the previous state to the following state with regard to the robots kinematic motion as well as the control inputs. The motion model in this particular instance can be described through a differential equation of the following form:
+\begin{equation}
+\textbf{\.{x}}(t) = \textbf{A}\textbf{x}(t) + \textbf{B}\textbf{u}(t)+\textbf{w}(t)
+\end{equation} 
+where the state matrix $\textbf{A}$, describes the manner in which state evolves from time $t-1$ to $t$ without the influence of noise and controls, the input matrix $\textbf{B}$, describes how the control vector $\textbf{u}(t)$ evolves from time step $t-1$ to $t$ and $\textbf{w}(t)$ is a \textbf{zero-mean} Gaussian random variable representing the process noise with a covariance matrix $\textbf{R}_w$.\\\\
+Considering that the Kalman Filter is a recursive, numerical evaluation, it is necessary to convert the previously defined continuous model into its discrete counterpart. Various methods of discretisation exist, though this specific implementation makes use of the forward difference/Euler’s method.\\ This method  \textit{approximates} the derivative for a state for a sampling period $\Delta T$ as follows:  
+\begin{equation}
+\begin{split}
+\textbf{\.{x}}[k] &= \lim_{\Delta T\to 0}{\frac{\textbf{x}[k+1]-\textbf{x}[k]}{\Delta T}} 	 \\										\Delta T\textbf{\.{x}}[k] &\approx \textbf{x}[k+1]-\textbf{x}[k] \\
+\end{split}
+\end{equation}     
+The state estimate of the discrete counterpart at the following sampling instance, namely $k + 1$, is then presented as follows (given a small enough sampling instance $\Delta T$):
+\begin{equation}
+\begin{split}
+\textbf{x}[k+1] &= \big(\textbf{I}+\textbf{A}\Delta T\big)\textbf{x}[k] + \textbf{B}\textbf{u}[k]\Delta T + \textbf{w}[k]\Delta T
+\end{split}
+\end{equation}
+where $\big(\textbf{I}+\textbf{A}\Delta T\big) = \textbf{A}_d$ is the discrete state matrix, $ \textbf{B}\Delta T = \textbf{B}_d$ is the discrete input matrix and $\textbf{w}[k]\Delta T=\textbf{w}_d[k]$ is the discrete input process noise. \\\\
+Ultimately, the form of the final difference equation describing the system at each individual sampling instance is given as follows:
+\begin{equation}
+\textbf{x}[k+1]= \textbf{A}_d\textbf{x}[k] + \textbf{B}_d\textbf{u}[k]+\textbf{w}_d[k]
+\end{equation} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{State Transition}
+In order to derive the motion model for the system at hand, it is vital that the certain characteristics of the system be understood. Firstly, the robot system - from here on in to be referred to as the \textbf{camera} - is comprised of a monocular camera and an attached Inertial Measurement Unit (IMU) package. Secondly, the camera is to be considered as a six degree of freedom (DOF) rigid body. Briefly the six DOF describe the camera's three \textit{translational} and three \textit{rotational} degrees of freedom. We therefore set out to define a kinematic motion model - using Newton's laws of motion - to describe the cameras movement through the environment as a result of initially unknown, external inputs to the system. Lastly, it should be stressed that embedded within the motion model, should be the impacts of uncertainty through both internal and external factors.\\\\
+%With reference to the previously defined state motion model in (1.8)
+It must also be stressed that initially, a stochastic, linear discrete-time model is adopted to approximate the motion model. Using the kinematic equations of linear and angular motion, it is aimed to ultimately and complete the previously defined state space model. We begin by describing all relevant states and inputs:
+\begin{equation}
+\begin{split}
+\textbf{x}[k] &= \big[\textit{x}_{k}\hspace{0.25cm}\textit{y}_{k}\hspace{0.25cm}\textit{z}_{k}\hspace{0.25cm}\textit{q}_{0,k}\hspace{0.25cm}\textit{q}_{1,k}\hspace{0.25cm}\textit{q}_{2,k}\hspace{0.25cm}\textit{q}_{3,k}\hspace{0.25cm}\textit{\.{x}}_{k}\hspace{0.25cm}\textit{\.{y}}_{k}\hspace{0.25cm}\textit{\.{z}}_{k}\hspace{0.05cm}\big]^T \\
+\textbf{u}[k] &= \big[\hspace{0.1cm}\ddot{x}_{k}\hspace{0.25cm}\ddot{y}_{k}\hspace{0.25cm}\ddot{z}_{k}\hspace{0.25cm}\textit{\.{q}}_{0,k}\hspace{0.25cm}\textit{\.{q}}_{1,k}\hspace{0.25cm}\textit{\.{q}}_{2,k}\hspace{0.25cm}\textit{\.{q}}_{3,k}\hspace{0.1cm}\big]^T\\
+\end{split}
+\end{equation}
+and extend the discrete-time difference equation describing the system to incorporate the motion model, 
+\begin{equation}
+\begin{split}
+\textbf{x}[k+1] &= \textbf{A}_d\textbf{x}[k] + \textbf{B}_d\textbf{u}[k]+\textbf{w}_d[k] \\
+\textbf{A}_d&= 
+ \begin{bmatrix}
+  1 & 0 & 0 & \Delta T & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 & \Delta T & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 1 & 0 & 0 & \Delta T & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+ \end{bmatrix} = (\textbf{I}+\textbf{A}\Delta T\big)  \\\\
+ \textbf{B}_d&=
+\begin{bmatrix}
+  \Delta T & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & \Delta T & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & \Delta T & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & \Delta T & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & \Delta T & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & \Delta T & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & \Delta T \\
+\end{bmatrix} \\\\
+ \textbf{w}_d[k] &=\mathcal{N}(0,  \textbf{R}_w) -\textcolor{red}{\hspace{0.1cm}to\hspace{0.1cm}be\hspace{0.1cm}defined}
+\end{split}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Measurement Step}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Measurement Function}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Feature Tracking}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{System Update}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}  
+
+  %\begin{bmatrix}
+  %x_k\\
+  %y_k \\ 
+  %z_k \\
+  %q_{0,k}\\
+  %q_{1,k}\\
+  %q_{2,k}\\
+  %q_{3,k}\\
+  %\dot{x}_k\\
+  %\dot{y}_k\\
+  %\dot{z}_k\\
+  %\end{bmatrix}  
