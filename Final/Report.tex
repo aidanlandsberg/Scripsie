@@ -523,38 +523,40 @@ The Kalman Filter is generally considered as an efficient algorithm for sparse s
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsubsection{Extended Kalman Filter} 
-Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented upon the vast majority of modern day systems. Non-linear transformations of Gaussian random variables (RV) result in a different RV while any linear transformation of a Gaussian random variable yields another \textbf{different} Gaussian variable. This violates an important condition of the Kalman Filter algorithm. This phenomenon can be illustrated through Figures~\ref{fig:lin} and~\ref{fig:non}: % where a linear transform yields a transformed Gaussian RV and a non linear transform yields a RV with a different probability density:
+Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented upon the vast majority of modern day systems. Non-linear transformations of Gaussian random variables (RV) result in a different RV while any linear transformation of a Gaussian random variable yields another \textbf{different} Gaussian variable. This violates an important condition of the Kalman Filter algorithm. This phenomenon can be illustrated through Figure~\ref{fig:lin}: % where a linear transform yields a transformed Gaussian RV and a non linear transform yields a RV with a different probability density:
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=\textwidth, height=0.6\textwidth]{Figures/LIN.png}
-\caption{Linear transformation of a Gaussian random variable.}
+\includegraphics[width=0.49\textwidth, height=0.7\textwidth]{Figures/LIN1.png}
+\includegraphics[width=0.49\textwidth, height=0.7\textwidth]{Figures/Non1.png}
+\caption{Left: Linear transformation of a Gaussian random variable. Right: Non-linear transformation of a Gaussian random variable.}
 \label{fig:lin}
 \end{center}
 \end{figure}
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=\textwidth, height=0.6\textwidth]{Figures/NON.png}
-\caption{ Non-linear transformation of a Gaussian random variable.}
-\label{fig:non}
-\end{center}
-\end{figure}
-The \textit{Extended Kalman filter} (EKF), an extension of the general Kalman filter, aims to enable the modelling of non-linear systems through linearisation. As previously mentioned, the state transition function $g(\textbf{u}_t, \textbf{x}_{t-1})$, as well as the observation model $h({x}_{t-1})$ of most practical systems are typically both non-linear in nature. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function, more commonly referred to as linearisation. The linearisation process of EKF aims to linearise these functions so that the fundamental operations of the Kalman Filter algorithm remain valid.
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width=0.49\textwidth, height=0.6\textwidth]{Figures/Non1.png}
+%\caption{ Non-linear transformation of a Gaussian random variable.}
+%\label{fig:non}
+%\end{center}
+%\end{figure}
+The \textit{Extended Kalman filter} (EKF), an extension of the general Kalman filter, aims to enable the modelling of non-linear systems through linearisation. As previously mentioned, the state transition function $g(\textbf{u}_t, \textbf{x}_{t-1})$, as well as the observation model $h(\textbf{x}_{t-1})$ of most practical systems are typically both non-linear in nature. Considering the aforementioned statement; it is necessary to determine a method for approximating a non-linear function as a linear function, more commonly referred to as linearisation. The linearisation process of EKF aims to linearise these functions so that the fundamental operations of the Kalman Filter algorithm remain valid.
 
-The linearisation process approximates an arbitrary non linear function $f$ by a linear function that is \textit{tangent} to $f$ at the mean value of the Gaussian, $\boldsymbol{\mu}$. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature (as in Figure~\ref{fig:non}). This technique is applied to both the state transition and observation functions. Many methods exist for linearisation of non-linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $f$, by it's own value as well as that of it's gradient $f'$. The tangent of $f$ can be depicted by it's partial derivative with respect to the state vector $\textbf{x}_{t-1}$:
+The linearisation process approximates an arbitrary non-linear function $f$ by a linear function that is \textit{tangent} to $f$ at the mean value of the Gaussian, $\boldsymbol{\mu}$. If the Gaussian is then projected through this new linear approximation, the resultant transformation would yield a random variable that is Gaussian in nature (as in Figure~\ref{fig:lin}). This technique is applied to both the state transition and observation functions. Many methods exist for linearisation of non-linear functions, but the EKF utilises the method of (first order) \textit{Taylor expansion}. The Taylor expansion creates a linear approximation of a non linear function, say $f$, by it's own value as well as that of it's gradient $f'$. The tangent of $f$ can be depicted by it's partial derivative with respect to the state vector $\textbf{x}_{t-1}$:
 \begin{equation}\label{eq:par}
-f'(\textbf{x}_{t-1}, \textbf{u}_t) := \frac{\partial f(\textbf{x}_{t-1}, \textbf{u}_t)}{\partial \textbf{x}_{t-1}}
+f'(\textbf{x}_{t-1}, \textbf{u}_t) := \frac{\partial f(\textbf{x}_{t-1}, \textbf{u}_t)}{\partial \textbf{x}_{t-1}}.
 \end{equation}
 
 The argument of the function $f$ is chosen as the most likely point at the linearisation instance. For Gaussians, the most likely point is the mean $\mu_{t-1}$. The linear approximation of the function $f$ can then be achieved through the linear extrapolation evaluated at it's most likely point $\mu_{t-1}$:
 \begin{equation}\label{eq:app}
 \begin{split}
 f(\textbf{x}_{t-1}, \textbf{u}_t) &\approx f(\textbf{x}_{t-1}, \textbf{u}_t) + f'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}) \\
-&= f(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{F}_t'(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1})
+&= f(\textbf{x}_{t-1}, \textbf{u}_t) + \textbf{F}_t'(\textbf{x}_{t-1}-\boldsymbol{\mu}_{t-1}),
 \end{split}
 \end{equation}
-where $\textbf{F}_t' = f'(\textbf{u}_{t},\boldsymbol{\mu}_{t-1})$ is the \textit{Jacobian} matrix. \\
+where $\textbf{F}_t' = f'(\textbf{u}_{t},\textbf{x}_{t-1})$ is the \textit{Jacobian} matrix. 
+
 It is important to note that {Jacobian} matrix is determined at each linearisation instance (each individual time-step) as its parameters differ from one linearisation instance to the next. 
 
 Once linearisation is achieved, the EKF which behaves otherwise identically in terms of operation to the general Kalman filter, can be implemented upon non-linear systems. 
@@ -608,8 +610,9 @@ With regard to the management of the probabilistic map, it remains essential to 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{State Representation}
-Generally, a state can be defined as any facet that has the ability to impact the future. In the context of this particular paper, the states will comprise of all facets that impact the future of both the robot and the environment dynamics. As per the definition of the EKF, it is essential that the system possesses a model to estimate future states. This model is commonly referred to as the previously discussed state transition model. All relevant state estimates are embedded within the state vector $\textbf{{x}}_t$, which is comprised of two parts, the camera state $\textbf{{x}}_v$ and the landmark position estimates $\textbf{{y}}_n$ respectively. The camera state provides the estimate for the robot's pose at each time-step and the landmark estimates provide the landmark's estimated position within the map.\\
+As previously mentioned, state variables represent the mathematical ``state" of system. As per the definition of the EKF, it is essential that the system possesses a model to estimate future states. This model previously discussed as the state transition probability is commonly referred to as the \textit{motion model}. All relevant state estimates are embedded within the state vector $\textbf{{x}}_t$, which is comprised of two parts, the camera state $\textbf{{x}}_v$ and the landmark position estimates $\textbf{{y}}_n$ respectively. The camera state provides the estimate for the robot's pose at each time-step and the landmark estimates provide the landmark's estimated position within the map.\\
 Mathematically, the probabilistic map is typically represented through a mean state vector $\textbf{{x}}_t$ and a covariance matrix $\textbf{P}_{nN}$. The mean state vector, as previously mentioned, is a a single column vector containing the estimates of the camera as well as the landmark positions, and $\textbf{P}_{nN}$ is a square matrix containing the covariances of each state with respect to every other state. These quantities can be mathematically shown as follows:
+
 \begin{equation}
 \textbf{{x}}_t = 
  \begin{pmatrix}
@@ -626,9 +629,9 @@ Mathematically, the probabilistic map is typically represented through a mean st
   P_{{y_2},x} &  P_{{y_2},{y_1}} & P_{{y_2},{y_2}} & \cdots &  P_{{y_2},{y_N}} \\
   \vdots  & \vdots  & \vdots & \ddots & \vdots  \\
   P_{{y_n},x} & P_{{y_n},{y_1}} & P_{{y_n},{y_2}}& \cdots & P_{{y_n},{y_N}}
- \end{pmatrix},
+ \end{pmatrix}.
 \end{equation}
-\\These quantities then, allow us to approximate the uncertainty regarding the generated feature map as a $N$-dimensional single multi-variate Gaussian distribution, where $N$, as stated above, is the total number of state estimates within the state vector and $n$ is the total number of landmarks within the map.
+These quantities then, allow us to approximate the uncertainty regarding the generated feature map as a $N$-dimensional single multi-variate Gaussian distribution, where $N$, as stated above, is the total number of state estimates within the state vector and $n$ is the total number of landmarks within the map.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Camera Position State Representation}
 The following concept describes a suitable method to represent all relevant information regarding the camera's position and orientation in a 3D space. According to most implementations of robot localisation, there exists no contrast between the concepts of a camera state $\textbf{{x}}_v$ and a camera position state $\textbf{x}_p$. It is therefore important to note that a position state - containing the required information regarding a robots position - is merely an element of the camera state vector (where additional information required to describe the camera's position forms the remainder of the camera state vector). The state camera vector - comprising of 10 individual states - is mathematically described as follows:
