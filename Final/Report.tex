@@ -387,8 +387,8 @@ If time allows, a set of tests are required to be derived and implemented to est
 \newpage
 \subsection{Project Outline}
 The remainder of this report is presented as follows:\\\\
-\textbf{Chapter 2: Recursive State Estimation}\\
-This chapter presents all of the research undertaken on order to effectively design and implement a suitable SLAM implementation. This chapter focusses of introducing the reader to the basic theory pertaining to probability theory and recursive state estimation and presenting the relevant mathematical expressions that model them. The chapter further introduces the steps necessary to derive the extended Kalman filter from the Bayes filter. \\\\
+\textbf{Chapter 2: State Estimation Techniques}\\
+This chapter presents all of the research undertaken in order to effectively design and implement a suitable SLAM implementation. This chapter focusses of introducing the reader to the basic theory pertaining to probability theory and recursive state estimation and presenting the relevant mathematical expressions that model them. The chapter further introduces the steps necessary to derive the extended Kalman Filter from the Bayes Filter. \\\\
 \textbf{Chapter 3: Design: EKF MonoSLAM Using Kinematic State Estimation}\\
 This chapter provides a detailed analysis of the solution to this specific MonoSLAM problem. The relevant variable representation and functional components are initially discussed. The chapter then seeks to derive the kinematic estimator necessary for the EKF's prediction step. An overview of the EKF's measurement update is also given. \\\\
 \textbf{Chapter 4: Implementation}\\
@@ -402,80 +402,106 @@ This chapter provides a summary recommendations by the author that is applicable
 %\section{Literature Study}
 %\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
-\section{Theory: Recursive State Estimation}
+\section{Theory: State Estimation Techniques}
 \subsection{Introduction}
+The following chapter will provide a brief, yet concise introduction to the fundamental algorithms that are necessary to implement SLAM. The fundamental concepts, particularly the various techniques associated with the implementation thereof will be addressed. The goal of this section is to introduce the fundamental concepts as well as the mathematical and probabilistic principles that form the basis of state estimation in the robotics field of study.
 
-%Probabilistic robotics yields a unique yet fundamental concept at its core, that is: estimating a state through sensor data. Quantities exist that are not directly observable, yet are still able to be obtained through sensor data. Sensors though, obtain limited data regarding certain quantities and most importantly, are affected and often corrupted by \textit{noise}.\\
-Recursive state estimation then, seeks to recover state variable from the obtained sensor data bearing in mind the previously mentioned limitations. Probabilistic state estimation algorithms - to be investigated in this section - compute \textit{belief} distributions regarding state variables. The following section will provide a brief, yet concise introduction to these various algorithms. The fundamental concepts, particularly the various techniques associated with the implementation thereof will be addressed.\\\\
-The goal of this section is to introduce the fundamental concepts as well as the mathematical and probabilistic principles that form the basis of state estimation in the robotics field of study. Initially, the Bayes Filter; that is the algorithm that forms the basis of all state estimation techniques presented in this paper, will be introduced and formally discussed. Thereafter, the Gaussian Filter family - particularly the Kalman Filter as well as it's variants - are to be introduced, discussed and defined in terms of the context of this project. It is worthwhile to note that theory in this chapter resembles material from the book Probabilistic Robotics by Thrun et al.~\cite{probrobsum} and is adapted therefrom for convenience sake.  
+Initially, the Bayes Filter; that is the algorithm that forms the basis of all state estimation techniques presented in this report, will be introduced and formally discussed. Thereafter, the Gaussian Filter family - particularly the Kalman Filter as well as it's variants - are to be introduced, discussed and defined in terms of the context of this project. It is worthwhile to note that theory in this chapter resembles material from the book Probabilistic Robotics by Thrun et al.~\cite{probrobsum} and is adapted therefrom for convenience sake.  
+%This chapter provides a brief, yet concise introduction to the fundamental theoretical concepts and algorithms that are necessary to implement SLAM. Firstly, the concept of estimating state variables using a motion model and sensor measurements is initially described. The chapter then presents a suitable state estimation method, namely the Bayes filter. Additionally, the Kalman filter, a particular implementation of the Bayes filter is derived. Finally, the KF is appropriately extended to present the EKF, the state estimation algorithm chosen to realise this project.    
+
+\subsection{Recursive State Estimation}
+ %Quantities exist that are not directly observable, yet are still able to be obtained through sensor data. Sensors though, obtain limited data regarding certain quantities and most importantly, are affected and often corrupted by \textit{noise}.   
+%Probabilistic robotics yields a unique yet fundamental concept at its core, that is: estimating a state through sensor data. \\
+State variables define the mathematical state of a system's dynamics and describe the impact of the system's future behaviour in the absence of external factors. Although a robot's dynamics can be mathematically modelled, they have quantities that are not directly observable but can be obtained through sensor measurements. Sensors though, obtain limited data regarding certain quantities and most importantly, are affected and often corrupted by \textit{noise}.
+
+State estimation then, seeks to recover state variables using obtained sensor data, control inputs to the system as well as the system model. The value obtained is referred to as a \textit{state estimate}. 
+
+\textit{Recursive state estimation} however, doesn't require the system to keep a complete history of \textit{all} measurements and control inputs, using only the current control inputs and measurements to update the previous state estimate. Probabilistic state estimation algorithms - to be investigated in this section - compute \textit{belief} distributions regarding state variables where the belief reflects a robot's internal knowledge of it's state.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bayes Filter}
-Upon considering probabilistic robotics, a key concept worth describing is the previously mentioned \textit{belief} of a robot. Briefly, the belief represents the robot's understanding regarding the state of it's own dynamics as well as the dynamics of the surrounding environment. This critical concept proves a fundamental basis in probabilistic robotics. The belief can be represented as a conditional probability distribution whereby each possible scenario (state) is a signed a probability (density). Mathematically the belief with regard to a state variable $x_t$ is denoted as follows:
+The previously mentioned belief of a robot can be represented by a probability distribution that assigns a probability to each state outcome. The belief distribution is a posterior probability over the state variable that is conditioned over the measurements and control data~\cite{probrob}. Mathematically the belief with regard to a state variable $\textbf{x}_t$ is as shown in the book Probabilistic Robotics by Trun et al.~\cite{probrob}:     
+%A key concept worth describing is the previously mentioned \textit{belief} of a robot. The belief represents the robot's understanding regarding the state of it's own dynamics (it's position, orientation etc.) as well as that of the surrounding environment. This critical concept proves a fundamental basis in probabilistic robotics. The belief can be represented as a conditional probability distribution whereby each possible scenario (state) is assigned a probability (density). 
 \begin{equation} \label{eq:belief}
-bel(\textbf{x}_t) = p(\textbf{x}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{z}_{1:t},\hspace{0.1cm}\textbf{u}_{1:t}),
+bel(\textbf{x}_t) = p(\textbf{x}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{z}_{1,..,t},\hspace{0.1cm}\textbf{u}_{1,..,t}).
 \end{equation}
-A brief description would yield that the distribution above describes, for a given time instance $t$, a joint density of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations ${z}_{1:t}$ and control inputs ${u}_{1:t}$.\\
-Considering that the state of the robot is constantly updated at every time-step $t$ and that each update is dependent upon the state at the previous time-step, it is essential that the algorithm required be recursive in nature. The \textit{Bayes Filter} algorithm provides precisely such a procedure. The algorithm calculates the belief distribution stated in equation~\ref{eq:belief} from the observation and control data. Table~\ref{tab:KF} presents a pseudo-algorithmic interpretation of the Bayes Filter algorithm \cite{probrobsum}:
+
+This describes, for a given time $t$, a joint density of the robot state as well as the landmark locations {given} all of the previously recorded observations ${z}_{1:t}$ and control inputs ${u}_{1:t}$.
+
+In order to achieve recursive state estimation, the state estimates should only incorporate the latest measurements. The belief can then be calculated at each time step. Additionally, the calculation of the belief should incorporate the previous estimates. Provided that the the system obeys the Markov assumption - previous data and future data are independent provided that the current state $\textbf{x}_t$ is known - The \textit{Bayes Filter} provides such recursive state esrtimation. 
+
+%Considering that the state of the robot is constantly updated at every time-step $t$ and that each update is dependent upon the state at the previous time-step, it is essential that the algorithm required be recursive in nature. The \textit{Bayes Filter} algorithm provides precisely such a procedure. The algorithm calculates the belief distribution stated in equation~\ref{eq:belief} from the observation and control data. 
+Table~\ref{tab:KF} presents a pseudo-algorithm of the Bayes Filter algorithm \cite{probrobsum}:
 
 \begin{table}[h]
 \begin{center}
 \caption{The Bayes Filter Algorithm} \label{tab:BF}
 \begin{tabular}{l l l}
 \hline
-\textbf{Input}: &previous belief $bel(x_{t-1})$, control input/s ${u}_t$, measurement/s ${z}_t$\\ 
-\textbf{Output}: &current belief $bel(x_{t})$\\
+\textbf{Input}: &previous belief $bel(\textbf{x}_{t-1})$, control input(s) $\textbf{u}_t$, measurement(s) $\textbf{z}_t$\\ 
+\textbf{Output}: &current belief $bel(\textbf{x}_{t})$\\
 \hline
 \hline
-for all $x_t$: \\
-1. & $\overline {bel}(x_t)$ = $\int p(x_t\hspace{0.1cm}|\hspace{0.1cm}u_{t},\hspace{0.1cm}x_{t-1})bel(x_{t-1})dx_{t-1}$ \\
-2. & ${bel}(x_t)$ = $\eta p(z_t\hspace{0.1cm}|\hspace{0.1cm}x_{t})\overline {bel}(x_t)$ \\
+for all $\textbf{x}_t$: \\
+1. & $\overline {bel}(\textbf{x}_t)$ = $\int p(\textbf{x}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{u}_{t},\hspace{0.1cm}\textbf{x}_{t-1})bel(\textbf{x}_{t-1})d\textbf{x}_{t-1}$ \\
+2. & ${bel}(\textbf{x}_t)$ = $\eta p(\textbf{z}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{x}_{t})\overline {bel}(\textbf{x}_t)$ \\
 3. &end for. \\
 \hline\hline
 \end{tabular}
 \end{center}
 \end{table}%
-\newpage
-The recursive nature of the algorithm can thus be seen from table~\ref{tab:BF}; whereby the belief $\overline {bel}(x_t)$ at the current time $t$ is obtained through initially calculating the belief at the previous time-step, $t-1$. The Bayes Filter contains two essential steps: \textit{prediction} (line 1) and \textit{measurement update} (line 2). The prediction step initially processes the control inputs before subsequently predicting the current belief based on the prior belief as well as the probability that the control inputs induce a transition form $x_{t-1}$ to $x_t$. Thereafter, the measurement update seeks to determine the belief in the event that a measurement has been observed that may correct any errors presented in the previous prediction step.\\
-The mathematical derivation of the Bayes Filter contains many assumptions and further technicalities. The techniques presented in this paper though, require only a basic comprehension of it's implementation. Furthermore, detailed analysis of the Bayes Filter can be obtained from Probabilistic Robotics by Thrun et al.~\cite{probrob} 
+The recursive nature of the algorithm can thus be seen from Table~\ref{tab:BF}; whereby the belief $\overline {bel}(\textbf{x}_t)$ at the current time $t$ is obtained through initially calculating the belief at the previous time-step, $t-1$. The Bayes Filter contains two essential steps: \textit{prediction} (line 1) and \textit{measurement update} (line 2). The prediction step initially processes the control inputs before subsequently predicting the current belief based on the prior belief and the probability that a transition from $\textbf{x}_{t-1}$ to $\textbf{x}_t$ occurs. Thereafter, the measurement update improves the belief by adding information about the states, observed from new measurements.
+
+The mathematical derivation of the Bayes Filter contains many assumptions and further technicalities. The techniques presented in this project require only a basic understanding of the Bayes Filter. A detailed analysis of the Bayes Filter can be obtained from the book Probabilistic Robotics by Thrun et al.~\cite{probrob} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Gaussian Filters}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-As previously discussed, the Bayes Filter possesses many different derivations and variants thereof. Amongst these derivations, are the \textit{Gaussian filter} family. The basic idea behind a Gaussian filter is that beliefs can be represented as a multivariate Gaussian distributions, represented mathematically as follows:
+There are many different implementations of the Bayes Filter. Amongst these, are the \textit{Gaussian filter} family. The basic idea behind a Gaussian filter is that beliefs can be represented as a multivariate Gaussian distributions, represented mathematically as follows~\cite{probrob}:
 \begin{equation} \label{eq:normal}
 p(\textbf{x}_t)=\cfrac{1}{\sqrt{|2\pi\boldsymbol{\Sigma}|}}\hspace{0.1cm}\text{exp}\hspace{0.1cm}\bigg\{-\frac{1}{2}(\textbf{x}_t-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\textbf{x}_t-\boldsymbol{\mu})\bigg\},
 \end{equation} 
-where the density across the state variable $x_t$ is characterised through two fundamental parameters: The mean $\boldsymbol{\mu}$ and the covariance $\boldsymbol{\Sigma}$. Such a parameterisation whereby a Gaussian is characterised through it's respective mean and covariance is called the \textit{moments parameterisation} (as the mean and covariance represent the first and second order moments respectively). Here from, a number of recursive filter algorithms can be derived, two of which are examined in this paper: the \textit{Kalman Filter} (KF) and it's non-linear counterpart, the \textit{Extended Kalman Filter} (EKF). It is important to realise that both of the aforementioned Filters belong to the same sub-class of filters - namely the Kalman Filter Family - and therefore most of the fundamental concepts and functionality between them are identical. Each Filter is discussed in further detail in the following segments of this section.   
+where the density across the state variable $\textbf{x}_t$ is characterised through two fundamental parameters: the mean $\boldsymbol{\mu}$ and the covariance $\boldsymbol{\Sigma}$. Such a parameterisation whereby a Gaussian is characterised through it's respective mean and covariance is called the \textit{moments parameterisation} (as the mean and covariance represent the first and second order moments respectively). AThis parameterisation allows a number of recursive filter algorithms to be derived, two of which are examined in this project: the \textit{Kalman Filter} (KF) and it's non-linear counterpart, the \textit{Extended Kalman Filter} (EKF). It is important to realise that both of the aforementioned filters belong to the same sub-class of filters - namely the Kalman Filter Family - and therefore most of the fundamental concepts and functionality between them are identical. Each filter is discussed in further detail in the subsections that follow.   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Kalman Filter}    
-Probably the most fundamental of all Gassian filter algorithms, is the \textit{Kalman Filter}. The Kalman filter can be briefly described as the algorithm that enables the realisation of many practical recursive estimation systems, including the SLAM problem. It remains a popular, well studied technique for filtering and prediction of linear systems that contains uncertainty - typically uncertainties which are Gaussian in nature. The Kalman filter seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\mu_t$ and covariance $\Sigma_t$, at each time instance $t$ (while previous time-steps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true (as listed in~\cite{probrob}): 
+Probably the most fundamental of all Gaussian filter algorithms, is the \textit{Kalman Filter}. The Kalman filter can be briefly described as an optimal estimator. It remains a popular technique for filtering and prediction of \textit{linear} systems that contains Gaussian uncertainty. The Kalman filter seeks to describe a belief distribution of a state variable $\textbf{{x}}_t$ as described in Equation~\ref{eq:normal}. Subsequently, the state vector $\textbf{{x}}_t$ is modelled by a single multivariate Gaussian distribution with a mean $\boldsymbol{\mu}_t$ and covariance $\boldsymbol{\Sigma}_t$, at each time instance $t$ (while previous time-steps are denoted as $t-1$, $t-2$, etc.). The general implementation as described above though, is only valid provided that the following three properties hold true (as listed in~\cite{probrob}): 
 \begin{enumerate}
-\item The state transition model probability - with function $g(\textbf{u}_{t},\hspace{0.1cm}\boldsymbol{\mu}_{t-1})$ - \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise.
-\item The observation model probability - with function $h(\boldsymbol{\bar \mu}_t)$ - \textbf{must} be a \textit{linear} function with additive Gaussian (measurement/sensor) noise. 
-\item The initial belief $bel(x_0)$ must be normally distributed.
-\end{enumerate}
-In the context of Simultaneous Localisation and Mapping (SLAM), a Kalman Filter algorithm seeks to determine the \textbf{optimal} trade off between the state of the robots pose and the position of the landmarks within the map - given process and measurement noise.\\
-%provided that the state vector $\textbf{\^{x}}_k$, and landmark locations $\textbf{\^{y}}_{n,k}$ are modelled by a single multivariate Gaussian distribution. The system is to be observed at discrete steps in time - denoted by the subscript$k =1, 2,  3, ...$ - where at every individual time-step, it can be influenced by a set of actions. It is assumed that\\  
-Moreover, the solution to this specific implementation of the SLAM problem, takes a probabilistic form where the belief with regard to state variable $\textbf{x}_t$ is denoted as shown in equation~\ref{eq:belief}:
-\begin{equation}
-bel(\textbf{{x}}_t) = p\big(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{1:t},\textbf{u}_{1:t}\big),
+\item The state transition model probability \textbf{must} be a \textit{linear} function with additive Gaussian (process) noise. The state transition model probability is shown according to Thrun et al.\cite{probrob}:\\
+\begin{equation}\label{eq:SSmodelg}
+g(\textbf{u}_{t}, \textbf{x}_{t-1}) :  \textbf{x}_t = \textbf{A}_t\textbf{x}_{t-1} + \textbf{B}_t\textbf{x}_t + \textbf{w}_t.
 \end{equation}
-%with the aforementioned distribution described at every discrete time instance $t$.\\ A brief description would yield that the distribution above, describes, for a given time instance $t$, a joint density of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations, $\textbf{z}_{1:t}$ and control inputs, $\textbf{u}_{1:t}$.\\
-Like the Bayes Filter, the Kalman filter too is executed in two (sequential) steps: the \textit{prediction step} and the \textit{update step}. Firstly, the prediction step aims to estimate a state into which the system will be transitioned from the previous state estimate ($\boldsymbol{\mu}_{t-1}$, $\boldsymbol{\Sigma}_{t-1}$) as a result of a set of internal and/or external dynamics to the system. These dynamics are typically described through the state transition function $g(\textbf{u}_t, \boldsymbol{\mu}_{t-1})$. Once an estimate is obtained for the transitioned state estimate ($\boldsymbol{\bar \mu}_t$, $\boldsymbol{\bar \Sigma}_t$), a measurement prediction is made in order to provide the expected measurements provided that the system were to find itself within the estimated transitioned state. These measurements are obtained through an observation model which has a function $h(\boldsymbol{\bar \mu}_t)$. Thereafter, an actual measurement, $\textbf{z}_t$ is then obtained through the system sensors in order to determine the actual state of the system ($\boldsymbol{\mu}_t$, $\boldsymbol{\Sigma}_t$). Ultimately, the actual state of the system and the previously predicted state are then compared with one another in order  to obtain the (optimally weighted) \textit{Kalman gain}: This entity yields minimum mean-squared error in the estimate and ultimately provides the desired optimal trade-off between the measurement and the estimate. Intuitively, the Kalman gain controls how much the systems "trusts" the measurements over the estimate. Each of the aforementioned steps are later discussed in more detail - with reference to implementations specific to this paper. Table~\ref{tab:KF} below, presents a pseudo-algorithmic representation the aforementioned steps and also incorporates a systematical and mathematical representation for the following system definition of the state transition and the observation models respectively \cite{probrobsum}:
-\begin{equation}\label{eq:SSmodel}
-\begin{split}
-g(\textbf{u}_{t}, {\mu}_{t-1}) &:  \textbf{x}_t = \textbf{A}_t\textbf{x}_{t-1} + \textbf{B}_t\textbf{x}_t + \textbf{w}_t\\
-h(\bar \mu) &: \textbf{z}_t = \textbf{C}_t\textbf{x}_t + \textbf{v}_t
-\end{split}
+\item The observation model probability \textbf{must} be a \textit{linear} function with additive Gaussian (sensor) noise. The observation model probability is shown according to Thrun et al.\cite{probrob}:\\
+\begin{equation}\label{eq:SSmodelh}
+h(\overline{\boldsymbol{\mu}}_t) : \textbf{z}_t = \textbf{C}_t\textbf{x}_t + \textbf{v}_t,
 \end{equation}
 where $\textbf{w}_t$ and $\textbf{v}_t$ represent process and sensor noise respectively.
+\item The initial belief $bel(\textbf{x}_0)$ must be normally distributed.
+\end{enumerate}
+%In the context of Simultaneous Localisation and Mapping (SLAM), a Kalman Filter algorithm seeks to determine the \textbf{optimal} trade off between the state of the robots pose and the position of the landmarks within the map - given process and measurement noise.\\
+%provided that the state vector $\textbf{\^{x}}_k$, and landmark locations $\textbf{\^{y}}_{n,k}$ are modelled by a single multivariate Gaussian distribution. The system is to be observed at discrete steps in time - denoted by the subscript$k =1, 2,  3, ...$ - where at every individual time-step, it can be influenced by a set of actions. It is assumed that\\  
+
+%Moreover, the solution to this specific implementation of the SLAM problem, takes a probabilistic form where the belief with regard to state variable $\textbf{x}_t$ is denoted as shown in equation~\ref{eq:belief}:
+%\begin{equation}
+%bel(\textbf{{x}}_t) = p\big(\textbf{{x}}_t\hspace{0.15cm}|\hspace{0.15cm}\textbf{z}_{1:t},\textbf{u}_{1:t}\big),
+%\end{equation}
+
+%with the aforementioned distribution described at every discrete time instance $t$.\\ A brief description would yield that the distribution above, describes, for a given time instance $t$, a joint density of the robot state as well as the landmark locations \textbf{given} all of the previously recorded observations, $\textbf{z}_{1:t}$ and control inputs, $\textbf{u}_{1:t}$.\\
+
+The input to the Kalman Filter is the belief at time $t-1$, $\boldsymbol{\mu}_{t-1}$, $\boldsymbol{\Sigma}_{t-1}$. The Kalman filter requires a control input $\textbf{u}_t$ and a measurement $\textbf{z}_t$ at time $t$ to update the belief. Like the Bayes Filter, the Kalman filter too is executed in two (sequential) steps: the \textit{prediction step} and the \textit{update step}. 
+
+Firstly at time $t$, the prediction step aims to calculate a predicted belief $\overline{bel}(\textbf{x}_t)$ represented by $\overline{\boldsymbol{\mu}_{t}}$ and $\overline{\boldsymbol{\Sigma}_{t}}$. The predicted belief is obtained by incorporating the control input $\textbf{u}_t$ and subsequently updating the mean vector and covariance matrix according to the (linear) state transition function. The update step aims to obtain the desired belief $bel(\textbf{x}_t)$ from the predicted belief $\overline{bel}(\textbf{x}_t)$ by incorporating the measurements $\textbf{z}_t$. The Kalman Filter computes a Kalman gain, that intuitively suggests the influence of a measurement in the new state estimate. This gain is then used to update the mean estimate as well as the covariance matrix. 
+
+In a control system interpretation the Kalman gain is an entity that yields a minimum mean-squared error in the estimate and ultimately provides the desired optimal trade-off between the measurement and the estimate. Intuitively, the Kalman gain controls how much the systems "trusts" the measurements over the predicted measurement. Each of the aforementioned steps are later discussed in more detail - with reference to implementations specific to this paper. Table~\ref{tab:KF} below, presents a pseudo-algorithm of the Kalman Filter~\cite{probrobsum}:
+% estimate the state into which the system will be transitioned from the previous state estimate ($\boldsymbol{\mu}_{t-1}$, $\boldsymbol{\Sigma}_{t-1}$) as a result of a set of internal and/or external dynamics to the system. These dynamics are typically described through the state transition function $g(\textbf{u}_t, \boldsymbol{\mu}_{t-1})$. Once an estimate is obtained for the transitioned state estimate ($\boldsymbol{\bar \mu}_t$, $\boldsymbol{\bar \Sigma}_t$), a measurement prediction is made in order to provide the expected measurements provided that the system were to find itself within the estimated transitioned state. These measurements are obtained through an observation model which has a function $h(\boldsymbol{\bar \mu}_t)$. Thereafter, an actual measurement, $\textbf{z}_t$ is then obtained through the system sensors in order to determine the actual state of the system ($\boldsymbol{\mu}_t$, $\boldsymbol{\Sigma}_t$). Ultimately, the actual state of the system and the previously predicted state are then compared with one another in order  to obtain the (optimally weighted) \textit{Kalman gain}: This 
+
+
 \begin{table}[h]
 \begin{center}
 \caption{The Kalman Filter Algorithm}\label{tab:KF}
 \begin{tabular}{l l l}
 \hline
-\textbf{Input}: &previous mean $\mu_{t-1}$ and covariance $\Sigma_{t-1}$, control inputs $\textbf{u}_t$, measurements $\textbf{z}_t$\\ 
-\textbf{Output}: &mean $\mu_{t}$, covariance $\Sigma_{t}$\\
+\textbf{Input}: &previous mean $\boldsymbol{\mu}_{t-1}$ and covariance $\boldsymbol{\Sigma}_{t-1}$, control inputs $\textbf{u}_t$, measurements $\textbf{z}_t$\\ 
+\textbf{Output}: &mean $\boldsymbol{\mu}_{t}$, covariance $\boldsymbol{\Sigma}_{t}$\\
 \hline
 \hline
 &\textbf{Prediction step} \\
@@ -493,7 +519,7 @@ where $\textbf{w}_t$ and $\textbf{v}_t$ represent process and sensor noise respe
 \end{center}
 \end{table}%
 
-\textcolor{blue}{TODO: Other relevant information regarding the EKF such as complexity an other unique characteristics and specifications - perhaps observability.}
+The Kalman Filter is generally considered as an efficient algorithm for sparse sets. The \textit{computational complexity} of a matrix inversion is given as $O(d^{2.4})$~\cite{probrob}, where d represents the dimensions of the measurements vectro $\textbf{z}_t$.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsubsection{Extended Kalman Filter} 
