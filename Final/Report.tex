@@ -405,7 +405,7 @@ This chapter provides a summary recommendations by the author that is applicable
 \subsection{Introduction}
 The following chapter will provide a brief, yet concise introduction to the fundamental algorithms that are necessary to implement SLAM. The fundamental concepts, particularly the various techniques associated with the implementation thereof will be addressed. The goal of this section is to introduce the fundamental concepts as well as the mathematical and probabilistic principles that form the basis of state estimation in the robotics field of study.
 
-Initially, the Bayes Filter; that is the algorithm that forms the basis of all state estimation techniques presented in this report, will be introduced and formally discussed. Thereafter, the Gaussian Filter family - particularly the Kalman Filter as well as it's variants - are to be introduced, discussed and defined in terms of the context of this project. It is worthwhile to note that theory in this chapter resembles material from the book Probabilistic Robotics by Thrun et al.~\cite{probrobsum} and is adapted therefrom for convenience sake.  
+Initially, the Bayes Filter; that is the algorithm that forms the basis of all state estimation techniques presented in this report, will be introduced and formally discussed. Thereafter, the Gaussian Filter family - particularly the Kalman Filter as well as it's variants - are to be introduced, discussed and defined in terms of the context of this project. It is worthwhile to note that theory in this chapter resembles material from the book Probabilistic Robotics by Thrun et al.~\cite{probrob} and is adapted therefrom for convenience sake.  
 %This chapter provides a brief, yet concise introduction to the fundamental theoretical concepts and algorithms that are necessary to implement SLAM. Firstly, the concept of estimating state variables using a motion model and sensor measurements is initially described. The chapter then presents a suitable state estimation method, namely the Bayes filter. Additionally, the Kalman filter, a particular implementation of the Bayes filter is derived. Finally, the KF is appropriately extended to present the EKF, the state estimation algorithm chosen to realise this project.    
 
 \subsection{Recursive State Estimation}
@@ -429,7 +429,7 @@ bel(\textbf{x}_t) = p(\textbf{x}_t\hspace{0.1cm}|\hspace{0.1cm}\textbf{z}_{1,..,
 
 This describes, for a given time $t$, a joint density of the robot state as well as the landmark locations {given} all of the previously recorded observations ${z}_{1:t}$ and control inputs ${u}_{1:t}$.
 %Considering that the state of the robot is constantly updated at every time-step $t$ and that each update is dependent upon the state at the previous time-step, it is essential that the algorithm required be recursive in nature. The \textit{Bayes Filter} algorithm provides precisely such a procedure. The algorithm calculates the belief distribution stated in equation~\ref{eq:belief} from the observation and control data. 
-Table~\ref{tab:KF} presents a pseudo-algorithm of the Bayes Filter algorithm \cite{probrobsum}:
+Table~\ref{tab:KF} presents a pseudo-algorithm of the Bayes Filter algorithm \cite{probrob}:
 
 \begin{table}[h]
 \begin{center}
@@ -496,7 +496,7 @@ The input to the Kalman Filter is the belief at time $t-1$, represented by $\bol
 
 Firstly at time $t$, the prediction step aims to calculate a predicted belief $\overline{bel}(\textbf{x}_t)$ represented by $\overline{\boldsymbol{\mu}_{t}}$ and $\overline{\boldsymbol{\Sigma}_{t}}$. The predicted belief is obtained by incorporating the control input $\textbf{u}_t$ and subsequently updating the mean vector and covariance matrix according to the (linear) state transition function. The update step aims to obtain the desired belief $bel(\textbf{x}_t)$ from the predicted belief $\overline{bel}(\textbf{x}_t)$ by incorporating the measurements $\textbf{z}_t$. The Kalman Filter computes a Kalman gain, that intuitively suggests the influence of a measurement in the new state estimate. This gain is then used to update the mean estimate as well as the covariance matrix. 
 
-Each of the aforementioned steps are later discussed in more detail - with reference to implementations specific to this paper. Table~\ref{tab:KF} below, presents a pseudo-algorithm of the Kalman Filter~\cite{probrobsum}:
+Each of the aforementioned steps are later discussed in more detail - with reference to implementations specific to this paper. Table~\ref{tab:KF} below, presents a pseudo-algorithm of the Kalman Filter~\cite{probrob}:
 % estimate the state into which the system will be transitioned from the previous state estimate ($\boldsymbol{\mu}_{t-1}$, $\boldsymbol{\Sigma}_{t-1}$) as a result of a set of internal and/or external dynamics to the system. These dynamics are typically described through the state transition function $g(\textbf{u}_t, \boldsymbol{\mu}_{t-1})$. Once an estimate is obtained for the transitioned state estimate ($\boldsymbol{\bar \mu}_t$, $\boldsymbol{\bar \Sigma}_t$), a measurement prediction is made in order to provide the expected measurements provided that the system were to find itself within the estimated transitioned state. These measurements are obtained through an observation model which has a function $h(\boldsymbol{\bar \mu}_t)$. Thereafter, an actual measurement, $\textbf{z}_t$ is then obtained through the system sensors in order to determine the actual state of the system ($\boldsymbol{\mu}_t$, $\boldsymbol{\Sigma}_t$). Ultimately, the actual state of the system and the previously predicted state are then compared with one another in order  to obtain the (optimally weighted) \textit{Kalman gain}: This 
 
 \begin{table}[h]
@@ -567,7 +567,7 @@ It is very important to note that because only a first order Taylor expansion is
 
 There are other variants of the Kalman Filter that aren't discussed in this project, but have been carefully considered. It is assumed that the first order Taylor approximation provides a suitable approximation of the non-linearities that are expected in the system, namely the uncertainty regarding angle orientation errors. The \textit{Unscented Kalman Filter} is assumed to be a less appropriate choice of filter to the EKF considering the the lack of severe system non-linearities. The objective of the project seeks to provide localisation for a set of approximately 100 landmarks. The \textit{Information Filter} will only provide a better computational complexity than the EKF if the number of landmarks are much larger. This analysis suggests that the EKF provides a suitable yet simple implementation of the Bayes Filter.%The EKF is chosen as a suitable implementation of the Bayes Filter as the non-linearities the first order Taylor approximation is poor due to severe non-linearities. This project however, assumes that the the number of landmarks aren't large enough for the UKF to provide a better efficiency and that the transition and measurement probabilities are reasonably approximated by the Taylor expansion. 
 
-Table~\ref{tab:EKF}  below, systematically and mathematically represents the steps associated with the EKF~\cite{probrobsum}:
+Table~\ref{tab:EKF}  below, systematically and mathematically represents the steps associated with the EKF~\cite{probrob}:
 
 \begin{table}[h]
 %\begin{center}
@@ -600,13 +600,13 @@ Table~\ref{tab:EKF}  below, systematically and mathematically represents the ste
 This chapter sets out to provide an overview of the MonoSLAM algorithm. Initially, a general overview of MonoSLAM will given, stating the problem, previous work done regarding this problem and the limitations imposed on this work. Thereafter, the adequate state representation will be shown along with the required modelling of the measurement sensors. Finally, a complete analysis of the \textit{control update} and an overview of the \textit{measurement update} will be given.%Initially, the adequate state representation of the system at hand will be denoted, whereby the components of the state vector - namely the camera position and cartesian feature states - will be defined and discussed. Additionally, the affect of the proposed extension - namely the IMU measurements as the control inputs to the system - will be properly defined and described. Furthermore, this section will seek to use the aforementioned definitions to completely define the two sequential steps required to successfully implement the EKF, namely the \textit{prediction} and \textit{update} steps. 
 
 \subsection{MonoSLAM}
-Originally presented in a study by Davison et al.~\cite{dav2007}, MonoSLAM provides suitable real-time and repeatable localisation using a single camera SLAM implementation. In MonoSLAM, the robot (typically a handheld camera) assumes a constant linear and angular velocity motion model, using the images from the camera to correct the state estimates. MonoSLAM is not the only successful implementation of single camera SLAM. Separate studies presented by Sola et al.~\cite{sola} and Klein~\cite{ptam} respectively show alternative solutions to the single camera SLAM problem. MonoSLAM and the work proceeding it~\cite{dav2007,highspeed2008,scale2010,idp} however, has achieved successful results in retrieving the trajectory of a robot, forming a persistent SLAM map and ultimately maintaining repeatable localisation. Davison et. al~\cite{dav2007} also provides the source code of MonoSLAM, a \textit{modular} system, under the GNU version 3 license so that possible improvements, such as those presented in this project, can be made. This modularity and apparent ease of implementation as opposed to the particle filter based implementations presented by the alternative methods suggest MonoSLAM as an appropriate choice. 
+Originally presented in a study by Davison et al.~\cite{dav2007}, MonoSLAM provides suitable real-time and repeatable localisation using a single camera SLAM implementation. In MonoSLAM, the robot (typically a handheld camera) assumes a constant linear and angular velocity motion model, using the images from the camera to correct the state estimates. MonoSLAM is not the only successful implementation of single camera SLAM. Separate studies presented by Sola~\cite{sola} and Klein~\cite{ptam} respectively show alternative solutions to the single camera SLAM problem. MonoSLAM and the work proceeding it~\cite{dav2007,highspeed2008,scale2010,idp} however, has achieved successful results in retrieving the trajectory of a robot, forming a persistent SLAM map and ultimately maintaining repeatable localisation. Davison et. al~\cite{dav2007} also provides the source code of MonoSLAM, a \textit{modular} system, under the GNU version 3 license so that possible improvements, such as those presented in this project, can be made. This modularity and apparent ease of implementation as opposed to the particle filter based implementations presented by the alternative methods suggest MonoSLAM as an appropriate choice. 
 
 As previously mentioned, a MonoSLAM system has many disadvantages. The lack of an initial accurate depth estimate, constrained movement and lack of sufficient knowledge regarding the robot's motion severely limit the systems practical applications. This project however, seeks to utilise a kinematic estimator as an alternative to the current velocity and angular velocity motion model. The kinematic estimator will measure the information provided from an inertial measurement unit that subsequently measures the angular rates and acceleration of the robot.  
 
 Furthermore, the remaining components of the proposed approach presented in this paper are identical to that of the MonoSLAM algorithm: that is, using an EKF vision based implementation where the update stage of the EKF depends of the measurements of image data from a single camera. 
 
-This particular vision based approach aims to use salient image \textit{patches} as long term landmarks as presented in \cite{mono2003,actvis}. These aforementioned patches are typically large in size (11 $\times$ 11 pixels) and are obtained through the image detection operator of Shi and Tomasi~\cite{shitom} from raw monochrome (greyscale) image data presented by the camera. The goal remains to repeatedly re-identify these image template patches over time after (potentially severe) camera movements. Invariably, basic 2D template matching algorithms are of little use, considering that any particular movements of the camera (even minimal) can severely alter the shape of a saved template patch. As a result, MonoSLAM provides the assumption that each patch lies on a locally planar surface and that the surface normal is parallel to the vector from the feature to the camera at the instance that it is initialised. Once the depth of this patch has been determined - this is done through a small particle filter - the patch is stored to be used as a long term landmark. It is important to note that these patches are not replaced but rather stored to provide a template for matching against a newly obtained 2D image at a later stage. Because the patches are never updated and remain in memory, long term localisation is possible. 
+This particular vision based approach aims to use salient image \textit{patches} as long term landmarks as presented in \cite{dav2007,actvis}. These aforementioned patches are typically large in size (11 $\times$ 11 pixels) and are obtained through the image detection operator of Shi and Tomasi~\cite{shitom} from raw monochrome (greyscale) image data presented by the camera. The goal remains to repeatedly re-identify these image template patches over time after (potentially severe) camera movements. Invariably, basic 2D template matching algorithms are of little use, considering that any particular movements of the camera (even minimal) can severely alter the shape of a saved template patch. As a result, MonoSLAM provides the assumption that each patch lies on a locally planar surface and that the surface normal is parallel to the vector from the feature to the camera at the instance that it is initialised. Once the depth of this patch has been determined - this is done through a small particle filter - the patch is stored to be used as a long term landmark. It is important to note that these patches are not replaced but rather stored to provide a template for matching against a newly obtained 2D image at a later stage. Because the patches are never updated and remain in memory, long term localisation is possible. 
 
 With regard to the management of the probabilistic map, it remains essential to the SLAM algorithm that decisions regarding the identification and deletion of landmarks be accurate and efficient. MonoSLAM's map-maintenance criterion demands that 12 reliable ``good" features be visible within the camera's field of view in order to maintain accurate localisation. A good feature implies that a feature remains visible within the camera's field of view. A new feature is initialised using the image operator of Shi and Tomasi~\cite{shitom} upon a box of pixels (80 $\times$ 60 pixels) placed within an image. This box position is chosen at random with the constraints that it shouldn't overlap with any existing features and that according to the camera's linear and angular velocities, features cannot immediately disappear from the camera's field of view. If a visible feature is unsuccessfully matched more than 50\% of the time, the landmark is required to be deleted. It must again be stressed that the aforementioned methods regarding vision based MonoSLAM measurements and map-management are described and implemented exactly as they are in ~\cite{dav2007}. 
 \\\\
@@ -654,7 +654,7 @@ These quantities then, allow us to approximate the uncertainty regarding the gen
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.6\textwidth, height=0.3\textwidth]{Figures/frames_mac.png}
-\caption{Graphical representation of the appropriate reference frames. Adapted from~\cite{mono2003}}
+\caption{Graphical representation of the appropriate reference frames. Adapted from~\cite{dav2007}}
 \label{fig:frame}
 \end{center}
 \end{figure}
@@ -716,7 +716,7 @@ The undistorted projection of a point $P_i$ in the image plane ($u_i$,$v_i$) can
 
 where $u_0$ and $v_0$ represents the \textit{principal point} located at the image centre.
 
-As previously mentioned, the pinhole camera model is an approximation of the CMOS machine vision camera that is actually being used. To account for the errors that such an approximation may yield, it is proposed that the \textit{projected} coordinates ($u_i,v_i$) be warped with a \textit{radial distortion} as is done in~\cite{mono2003}, in order to obtain a new \textit{distortion} coordinate ($u_d, v_d$) that will better resemble the one which the camera will provide. This radial distortion is mathematically shown as in a study presented by Swaminathan and Kayer~\cite{distort}:
+As previously mentioned, the pinhole camera model is an approximation of the CMOS machine vision camera that is actually being used. To account for the errors that such an approximation may yield, it is proposed that the \textit{projected} coordinates ($u_i,v_i$) be warped with a \textit{radial distortion} as is done in~\cite{dav2007}, in order to obtain a new \textit{distortion} coordinate ($u_d, v_d$) that will better resemble the one which the camera will provide. This radial distortion is mathematically shown as in a study presented by Swaminathan and Kayer~\cite{distort}:
 \begin{equation} \label{eq:raddist}
 \begin{split}
 u_d - u_0 &= \frac{u-u_0}{\sqrt{1+2K_1r^2}} \\
@@ -887,7 +887,7 @@ A quaternion multiplication between the orientation quaternion obtained at the p
 \subsubsection{Mean Estimate}\label{sec:kinest}
 The control update uses the previously defined state transition function to obtain a state estimate $\boldsymbol{\bar \mu}_t$ at the current time instance. This procedure is shown in Step 1 of Table~\ref{tab:EKF}. Recalling, the state transition function is dependent on both the current equivalent control inputs as well as the actual states to obtain a suitable state estimate:
 
-\begin{equation} \label{eq:trmod}
+\begin{equation} \label{eq:trmod1}
 \begin{split}
 \textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1}) 
 &= \begin{pmatrix}
@@ -1136,7 +1136,7 @@ SL & & & ACK & & ACK & & ACK &  \\
 \hline
 \end{tabular}
 \end{center}
-\label{default}
+\label{tab:read}
 \end{table}%
 \begin{table}[h]
 \caption{Single-Byte I2C Read Cycle}
@@ -1149,7 +1149,7 @@ SL & & & ACK & & ACK & & & ACK & DATA &  &\\
 \hline
 \end{tabular}
 \end{center}
-\label{default}
+\label{tab:write}
 \end{table}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Hardware Integration}
@@ -1330,18 +1330,18 @@ it can be observed from the model above that the motion model adheres to the for
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.8\textwidth, height=0.46\textwidth]{Figures/Schematic_bb.png}
-\caption{Circuit Diagram of the Inertial Measurement Unit (IMU).}
+\caption{Circuit Diagram of the IMU.}
 \label{fig:circ_dagram}
 \end{center}
 \end{figure}
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=\textwidth, height=0.5\textwidth]{Figures/Schematic.png}
-\caption{Schematic of the Inertial Measurement Unit (IMU).}
+\caption{Schematic of the IMU.}
 \label{fig:schematic}
 \end{center}
 \end{figure}
-These images were created using Fritzing (http://fritzing.org) under the CC Attribution http://creativecommons.org/licenses/by-sa/3.0/. The authors request that they only be mentioned.
+These images were created by Fritzing (http://fritzing.org) http://creativecommons.org/licenses/by-sa/3.0/. 
 %\begin{bmatrix}
 %x_k\\
 %y_k \\ 
