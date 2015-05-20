@@ -135,15 +135,15 @@ Signature.....................................................		Date............
 \begin{tabular}{l l}
 \textbf{2D} 	 &Two-dimensional \\
 \textbf{3D} 	 &Three-dimensional \\
-\textbf{AI}		 & Artificial Intelligence \\
 \textbf{CMOS}	 & Complementary Metal-Oxide Semiconductor \\   
 \textbf{EKF}	 &Extended Kalman Filter \\
+\textbf{GPIO}    & General-purpose input/output \\
 \textbf{IMU} 	 &Inertial Measurement Unit \\
 \textbf{KF}         &Kalman Filter \\
 \textbf{I2C}	 &Inter-Integrated Circuit Bus \\
 \textbf{ISR}	 & Interrupt Service Routine \\
 \textbf{LIDAR}   & Light Detection and Ranging \\
-\textbf{MonoSLAM} & Monocular Vision-Based Simultaneous Localisation and Mapping \\
+\textbf{MonoSLAM} & Monocular Simultaneous Localisation and Mapping \\
 \textbf{PDF}	 &Probability Density Function \\ 
 \textbf{PTAM} 	 &Parallel Tracking and Mapping \\ 
 \textbf{RV}	 &Random Variable \\
@@ -621,7 +621,7 @@ Figure~\ref{fig:system} depicts a functional diagram of the proposed system.
 \begin{figure}[H]
 %\begin{center}
 \includegraphics[width=\textwidth, height=0.8\textwidth]{Figures/MeasUp.png}
-\caption{System functional diagram also depicting the relevant subsystems. (The \textit{prediction update} needs to be changed to control update)}
+\caption{System functional diagram also depicting the relevant sub-systems. (The \textit{prediction update} needs to be changed to control update)}
 \label{fig:system}
 %\end{center}
 \end{figure}
@@ -642,11 +642,11 @@ Mathematically, the probabilistic map is typically represented as a state \texti
  \end{pmatrix} , \hspace{0.5cm}
 \boldsymbol{\Sigma}_{t} =
  \begin{pmatrix}
-  \boldsymbol{\Sigma}_{x,x} & \boldsymbol{\Sigma}_{x,{y_1}} & \boldsymbol{\Sigma}_{x,{y_2}} & \cdots & \boldsymbol{\Sigma}_{x,{y_N}} \\
-  \boldsymbol{\Sigma}_{{y_1},x} &  \boldsymbol{\Sigma}_{{y_1},{y_1}} & \boldsymbol{\Sigma}_{{y_1},{y_2}} & \cdots &  \boldsymbol{\Sigma}_{{y_1},{y_N}} \\
-  \boldsymbol{\Sigma}_{{y_2},x} &  \boldsymbol{\Sigma}_{{y_2},{y_1}} & \boldsymbol{\Sigma}_{{y_2},{y_2}} & \cdots &  \boldsymbol{\Sigma}_{{y_2},{y_N}} \\
+  {\Sigma}_{x,x} & {\Sigma}_{x,{y_1}} & {\Sigma}_{x,{y_2}} & \cdots & {\Sigma}_{x,{y_N}} \\
+  {\Sigma}_{{y_1},x} & {\Sigma}_{{y_1},{y_1}} & {\Sigma}_{{y_1},{y_2}} & \cdots &  {\Sigma}_{{y_1},{y_N}} \\
+  {\Sigma}_{{y_2},x} & {\Sigma}_{{y_2},{y_1}} & {\Sigma}_{{y_2},{y_2}} & \cdots &  {\Sigma}_{{y_2},{y_N}} \\
   \vdots  & \vdots  & \vdots & \ddots & \vdots  \\
-  \boldsymbol{\Sigma}_{{y_n},x} & \boldsymbol{\Sigma}_{{y_n},{y_1}} & \boldsymbol{\Sigma}_{{y_n},{y_2}}& \cdots & \boldsymbol{\Sigma}_{{y_n},{y_N}}
+  {\Sigma}_{{y_n},x} & {\Sigma}_{{y_n},{y_1}} & {\Sigma}_{{y_n},{y_2}}& \cdots & {\Sigma}_{{y_n},{y_N}}
  \end{pmatrix}.
 \end{equation}
 These quantities then, allow us to approximate the uncertainty regarding the generated feature map as a $N$-dimensional single multi-variate Gaussian distribution, where $N$, as stated above, is the total number of state estimates within the state vector and $n$ is the total number of landmarks within the map.
@@ -660,7 +660,7 @@ These quantities then, allow us to approximate the uncertainty regarding the gen
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Position State Representation}
-The following concept describes a suitable method to represent all relevant information regarding the camera's position and orientation in a 3D space. The position state vector is comprised of the 3D position vector, $\textbf{{r}}^W$, the unit orientation \textit{quaternion}$\textbf{{q}}^{WC}$ and the linear velocity vector, $\textbf{V}^W$ representing the first derivatives of the position vector. The state camera vector - comprising of 10 individual states - is mathematically described as follows:
+The camera position state $\textbf{x}_v$ represents all relevant information regarding the camera's position and orientation in a 3D space. The position state vector is comprised of the 3D position vector, $\textbf{{r}}^W$, the unit orientation \textit{quaternion} $\textbf{{q}}^{WC}$ and the linear velocity vector, $\textbf{V}^W$ representing the first derivatives of the position vector. The state camera vector - comprising of 10 individual states - is mathematically described as follows:
 \begin{equation}
 \textbf{{x}}_v=  
  \begin{pmatrix}
@@ -727,22 +727,22 @@ r &= \sqrt{(u - u_0)^2+(v-v_0)^2},
 where $K_1$ and $r$ represent the radial distortion parameters. 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Equivalent Control Input: IMU}
+\subsubsection{Control Input Equivalent}\label{sec:imu}
 %\textbf{Still reading up on some literature before properly defining this section}
-The following concept describes the dynamics to the system as a result of external influences. Upon considering the original MonoSLAM approach, it is evident that there are no \textit{observable} control inputs. The approach presented in this paper though, aims to use measurements obtained through an inertial sensor as an equivalent control input in order to derive a motion model that is potentially more accurate than that in~\cite{dav2007}.
+The following concept describes the dynamics to the system as a result of external influences. Upon considering the original MonoSLAM approach, it is evident that there are no \textit{observable} control inputs. The approach presented in this paper though, aims to use measurements obtained through an IMU as an equivalent control input in order to derive a motion model that is potentially more accurate than the implementation of Davison et. al~\cite{dav2007}.
 
 In most instances of robotics, it is essential to describe the dynamics involving a robot's movement. In the context of this paper, the robot/camera is free to move freely as per the user's control requests. Evidently, these requests exert external dynamics upon the system which are uncertain and stochastic at best.
 
-In the approach presented by Davison et al., a constant velocity model is assumed and at each time-step, unknown linear and angular acceleration zero-mean, Gaussian processes are introduced that cause linear and angular velocity impulses. Even though there have been proven successful implementations regarding the aforementioned approach (as well as other variants and extensions thereof~\cite{sola,scale2010}), the model contains very little, if any information on the movement of the camera. It can be assumed that the utilisation of additional information regarding the camera's movement (through the proposed inertial sensors) will provide greater accuracy upon state estimation - especially with regard to the transitioning thereof.
+In the approach presented by Davison et al., a constant velocity model is assumed and at each time-step, unknown linear and angular acceleration zero-mean, Gaussian processes are introduced that cause linear and angular velocity impulses. The model contains very little, if any information on the movement of the camera. It can be assumed that utilising additional information regarding the camera's movement will provide greater accuracy upon state estimation.
 
 The inertial sensors, in the form of an IMU, is ideally mounted onto the camera. This allows the camera to be modelled as a rigid body upon which a kinematic estimation can be applied. The IMU directly measures the total accelerations $\textbf{f}_t$ as well as the angular rates $\boldsymbol{\omega}_t$ with respect to the cameras rigid body frame $C$.
 
-The control vector however, requires that the linear portion of the acceleration be obtained from the IMU measurement. It is known that the total acceleration measured by the IMU's accelerometer is expressed mathematically as follows:
+The control vector equivalent however, requires that the linear portion of the acceleration be obtained from the IMU measurement. It is known that the total acceleration measured by the IMU's accelerometer is adapted from a study presented by Servent et. al~\cite{IMU}:
 
 \begin{equation}
 \textbf{f}_t = \textbf{\text{R}}^{CW}(\textbf{a}_t - \textbf{g}),
 \end{equation}
-with $\textbf{a}_t$ is the linear acceleration vector, $\textbf{g}$ is the gravity vector and $\textbf{\text R}^{CW}$ is the rotation matrix that transforms the camera's body coordinate frame $C$, into the inertial reference frame $W$.\\The rotation matrix can be mathematically defined as follows:
+with $\textbf{a}_t$ is the linear acceleration vector, $\textbf{g}$ is the gravity vector and $\textbf{\text R}^{CW}$ is the rotation matrix that transforms the camera's body coordinate frame $C$, into the inertial reference frame $W$.\\The rotation matrix is defined according to~\cite{models}:
 \begin{equation}
 \textbf{R}^{CW} = 
 \begin{pmatrix}
@@ -752,7 +752,9 @@ q_{0,t}^2+q_{x,t}^2-q_{y,t}^2-q_{z,t}^2 & 2(q_{x,t}q_{y,t}-q_{0,t}q_{z,t}) & 2(q
 \end{pmatrix}.
 \end{equation}
 
-Once obtained, these measurements  form the \textit{equivalent control vector} $\textbf{u}_t$ that describes, at each time-step, the dynamics of the system as a result of external forces. The control vector is mathematically described as follows:
+The linear acceleration is a processed measurement from the directly obtained accelerometer measurement. The accelerometer measurements firstly subtract the gravity vector $\textbf{g}$ before being rotated according to the correct orientation frame (from $C$ to $W$).
+
+Once obtained, these measurements  form the \textit{equivalent control vector} $\textbf{u}_t$ that describes, at each time-step, the dynamics of the system as a result of external forces. The control vector equivalent is adapted as follows:
 
 \begin{equation}
 \textbf{u}_t =
@@ -828,7 +830,7 @@ Considering that the EKF is a recursive, numerical evaluation, it is necessary t
 \end{equation}  
 Newton's second law of motion, describing the relationship between a body's mass and it's acceleration, is used to derive the linear motion mode after which the aforementioned method of discretisation is applied to obtain the discrete motion model. A full derivation of the linear state transition model is shown in Appendix~\ref{App:Concepts}.
 
-The state transition function of the kinematic estimator $g(\textbf{u}_{t},\textbf{x}_{t-1})$ is defined at the current time $t$, is dependent on both the current equivalent control inputs $\textbf{u}_t$ as well as the actual states $\textbf{x}_{t-1}$:
+The state transition function of the kinematic estimator $g(\textbf{u}_{t},\textbf{x}_{t-1})$ is defined at the current time $t$, is dependent on both the current  control input equivalents $\textbf{u}_t$ as well as the actual states $\textbf{x}_{t-1}$:
 \begin{equation} \label{eq:trmod}
 \begin{split}
 \textbf{g}(\textbf{u}_{t},\textbf{x}_{t-1}) =
@@ -849,9 +851,9 @@ The state transition function of the kinematic estimator $g(\textbf{u}_{t},\text
 \end{pmatrix} \\
 \end{split},
 \end{equation}
-where $\Delta T$ is defined as the sample period between the previous time $t-1$ and $t$ and $\text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big)$ denotes the process of obtaining a quartering of the rotation $\boldsymbol{\dot \omega}_t^C\Delta T$. Information regarding the change in linear acceleration is directly obtained from the control input data gathered by the IMU and can be numerically integrated it obtain linear velocity and ultimately, translational position.\\\\
+where $\Delta T$ is defined as the sample period between the previous time $t-1$ and $t$ and $\text{quat}\big(\boldsymbol{\omega}_t^C\Delta T\big)$ denotes the process of obtaining a quartering of the rotation $\boldsymbol{\dot \omega}_t^C\Delta T$. Information regarding the change in linear acceleration is directly obtained from the control input equivalent data gathered by the IMU and can be numerically integrated it obtain linear velocity and ultimately, translational position.\\\\
 \textit{All of the equations in the remainder of this subsection are adapted from the MonoSLAM documentation on models provided by Davison}~\cite{models}\\\\
-In order to compute the aforementioned quaternion, the rate at which the camera's rotational degrees of freedom are changing is required. The control inputs from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated in order to obtain the angular position $\boldsymbol{\theta}_t$, before the quaternion is taken thereof. As previously mentioned, an angle-axis as well as a magnitude by which this axis is to be rotated is required to compute a quaternion. The angle-axis $\boldsymbol{\gamma}$ is defined as follows:
+In order to compute the aforementioned quaternion, the rate at which the camera's rotational degrees of freedom are changing is required. The control input equivalent measurements from the gyroscope however, measure exactly this quantity - the angular rate. The angular rate is subsequently numerically integrated in order to obtain the angular position $\boldsymbol{\theta}_t$, before the quaternion is taken thereof. As previously mentioned, an angle-axis as well as a magnitude by which this axis is to be rotated is required to compute a quaternion. The angle-axis $\boldsymbol{\gamma}$ is defined as follows:
 \begin{equation} \label{eq:axis}
 \begin{split}
 \boldsymbol{\gamma} &= \begin{pmatrix}
@@ -1014,7 +1016,7 @@ The following section discusses the measurement of a feature \textit{fully} init
 The EKF inherently contains information that may be utilised in order to prohibit a full cross-correlation search. The measurement function $\textbf{h}({\bar\mu})$ for instance, provides an estimate for a given features location, namely $\textbf{u}_d = ({u}_d,v_d)$. Knowledge of this location therefore allows an active search region to be described within the vicinity of this location. The location estimate of the feature is not the only information regarding the feature that is available as a result of the EKF. Additionally, the uncertainty regarding a given feature's location is stored within the state vector covariance matrix $\textbf{P}_{nN}$. This information can be used to determine the size of the active search region surrounding the location estimate; where the size of the search region is directly proportional to the uncertainty of it's location. If the feature cannot be matched within the aforementioned search region, it cannot contribute to the correction of the robot's pose estimate and is therefore deleted form the SLAM map. The aforementioned process of defining the active search region can be mathematically defined through the \textit{innovation covariance matrix} $\textbf{S}_i$:
 \begin{equation}\label{eq:inov}
 %\begin{split}
-\textbf{S}_i = \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}P_{xx}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}P_{xy_i}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}P_{y_ix}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}P_{y_iy_i}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}^T + \textbf{R}_v
+\textbf{S}_i = \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}\Sigma_{\textbf{x}_v,\textbf{x}_v}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}\Sigma_{\textbf{x}_vy_i}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}\Sigma_{y_i\textbf{x}_v}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{x}_{v}}^T + \frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}\Sigma_{y_iy_i}\frac{\partial\textbf{u}_{d,i}}{\partial\textbf{y}_{i}}^T + \textbf{R}_v
 %\end{split}
 \end{equation}
 The symmetric $2\times2$ matrix $\textbf{S}_i$ represents a 2D Gaussian PDF around the estimated image coordinate. The innovation covariance matrix can then be used to determine an active region the a given feature should lie within. Typically, the active search region is defined to confine within 3 standard deviations (3$\sigma$) of the mean.\\
@@ -1040,27 +1042,89 @@ Map management forms an integral role in the realisation of the MonoSLAM algorit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Experimental Configuration \& Procedure}
-\subsection{System Overview}
+\section{Implementation}
+\subsection{Introduction}
+This chapter sets out to test all the relevant sub-systems incorporated within this project. Initially, the necessary configuration and procedures are given in order to set up the system. Thereafter, the hardware components are individually tested and analysed to ensure that the expected performance is provided and whether redesign is necessary. Lastly, the core of this project, the kinematic estimator, is simulated and analysed as a possible alternative to the current velocity and angular velocity model. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Hardware Configuration}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+An overview of the system is depicted in Figure~\ref{fig:sys}. It is evident that the system contains three hardware sub-systems:
+\begin{itemize}
+\item IMU.
+\item CMOS Camera.
+\item Arduino micro-controller.
+\end{itemize}
+Each of of the sub-systems requires a unique setup configuration in order to represent a \textit{functional} unit of the whole system.   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Inertial Measurement Unit}
-It can be recalled that inertial measurements are required in order to realise the kinematic estimator described in section~\ref{sec:kinest}. The 6DOF IMU board to be used in this implementation is the SparkFun 6 DOF IMU. This board is comprised of a ITG3200 MEMS 3-axis gyroscope and a ADXL345 3-axis linear accelerometer. The IMU is configured with the following properties:
+It can be recalled that inertial measurements are required in order to realise the kinematic estimator described in section~\ref{sec:kinest}. A 6DOF IMU board is thus required to realise these measurements. A 6DOF IMU requires measurements from an accelerometer and a gyroscope. Important properties to be considered upon choosing suitable IMU are as follows:
+\begin{itemize}
+\item Communication with master device (in this case a micro-controller).
+\item Suitable range that the sensors are capable of measuring.
+\item Noise on sensors.
+\item Communication speed.
+\item Low pass filter to prevent aliasing.
+\item Sample code.
+\end{itemize}
+
+The 6DOF IMU board to be used in this implementation is the SparkFun 6 DOF IMU as depicted in Figure~\ref{fig:imu}. This board is comprised of a ITG3200 MEMS 3-axis gyroscope and a ADXL345 3-axis linear accelerometer. This component is chosen as it contains both the necessary sensors on the same chip while supporting I2C communication, low pass filtering, suitable range, sample code and a maximum sample rate of 1 kHz. Alternative products generally contain an additional 3 DOF and greater ranges that are overlooked considering that these products are generally twice the price of the chosen component. 
+\newpage
+The IMU is configured with the following properties:
+
 \begin{enumerate}
-\item 3.3 Volt input
-\item I2C interface (this device serves as the \textit{slave})
-\item $\pm 2000^{\circ}$ per second range for the gyroscope
-\item $\pm 4 g$ range and 10-bit resolution for the accelerometer
-\item 100 Hz sample rate with 100 Hz Low Pass/Anti Aliasing Filter
+\item 3.3 Volt input.
+\item I2C interface (this device serves as the \textit{slave}).
+\item $\pm 2000^{\circ}$ per second range for the gyroscope.
+\item $\pm 4 g$ range and 10-bit resolution for the accelerometer.
+\item 100 Hz sample rate with 50 Hz Low Pass/Anti Aliasing Filter.
 \end{enumerate}
-The accelerometer and gyroscope are configured in such a way that the sampling frequency is at least twice the bandwidth of the data (Nyquist frequency) to prevents Aliasing.
+The accelerometer and gyroscope are configured in such a way that the sampling frequency is at least twice the bandwidth of the data (Nyquist frequency) to prevent Aliasing.
+
+\begin{figure}[h]
+%\begin{center}
+\includegraphics[width=0.49\textwidth, height=0.25\textwidth]{Figures/imu1.jpg}
+\includegraphics[width=0.4\textwidth, height=0.25\textwidth]{Figures/cam.png}
+\caption{\\Left: SparkFun 6DOF IMU. Photo by SparkFun - http://creativecommons.org/licenses/by-nc-sa/3.0/. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from~\cite{imsrc}}
+\label{fig:imu}
+%\end{center}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{CMOS Machine Vision Camera}
+The measurement sensor is required to be a single camera. The problem description only requires the camera to have a 30 Hz frame rate. The camera chosen for this project is a CMOS camera by The Imaging Source as depicted in Figure~\ref{fig:imu}. The DFM 22BUC03-ML model is a machine vision board contains 4 GPIO pins that allow the shutter to be triggered. The camera was used for a previous project and incorporated in this project due to cost constrains.\\\\ 
+The camera is configured with the following properties:
+\begin{itemize}
+\item Trigger mode, receiving a pulse to sample a frame (typically 30 Hz).
+\item Monochrome image capture (for efficiency).
+\end{itemize}
 
+The \textit{intrinsic} parameters of the camera (e.g. principal point, distortion coefficients etc.) need to be determined through camera calibration made available by OpenCV~\cite{opencv}. The results of this procedure - depicted in Figure~\ref{fig:calib} - are shown as follows:
+
+ 
+The trigger pulse is set by the micro-controller, this will be discussed next.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Serial Communication}
+\subsubsection{Micro-controller}
+A micro-controller is required for two reasons. Firstly, the values received from the IMU are analog and need to be converted to digital. Secondly, the camera is configured to receive a pulse to capture a frame. This pulse needs to be sent by the Arduino every sampling instance and simultaneously sample the IMU data so that the image data and the IMU data remain \textit{synchronised}.
 
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.5\textwidth, height=0.3\textwidth]{Figures/arduino.jpg}
+\caption{Arduino UNO SMD by Arduino - http://creativecommons.org/licenses/by-sa/3.0/.}
+\label{default}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This project doesn't require a large micro-controller. The specifications for the micro-controller are shown as follows:
+\begin{itemize}
+\item Two A2D ports for I2C communication with the IMU.
+\item 3.3 Volt supply voltage for the IMU.
+\item One digital output pin to trigger a pulse to the camera.
+\item Support community.
+\end{itemize}
+
+The Arduino micro-controllers provide a suitable, low cost solution. The Arduino Uno SMD Rev3 in particular is a scaled down version of the original Uno, providing the necessary functionality along with a helpful developer community with many forums and available code segments for the IMU used in this project. 
+\subsection{Design Choices}
+\subsubsection{Serial Communication}
 \begin{table}[htdp]
 \caption{Single-Byte I2C Write Cycle}
 \begin{center}
@@ -1277,7 +1341,7 @@ it can be observed from the model above that the motion model adheres to the for
 \label{fig:schematic}
 \end{center}
 \end{figure}
-These images were created using Fritzing (http://fritzing.org) under the CC Attribution-ShareALike license (http://creativecommons.org/licenses/by-sa/3.0/). The authors request that they only be mentioned.
+These images were created using Fritzing (http://fritzing.org) under the CC Attribution http://creativecommons.org/licenses/by-sa/3.0/. The authors request that they only be mentioned.
 %\begin{bmatrix}
 %x_k\\
 %y_k \\ 
