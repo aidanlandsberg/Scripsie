@@ -18,6 +18,8 @@
 \usepackage{commath}
 \usepackage{float}
 \usepackage{pbox}
+%\usepackage{caption}
+\usepackage{subcaption}
 %\usepackage{natbib}
 %==== TITLE PAGE ====================================================
 
@@ -101,7 +103,7 @@ I would like to express my sincere gratitude toward the following individuals fo
 \item My heavenly Father, for providing me with the intellectual capacity, guidance and support necessary to make a success of this project while remaining faithful and true in the toughest of times.\\
 \item My study leader, Dr. Corn\'{e} Van Daalen, for his endless enthusiasm, guidance, patience, support, time and invaluable insight. As well as for personally setting aside the time to propose and supervise this project. \\
 \item My parents, for their endless support and motivation. As well as for making all the necessary sacrifices to provide me with the opportunity to complete this project successfully. \\
-\item Mr. Arno Barnard, for his advice regarding the embedded software design.\\
+\item Mr. Arno Barnard, for his advice regarding the embedded design.\\
 \item My girlfriend Bianca La Gorc\'{e}, for supporting me endlessly.\\
 \item Benjamin Pannell, for being a great personal mentor and friend. As well as for providing me with insight regarding various software concepts. \\
 \item Luca Duesimi, for aiding in the design and construction of the stability platform. \\
@@ -703,18 +705,31 @@ The pinhole camera model can be described as a two-dimensional plane, containing
 \end{figure}
 
 The undistorted projection of a point $P_i$ in the image plane ($u_i$,$v_i$) can be shown as presented in a thesis by Albrecht~\cite{master}:
-\begin{equation} \label{eq:fmmd1}
+\begin{equation} 
+\label{eq:fmmd1}
   \begin{pmatrix}
-  u_i \\
-  v_i \\ 
+  u_i\\
+  v_i\\
+  1
   \end{pmatrix} =
-    \begin{pmatrix}
-  u_0 - f\cfrac{x_i}{z_i}\\
-  v_0 - f\cfrac{y_i}{z_i} \\ 
-  \end{pmatrix}, 
+  \begin{pmatrix}
+  f & 0 & u_0\\
+  0& f  & v_0\\
+  0& 0 & 1 
+  \end{pmatrix}
+  \begin{pmatrix}
+  \frac{u_i}{f} \\
+  \frac{v_i}{f} \\
+  1
+  \end{pmatrix}
+  =  \textbf{C}
+  \begin{pmatrix}
+  \frac{u_i}{f} \\
+  \frac{v_i}{f} \\
+  1
+  \end{pmatrix},
 \end{equation}
-
-where $u_0$ and $v_0$ represents the \textit{principal point} located at the image centre.
+where $\textbf{C}$ represents the camera's \textit{intrinsic matrix} $u_0$ and $v_0$ represents the \textit{principal point} located at the image centre.
 
 As previously mentioned, the pinhole camera model is an approximation of the CMOS machine vision camera that is actually being used. To account for the errors that such an approximation may yield, it is proposed that the \textit{projected} coordinates ($u_i,v_i$) be warped with a \textit{radial distortion} as is done in~\cite{dav2007}, in order to obtain a new \textit{distortion} coordinate ($u_d, v_d$) that will better resemble the one which the camera will provide. This radial distortion is mathematically shown as in a study presented by Swaminathan and Kayer~\cite{distort}:
 \begin{equation} \label{eq:raddist}
@@ -1046,7 +1061,7 @@ Map management forms an integral role in the realisation of the MonoSLAM algorit
 \subsection{Introduction}
 This chapter sets out to test all the relevant sub-systems incorporated within this project. Initially, the necessary configuration and procedures are given in order to set up the system. Thereafter, the hardware components are individually tested and analysed to ensure that the expected performance is provided and whether redesign is necessary. Lastly, the core of this project, the kinematic estimator, is simulated and analysed as a possible alternative to the current velocity and angular velocity model. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Hardware Configuration}
+\subsection{System Setup}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 An overview of the system is depicted in Figure~\ref{fig:sys}. It is evident that the system contains three hardware sub-systems:
 \begin{itemize}
@@ -1084,7 +1099,7 @@ The accelerometer and gyroscope are configured in such a way that the sampling f
 %\begin{center}
 \includegraphics[width=0.49\textwidth, height=0.25\textwidth]{Figures/imu1.jpg}
 \includegraphics[width=0.4\textwidth, height=0.25\textwidth]{Figures/cam.png}
-\caption{\\Left: SparkFun 6DOF IMU. Photo by SparkFun - http://creativecommons.org/licenses/by-nc-sa/3.0/. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from~\cite{imsrc}}
+\caption{\\Left: SparkFun 6DOF IMU. Photo by SparkFun. Adapted from~\cite{create}. Right: The Imaging Source 22BUC03-ML CMOS board camera. Adapted from~\cite{imsrc}}
 \label{fig:imu}
 %\end{center}
 \end{figure}
@@ -1097,7 +1112,27 @@ The camera is configured with the following properties:
 \item Monochrome image capture (for efficiency).
 \end{itemize}
 
-The \textit{intrinsic} parameters of the camera (e.g. principal point, distortion coefficients etc.) need to be determined through camera calibration made available by OpenCV~\cite{opencv}. The results of this procedure - depicted in Figure~\ref{fig:calib} - are shown as follows:
+The \textit{intrinsic} matrix of the camera in Equation~\ref{eq:fmmd1} and the distortion coefficients are determined through camera calibration made available by OpenCV~\cite{opencv}. The results of this procedure are given as follows:
+
+\begin{table}[h]
+\caption{default}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Values \\
+\hline
+focal length $f$ & 1019 pixels \\
+\hline
+$u_0$& 319 pixels \\
+\hline
+$v_0$& 241 pixels \\
+\hline
+Distortion coefficient $K$ &  0.504\\
+\hline
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
 
  
 The trigger pulse is set by the micro-controller, this will be discussed next.
@@ -1108,7 +1143,7 @@ A micro-controller is required for two reasons. Firstly, the values received fro
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.5\textwidth, height=0.3\textwidth]{Figures/arduino.jpg}
-\caption{Arduino UNO SMD by Arduino - http://creativecommons.org/licenses/by-sa/3.0/.}
+\caption{Arduino UNO SMD by Arduino. Adapted from~\cite{create}.}
 \label{default}
 \end{center}
 \end{figure}
@@ -1124,38 +1159,131 @@ This project doesn't require a large micro-controller. The specifications for th
 
 The Arduino micro-controllers provide a suitable, low cost solution. The Arduino Uno SMD Rev3 in particular is a scaled down version of the original Uno, providing the necessary functionality along with a helpful developer community with many forums and available code segments for the IMU used in this project. 
 \subsection{Design Choices}
-\subsubsection{Serial Communication}
-\begin{table}[htdp]
-\caption{Single-Byte I2C Write Cycle}
+
+%\subsubsection{Serial Communication}
+%\begin{table}[H]
+%\caption{Single-Byte I2C Write Cycle}
+%\begin{center}
+%\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+%\hline
+%master & start & device adr + write & & register adr & & data & & stop \\ 
+%\hline
+%slave & & & ack & & ack & & ack &  \\
+%\hline
+%\end{tabular}
+%\end{center}
+%\label{tab:read}
+%\end{table}
+%\begin{table}[H]
+%\caption{Single-Byte I2C Read Cycle}
+%\begin{center}
+%\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+%\hline
+%master & start & device add & & register adr & & start & register adr & & & $\overline{\text{ack}}$ & stop \\ 
+%\hline
+%slave& & & ack & & ack & & & ack & data &  &\\
+%\hline
+%\end{tabular}
+%\end{center}
+%\label{tab:write}
+%\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsection{Simulation}
+This study seeks to investigate the performance of the kinematic estimator as a state transition model. AN EKF-based kinematic estimator is designed to meet the following specifications:
+\begin{itemize}
+\item The measurement update only adds additive noise to the state estimates. 
+\item The kinematic estimator should precisely track a trajectory of a robot from simulated IMU measurement given that there is no uncertainty regarding the system.
+\item In the event of process and measurement noise, the kinematic estimator should still allow the EKF provide an optimal estimate depending on the amount of uncertainty each noise perturbation presents.  
+\end{itemize}
+
+In order to effectively analyse it's performance, a simulation of an EKF that uses a kinematic estimator as the state transition model is run under a set of test conditions. These conditions will accurately analyse the performance of the kinematic estimator with regard to the aforementioned design specifications. A functional diagram of the EKF-based kinematic estimator (based on Equation~\ref{eq:trmod}) is shown in Figure~\ref{fig:kindiag}. The kinematic estimator is incorporated within the control update. \textit{Change in figure!§}%A set of \textit{simulated} inertial measurements will initially be inserted into the kinematic estimator simulation and the resulting trajectory will be plotted to provide better insight. Thereafter a set of random measurements will be inserted into the kinematic estimator with  
+\begin{figure}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
-\hline
-MR & ST & ADR + W & & R\textunderscore ADR & & DATA & & SP \\ 
-\hline
-SL & & & ACK & & ACK & & ACK &  \\
-\hline
-\end{tabular}
+\includegraphics[width=\textwidth, height=0.8\textwidth]{Figures/Drawing3.png}
+\caption{EKF using a kinematic estimator to provide the control update.}
+\label{fig:kindiag}
 \end{center}
-\label{tab:read}
-\end{table}%
-\begin{table}[h]
-\caption{Single-Byte I2C Read Cycle}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-MR & ST & ADR + W & & R\textunderscore ADR & & S & R\textunderscore ADR & & & NACK & SP \\ 
-\hline
-SL & & & ACK & & ACK & & & ACK & DATA &  &\\
-\hline
-\end{tabular}
-\end{center}
-\label{tab:write}
-\end{table}%
+\end{figure}
+
+\newpage
+The first set of test conditions will provide simulated gyroscope and accelerometer measurements with zero process and measurement noise. The EKF simulation measurement model is defined as the state vector with additive noise. With no uncertainty regarding the measurement or process noise then, the measurements should exactly resemble the estimates.
+
+The expected outcome then, is that the kinematic estimator will precisely track a given robot trajectory. These trajectories will be trivially defined so that the results can be accurately analysed. 
+
+\subsubsection{Test 1: Prediction}
+The first set of test conditions as well as the theoretical predictions are given as follows (note that the length of a simulation is 10 seconds at 30 Hz or 300 samples):
+\begin{enumerate}
+\item \textbf{1 m/s x-acceleration:}\\
+The trajectory is expected to only move along the positive x-axis. Newtons equations of motions suggest that the displacement of the robot due to a constant acceleration is:
+\begin{equation}
+x = x_0 + \cfrac{t^2}{2} = 0 + \cfrac{10^2}{2} = 50 \text{m}
+\end{equation}
+\item \textbf{1 m/s x-acceleration with sudden positive 90 degree rotation about the y-axis:}\\
+The trajectory is expected to initially move along the positive x-axis after which the positive 90 degree rotation about the y-axis will rotate the robot frame so that the trajectory only moves along the negative z-axis. 
+\item \textbf{1 m/s x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\
+The trajectory is expected to initially move along the positive x-axis until the first positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the positive y-axis. A second positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory moves along the negative x-axis. The final positive 90 degree rotation about the z-axis rotates the robot frame so that the  trajectory only moves along the negative y-axis. If the time-steps between the rotations are equal, a block figure trajectory is expected in the plane of rotation.    
+\end{enumerate}
+
+\begin{figure}[H]
+%\centering
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/accx_1_traj.png} 
+\caption{Trajectory: 1 m/s x-acceleration.}
+\label{fig:xacc}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/90rotx_traj.png}
+\caption{Trajectory: 1 m/s x-acceleration with sudden $90^{\circ}$ rotation about the y-axis.}
+\label{fig:yrot}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/xy_block_traj.png}
+\caption{Trajectory: 1 m/s x-acceleration with three consecutive $90^{\circ}$ rotations about the z-axis.}
+\label{fig:zplane}
+\end{subfigure} 
+\caption{Results of the conditions depicting zero-uncertainty.}
+\label{fig:sim1}
+\end{figure}
+
+\subsubsection{Test 2: Results and Analysis}
+It is worthwhile to note that the initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}. The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimator.
+\begin{enumerate}
+\item 1 m/s x-acceleration:\\
+The simulation depicted in Figure~\ref{fig:xacc} shows a trajectory only moving along the positive x-axis. The final x-position is given to be 50 m, exactly the predicted value. Furthermore, the estimated trajectory directly tracks the true trajectory.  
+\item 1 m/s x-acceleration with sudden 90 degree rotation about the y-axis.
+The simulation depicted in Figure~\ref{fig:yrot} shows a trajectory that initially moves along the positive x-axis before proceeding to move along the negative z-axis. Again, the estimated trajectory directly tracks the true trajectory.
+\item 1 m/s x-acceleration with three consecutive 90 degree rotations about the z-axis.   
+The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane. This suggests that the trajectory incorporates three 90 degree rotations about the z-axis as the robot is moving at a constant acceleration with respect to its own reference frame. Again, the estimated trajectory directly tracks the true trajectory.
+\end{enumerate}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Hardware Integration}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Software Configuration}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Test 1: Prediction}
+
+\begin{figure}[H]
+%\centering
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/accx_1_traj.png} 
+\caption{Trajectory: 1 m/s x-acceleration.}
+\label{fig:xacc}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/90rotx_traj.png}
+\caption{Trajectory: 1 m/s x-acceleration with sudden $90^{\circ}$ rotation about the y-axis.}
+\label{fig:yrot}
+\end{subfigure}
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/xy_block_traj.png}
+\caption{Trajectory: 1 m/s x-acceleration with three consecutive $90^{\circ}$ rotations about the z-axis.}
+\label{fig:zplane}
+\end{subfigure} 
+\caption{Results of the conditions depicting zero-uncertainty.}
+\label{fig:sim1}
+\end{figure}
+
+\subsubsection{Test 2: Results and Analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1341,7 +1469,7 @@ it can be observed from the model above that the motion model adheres to the for
 \label{fig:schematic}
 \end{center}
 \end{figure}
-These images were created by Fritzing (http://fritzing.org) http://creativecommons.org/licenses/by-sa/3.0/. 
+These images were created by Fritzing (http://fritzing.org)~\cite{create}. 
 %\begin{bmatrix}
 %x_k\\
 %y_k \\ 
