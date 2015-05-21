@@ -154,7 +154,7 @@ Signature.....................................................		Date............
 \textbf{USB} 	 & Universal Serial Bus
 \end{tabular}
 \end{center}
-\label{default}
+\label{accr}
 \end{table}%
 
 \newpage
@@ -183,7 +183,7 @@ $v_0$ & Principal Point $y$-coordinate \\
 $r$     & Radial Distortion Parameter 
 \end{tabular}
 %\end{center}
-\label{default}
+\label{sym}
 \end{table}%
 
 \newpage
@@ -236,7 +236,7 @@ $\cfrac{\partial x}{\partial t}$ & Liebniz's notation to denote a partial deriva
 \hline
 \end{tabular}
 \end{center}
-\label{default}
+\label{not}
 \end{table}%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -528,7 +528,7 @@ Each of the aforementioned steps are later discussed in more detail - with refer
 The Kalman Filter is generally considered an efficient algorithm for sparse sets. The \textit{computational complexity} of a matrix inversion is bounded by an order of $O(d^{2.4})$~\cite{probrob}, where d represents the dimensions of the measurements vectro $\textbf{z}_t$.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsubsection{Extended Kalman Filter} 
+\subsubsection{Extended Kalman Filter} \label{sec:EKF}
 Considering that most practical systems of interest yield non-linear behaviour, the Kalman filter in its purest form cannot be successfully implemented upon the vast majority of modern day systems. Non-linear transformations of Gaussian random variables (RV) result in a different RV while any linear transformation of a Gaussian random variable yields another \textbf{different} Gaussian variable. This violates an important condition of the Kalman Filter algorithm. This phenomenon can be illustrated through Figure~\ref{fig:lin}: % where a linear transform yields a transformed Gaussian RV and a non linear transform yields a RV with a different probability density:
 
 \begin{figure}[h]
@@ -1114,8 +1114,8 @@ The camera is configured with the following properties:
 
 The \textit{intrinsic} matrix of the camera in Equation~\ref{eq:fmmd1} and the distortion coefficients are determined through camera calibration made available by OpenCV~\cite{opencv}. The results of this procedure are given as follows:
 
-\begin{table}[h]
-\caption{default}
+\begin{table}[H]
+\caption{Intrinsic and distortion camera parameters}
 \begin{center}
 \begin{tabular}{|c|c|}
 \hline
@@ -1131,10 +1131,9 @@ Distortion coefficient $K$ &  0.504\\
 \hline
 \end{tabular}
 \end{center}
-\label{default}
+\label{camval}
 \end{table}%
 
- 
 The trigger pulse is set by the micro-controller, this will be discussed next.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Micro-controller}
@@ -1144,7 +1143,7 @@ A micro-controller is required for two reasons. Firstly, the values received fro
 \begin{center}
 \includegraphics[width=0.5\textwidth, height=0.3\textwidth]{Figures/arduino.jpg}
 \caption{Arduino UNO SMD by Arduino. Adapted from~\cite{create}.}
-\label{default}
+\label{fig:arduno}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1209,12 +1208,15 @@ In order to effectively analyse it's performance, a simulation of an EKF that us
 \end{figure}
 
 \newpage
-The first set of test conditions will provide simulated gyroscope and accelerometer measurements with zero process and measurement noise. The EKF simulation measurement model is defined as the state vector with additive noise. With no uncertainty regarding the measurement or process noise then, the measurements should exactly resemble the estimates.
+The first set of test conditions will provide simulated gyroscope and accelerometer measurements with zero process and measurement noise. The EKF simulation measurement model is defined as a mapping of the state vector with additive noise. With no uncertainty regarding the measurement or process noise then, the measurements should exactly resemble the estimates.
 
 The expected outcome then, is that the kinematic estimator will precisely track a given robot trajectory. These trajectories will be trivially defined so that the results can be accurately analysed. 
 
 \subsubsection{Test 1: Prediction}
+It is worthwhile to note that the initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}. The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimator.
+
 The first set of test conditions as well as the theoretical predictions are given as follows (note that the length of a simulation is 10 seconds at 30 Hz or 300 samples):
+
 \begin{enumerate}
 \item \textbf{1 m/s x-acceleration:}\\
 The trajectory is expected to only move along the positive x-axis. Newtons equations of motions suggest that the displacement of the robot due to a constant acceleration is:
@@ -1244,45 +1246,71 @@ The trajectory is expected to initially move along the positive x-axis until the
 \caption{Trajectory: 1 m/s x-acceleration with three consecutive $90^{\circ}$ rotations about the z-axis.}
 \label{fig:zplane}
 \end{subfigure} 
-\caption{Results of the conditions depicting zero-uncertainty.}
+\caption{Results of the test conditions 1 depicting zero-uncertainty.}
 \label{fig:sim1}
 \end{figure}
 
-\subsubsection{Test 2: Results and Analysis}
-It is worthwhile to note that the initial position is always $\textbf{r}^W$ = \{0 0 0\} with an orientation quaternion of $\textbf{q}^{WC} =$ \{1 0 0 0\}. The trajectory of the can thus qualitatively analysed to predict the performance of the kinematic estimator.
+\subsubsection{Test 1: Results and Analysis}
+
 \begin{enumerate}
-\item 1 m/s x-acceleration:\\
+\item \textbf{1 m/s x-acceleration:}\\
 The simulation depicted in Figure~\ref{fig:xacc} shows a trajectory only moving along the positive x-axis. The final x-position is given to be 50 m, exactly the predicted value. Furthermore, the estimated trajectory directly tracks the true trajectory.  
-\item 1 m/s x-acceleration with sudden 90 degree rotation about the y-axis.
+\item  \textbf{1 m/s x-acceleration with sudden 90 degree rotation about the y-axis:}\\
 The simulation depicted in Figure~\ref{fig:yrot} shows a trajectory that initially moves along the positive x-axis before proceeding to move along the negative z-axis. Again, the estimated trajectory directly tracks the true trajectory.
-\item 1 m/s x-acceleration with three consecutive 90 degree rotations about the z-axis.   
+\item  \textbf{1 m/s x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\   
 The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane. This suggests that the trajectory incorporates three 90 degree rotations about the z-axis as the robot is moving at a constant acceleration with respect to its own reference frame. Again, the estimated trajectory directly tracks the true trajectory.
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Test 1: Prediction}
+\subsubsection{Test 2: Prediction}
+The second set of test conditions will provide randomly simulated gyroscope and accelerometer measurements \textbf{with} simulated process and measurement noise. The EKF simulation measurement model is still defined as a mapping of the state vector with additive noise. The EKF should now behave as described in Chapter~\ref{sec:EKF} while maintaining the performance of the kinematic state estimator. 
 
+The expected outcome then, is that the kinematic estimator will track the given robot trajectory according to the uncertainty of both the measurement and process noise. Intuitively, the EKF should  
+
+\begin{enumerate}
+\item  \textbf{No uncertainty:}\\
+This trajectory estimate is expected to precisely resemble the true trajectory as there is no uncertainty regarding the measurement nor the process noise.
+\item  \textbf{Equal they small uncertainty regarding the measurement and process noise:}\\
+The EKF is expected to provide a trajectory estimate that is reliant on both the measurements and the control inputs.   
+\item  \textbf{Large Process noise and small measurement noise:}\\   
+The EKF is expected to provide a trajectory estimate that is more reliant upon the measurements as it incorporates less uncertainty than the control inputs. 
+\end{enumerate}
 \begin{figure}[H]
 %\centering
 \begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/accx_1_traj.png} 
-\caption{Trajectory: 1 m/s x-acceleration.}
-\label{fig:xacc}
+\includegraphics[width=\textwidth, height=6cm]{Figures/kf_none_x.png} 
+\caption{X-position of random control inputs with zero-uncertainty.}
+\label{fig:noz}
 \end{subfigure}
 \begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/90rotx_traj.png}
-\caption{Trajectory: 1 m/s x-acceleration with sudden $90^{\circ}$ rotation about the y-axis.}
-\label{fig:yrot}
+\includegraphics[width=\textwidth, height=6cm]{Figures/kf_none_traj.png}
+\caption{Trajectory of random control inputs with zero-uncertainty.}
+\label{fig:notraj}
 \end{subfigure}
 \begin{subfigure}[H]{0.49\textwidth}
-\includegraphics[width=\textwidth, height=6cm]{Figures/xy_block_traj.png}
-\caption{Trajectory: 1 m/s x-acceleration with three consecutive $90^{\circ}$ rotations about the z-axis.}
-\label{fig:zplane}
+\includegraphics[width=\textwidth, height=6cm]{Figures/kf_eq001_y.png}
+\caption{Y-position of random control inputs with a small, equal measurement and process uncertainty.}
+\label{fig:equalz}
 \end{subfigure} 
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/kf_eq001_traj.png}
+\caption{Trajectory of random control inputs with a small, equal measurement and process uncertainty.}
+\label{fig:equaltraj}
+\end{subfigure} 
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/kf_pro10to1_z.png}
+\caption{Z-position of random control inputs with greater process uncertainty.}
+\label{fig:measz}
+\end{subfigure} 
+\begin{subfigure}[H]{0.49\textwidth}
+\includegraphics[width=\textwidth, height=6cm]{Figures/kf_pro10to1_traj.png}
+\caption{Trajectory of random control inputs with greater process uncertainty.}
+\label{fig:meastraj}
+\end{subfigure}
 \caption{Results of the conditions depicting zero-uncertainty.}
 \label{fig:sim1}
 \end{figure}
-
+\newpage
 \subsubsection{Test 2: Results and Analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
