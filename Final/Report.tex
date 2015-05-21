@@ -1157,7 +1157,7 @@ This project doesn't require a large micro-controller. The specifications for th
 \end{itemize}
 
 The Arduino micro-controllers provide a suitable, low cost solution. The Arduino Uno SMD Rev3 in particular is a scaled down version of the original Uno, providing the necessary functionality along with a helpful developer community with many forums and available code segments for the IMU used in this project. 
-\subsection{Design Choices}
+%\subsection{Design Choices}
 
 %\subsubsection{Serial Communication}
 %\begin{table}[H]
@@ -1187,7 +1187,7 @@ The Arduino micro-controllers provide a suitable, low cost solution. The Arduino
 %\label{tab:write}
 %\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{}
+%\subsubsection{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \subsection{Simulation}
@@ -1228,7 +1228,16 @@ The trajectory is expected to initially move along the positive x-axis after whi
 \item \textbf{1 m/s x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\
 The trajectory is expected to initially move along the positive x-axis until the first positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory only moves along the positive y-axis. A second positive 90 degree rotation about the z-axis rotates the robot frame so that the trajectory moves along the negative x-axis. The final positive 90 degree rotation about the z-axis rotates the robot frame so that the  trajectory only moves along the negative y-axis. If the time-steps between the rotations are equal, a block figure trajectory is expected in the plane of rotation.    
 \end{enumerate}
-
+\newpage
+\subsubsection{Test 1: Results and Analysis}
+\begin{enumerate}
+\item \textbf{1 m/s x-acceleration:}\\
+The simulation depicted in Figure~\ref{fig:xacc} shows a trajectory only moving along the positive x-axis. The final x-position is given to be 50 m, exactly the predicted value. Furthermore, the estimated trajectory directly tracks the true trajectory.  
+\item  \textbf{1 m/s x-acceleration with sudden 90 degree rotation about the y-axis:}\\
+The simulation depicted in Figure~\ref{fig:yrot} shows a trajectory that initially moves along the positive x-axis before proceeding to move along the negative z-axis. Again, the estimated trajectory directly tracks the true trajectory.
+\item  \textbf{1 m/s x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\   
+The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane. This suggests that the trajectory incorporates three 90 degree rotations about the z-axis as the robot is moving at a constant acceleration with respect to its own reference frame. Again, the estimated trajectory directly tracks the true trajectory.
+\end{enumerate}
 \begin{figure}[H]
 %\centering
 \begin{subfigure}[H]{0.49\textwidth}
@@ -1249,18 +1258,6 @@ The trajectory is expected to initially move along the positive x-axis until the
 \caption{Results of the test conditions 1 depicting zero-uncertainty.}
 \label{fig:sim1}
 \end{figure}
-
-\subsubsection{Test 1: Results and Analysis}
-
-\begin{enumerate}
-\item \textbf{1 m/s x-acceleration:}\\
-The simulation depicted in Figure~\ref{fig:xacc} shows a trajectory only moving along the positive x-axis. The final x-position is given to be 50 m, exactly the predicted value. Furthermore, the estimated trajectory directly tracks the true trajectory.  
-\item  \textbf{1 m/s x-acceleration with sudden 90 degree rotation about the y-axis:}\\
-The simulation depicted in Figure~\ref{fig:yrot} shows a trajectory that initially moves along the positive x-axis before proceeding to move along the negative z-axis. Again, the estimated trajectory directly tracks the true trajectory.
-\item  \textbf{1 m/s x-acceleration with three consecutive 90 degree rotations about the z-axis:}\\   
-The simulation depicted in Figure~\ref{fig:zplane} shows a square in the z-plane. This suggests that the trajectory incorporates three 90 degree rotations about the z-axis as the robot is moving at a constant acceleration with respect to its own reference frame. Again, the estimated trajectory directly tracks the true trajectory.
-\end{enumerate}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Test 2: Prediction}
 The second set of test conditions will provide randomly simulated gyroscope and accelerometer measurements \textbf{with} simulated process and measurement noise. The EKF simulation measurement model is still defined as a mapping of the state vector with additive noise. The EKF should now behave as described in Chapter~\ref{sec:EKF} while maintaining the performance of the kinematic state estimator. 
@@ -1274,6 +1271,8 @@ This trajectory estimate is expected to precisely resemble the true trajectory a
 The EKF is expected to provide a trajectory estimate that is reliant on both the measurements and the control inputs.   
 \item  \textbf{Large Process noise and small measurement noise:}\\   
 The EKF is expected to provide a trajectory estimate that is more reliant upon the measurements as it incorporates less uncertainty than the control inputs. 
+
+\subsubsection{Test 2: Results and Analysis}
 \end{enumerate}
 \begin{figure}[H]
 %\centering
@@ -1310,8 +1309,6 @@ The EKF is expected to provide a trajectory estimate that is more reliant upon t
 \caption{Results of the conditions depicting zero-uncertainty.}
 \label{fig:sim1}
 \end{figure}
-\newpage
-\subsubsection{Test 2: Results and Analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
